@@ -13,8 +13,8 @@ Conforme exposto, o problema que se busca resolver com este projeto é a amplia�
 
 O objetivo geral deste trabalho é a criação de um aplicativo de agendamento de clientes com fácil acesso de utilização para ambos os envolvidos.
 Como objetivos específicos, podemos ressaltar:
-> Fornecer funcionalidades que permitam os cadastramentos dos usuários e de seus horários;
-> Fornecer funcionalidade que permita a busca clientes;
+- Fornecer funcionalidades que permitam os cadastramentos dos usuários e de seus horários;
+- Fornecer funcionalidade que permita a busca clientes;
 
 ## Justificativa
 
