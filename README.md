@@ -1,27 +1,29 @@
-# TÍTULO DO PROJETO
+# AGENDA DE SERVIÇOS
+<img src="https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-1-e3-proj-mov-t5-agenda-servico/blob/21897e55563136daf258547a00ac6541bf286db2/docs/img/logo-agenda-servico.png" width="100"/>
 
-`CURSO`
+`Análise e Desenvolvimento de Sistemas`
 
-`DISCIPLINA`
+`Projeto: Desenvolvimento de uma Aplicação Móvel em um Ambiente de Negócio`
 
-`SEMESTRE`
+`3° Semestre`
 
-Descrever resumidamente, em um ou dois parágrafos, o projeto que está sendo desenvolvido.
+O objetivo geral deste trabalho é a criação de um aplicativo de agendamento de clientes com fácil acesso de utilização para ambos os envolvidos.
 
 ## Integrantes
 
-* Nome completo do aluno 1
-* Nome completo do aluno 2
-* Nome completo do aluno 3
-* Nome completo do aluno 4
+* Aleykson Micael Sampaio De Andrade
+* Henrique Alexandre Gomes Pinto
+* Vitor Alexandre Gomes Pinto
+* João Lucas Pinheiro Torres 
+* André Felipe Gomes
 
 ## Orientador
 
-* Nome completo do professor 1
+* Diego Silva Caldeira Rocha
 
 ## Instruções de utilização
 
-Assim que a primeira versão do sistema estiver disponível, deverá complementar com as instruções de utilização. Descreva como instalar eventuais dependências e como executar a aplicação.
+Em breve
 
 # Documentação
 
