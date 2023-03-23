@@ -11,7 +11,7 @@ Apresente uma visão geral do que será abordado nesta parte do documento, enume
 <table>
  <tbody>
   <tr>
-   <td rowspan="3"><img src="" width="300" /></td>
+   <td rowspan="3"><img src="https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-1-e3-proj-mov-t5-agenda-servico/blob/9f90f895aebe6e1cd3a8fd2afb15e948e696412e/docs/img/persona-tulio.png" width="300" /></td>
    <td colspan="3"><strong>TULIO</strong></td>
   </tr>
   
@@ -28,10 +28,10 @@ Apresente uma visão geral do que será abordado nesta parte do documento, enume
   </tr>
   
   <tr>
-   <td colspan="1">
+   <td colspan="1" align="middle" valign="top">
     <strong>Biografia:</strong>
    </td>
-   <td colspan="1">
+   <td colspan="3" align="left" valign="top">
     Túlio nasceu em 2001, cresceu bem e saudável. Enquanto concluía o ensino médio, conseguiu seu primeiro emprego como auxiliar de telhadista. Enjoado de seu trabalho e sem perspectiva de futuro na área, decidiu se profissionalizar em barbearia e abrir seu próprio negócio. Seu negócio prosperou, trabalha ao lado de diversos profissionais e hoje possuí uma agenda lotada.
    </td>
   </tr>
@@ -43,22 +43,22 @@ Apresente uma visão geral do que será abordado nesta parte do documento, enume
   </tr>
   
   <tr>
-   <td colspan="1">
+   <td colspan="1" align="left" valign="top">
     <strong>Localização:</strong>
     <br>
     Belo Horizonte
    </td>
-   <td colspan="1">
+   <td colspan="1" align="left" valign="top">
     <strong>Renda Familiar:</strong>
     <br>
     De R$3.501,00 a R$6.500,00
    </td>
-   <td colspan="1">
+   <td colspan="1" align="left" valign="top">
     <strong>Nível Educacional:</strong>
     <br>
     Ensino médio completo
    </td>
-   <td colspan="1">
+   <td colspan="1" align="left" valign="top">
     <strong>Status de Relacionamento:</strong>
     <br>
     Solteiro
@@ -72,17 +72,17 @@ Apresente uma visão geral do que será abordado nesta parte do documento, enume
   </tr>
   
   <tr>
-   <td colspan="1">
+   <td colspan="1" align="left" valign="top">
     <strong>Empresa:</strong>
     <br>
     Barber House
    </td>
-   <td colspan="1">
+   <td colspan="1" align="left" valign="top">
     <strong>Tamanho da Empresa:</strong>
     <br>
     Pequeno porte
    </td>
-   <td colspan="2">
+   <td colspan="2" align="left" valign="top">
     <strong>Responsabilidades Profissionais:</strong>
     <br>
     Túlio atua gerenciando a equipe de barbeiros da Barber House, onde atua também como barbeiro no local.
@@ -90,12 +90,12 @@ Apresente uma visão geral do que será abordado nesta parte do documento, enume
   </tr>
   
   <tr>
-   <td colspan="2">
+   <td colspan="2" align="left" valign="top">
     <strong>Objetivos:</strong>
     <br>
     Túlio almeja realizar outros tipos de empreendimentos e se tornar um empresário de sucesso.
    </td>
-   <td colspan="2">
+   <td colspan="2" align="left" valign="top">
     <strong>Desafios:</strong>
     <br>
     Túlio atualmente atende seus clientes manualmente através de ligações e WhatsApp, o que toma muito do seu tempo e esforço que poderia ser aplicado em outros objetivos.
