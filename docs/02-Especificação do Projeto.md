@@ -1,10 +1,6 @@
 # Especificações do Projeto
 
-<span style="color:red">Pré-requisitos: <a href="1-Documentação de Contexto.md"> Documentação de Contexto</a></span>
-
-Definição do problema e ideia de solução a partir da perspectiva do usuário. É composta pela definição do  diagrama de personas, histórias de usuários, requisitos funcionais e não funcionais além das restrições do projeto.
-
-Apresente uma visão geral do que será abordado nesta parte do documento, enumerando as técnicas e/ou ferramentas utilizadas para realizar a especificações do projeto
+A definição exata do problema e os pontos mais relevantes a serem tratados neste projeto foi consolidada com a participação dos usuários em um trabalho de imersão feita pelos membros da equipe a partir da observação dos usuários em seu local natural e por meio de entrevistas. Os detalhes levantados nesse processo foram consolidados na forma de personas e histórias de usuários.
 
 ## Personas
 
@@ -103,7 +99,7 @@ Apresente uma visão geral do que será abordado nesta parte do documento, enume
   </tr>
  </tbody>
 </table>
-
+<br>
 <table>
  <tbody>
   <tr>
@@ -199,7 +195,7 @@ Apresente uma visão geral do que será abordado nesta parte do documento, enume
   </tr>
  </tbody>
 </table>
-
+<br>
 <table>
  <tbody>
   <tr>
@@ -295,24 +291,33 @@ Apresente uma visão geral do que será abordado nesta parte do documento, enume
   </tr>
  </tbody>
 </table>
+<br>
 
 ## Histórias de Usuários
 
 Com base na análise das personas forma identificadas as seguintes histórias de usuários:
 
-|EU COMO... `PERSONA`| QUERO/PRECISO ... `FUNCIONALIDADE` |PARA ... `MOTIVO/VALOR`                 |
+|EU COMO...          | QUERO/PRECISO ...                  |PARA ...                                |
 |--------------------|------------------------------------|----------------------------------------|
-|Usuário do sistema  | Registrar minhas tarefas           | Não esquecer de fazê-las               |
-|Administrador       | Alterar permissões                 | Permitir que possam administrar contas |
+|Tulio               | criar meu usuário                  | usar o aplicativo.                     |
+|Tulio               | entrar no aplicativo através do meu perfil | Para verificar meus compromissos. |
+|Tulio               | manter uma agenda atualizada com meu horário disponível                 | que eu possa visualizar meus compromissos do dia.     |
+|Tulio               | cancelar um serviço com antecedência | que o cliente/profissional não fique esperando por um serviço que não irá ocorrer. |
+|Tulio               | reagendar um serviço junto ao cliente               | me adequar a situações fora do previsto.                    |
+|Sheila              | ser notificado pelo aplicativo com até 15 minutos de antecedência sobre um serviço a ser realizado | me preparar para a execução do serviço. |
+|Lucas               | definir um intervalo entre os serviços para me preparar                 | a execução de um serviço antes do cliente chegar.                    |
+|Lucas               | enviar uma mensagem para o cliente/profissional | manter a comunicação atualizada e evitar contratempos. |
+|Lucas               | manter uma lista atualizada dos serviços que posso prestar                 | oferecer ao cliente mais possibilidades de atendimento.           |
+|Lucas               | escolher onde um determinado serviço irá ocorrer (se será necessário que o cliente se desloque até o local ou se o profissional irá até a residência do cliente) | oferecer ao cliente uma comodidade maior ou oferecer mais opções de serviços.  |
+|Sheila              | indicar ao profissional o local onde ele irá realizar o atendimento, caso ele seja feito fora do estabelecimento                 | que o profissional possa se orientar sobre onde o serviço vai ser realizado.                     |
+|Sheila              | indicar ao profissional uma descrição de como o serviço deve ser feito                 | que o profissional possa se preparar para a execução do serviço.                     |
+|Sheila              | listar e filtrar os profissionais que podem ofertar o serviço na minha residência                  | para selecionar o profissional que se adapte a minha demanda.                     |
+|Sheila              | incluir o endereço onde o serviço será realizado                 | o profissional possa se programar melhor para o atendimento.             |
+|Lucas               | abrir o endereço onde o serviço será realizado em um aplicativo de mapa         | me programar e garantir que o serviço irá ocorrer dentro do previsto                     |
+|Sheila              | visualizar os horários disponíveis na agenda do profissional              | que eu mesma possa agendar em um horário disponível para ambas as partes                     |
+|Tulio               | declarar quais dias e horários um determinado serviço poderá ficar disponível para agendamento                 | que minha agenda fique flexível para folgas, férias e imprevistos                     |
+|Sheila              | visualizar todos os serviços que agendei e que ainda não foram executados                   | que eu possa ver de forma simples os meus compromissos                     |
 
-Apresente aqui as histórias de usuário que são relevantes para o projeto de sua solução. As Histórias de Usuário consistem em uma ferramenta poderosa para a compreensão e elicitação dos requisitos funcionais e não funcionais da sua aplicação. Se possível, agrupe as histórias de usuário por contexto, para facilitar consultas recorrentes à essa parte do documento.
-
-> **Links Úteis**:
-> - [Histórias de usuários com exemplos e template](https://www.atlassian.com/br/agile/project-management/user-stories)
-> - [Como escrever boas histórias de usuário (User Stories)](https://medium.com/vertice/como-escrever-boas-users-stories-hist%C3%B3rias-de-usu%C3%A1rios-b29c75043fac)
-> - [User Stories: requisitos que humanos entendem](https://www.luiztools.com.br/post/user-stories-descricao-de-requisitos-que-humanos-entendem/)
-> - [Histórias de Usuários: mais exemplos](https://www.reqview.com/doc/user-stories-example.html)
-> - [9 Common User Story Mistakes](https://airfocus.com/blog/user-story-mistakes/)
 
 ## Modelagem do Processo de Negócio 
 
