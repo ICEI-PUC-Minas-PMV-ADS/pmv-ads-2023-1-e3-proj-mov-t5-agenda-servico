@@ -8,19 +8,101 @@ Apresente uma visão geral do que será abordado nesta parte do documento, enume
 
 ## Personas
 
-Pedro Paulo tem 26 anos, é arquiteto recém-formado e autônomo. Pensa em se desenvolver profissionalmente através de um mestrado fora do país, pois adora viajar, é solteiro e sempre quis fazer um intercâmbio. Está buscando uma agência que o ajude a encontrar universidades na Europa que aceitem alunos estrangeiros.
-
-Enumere e detalhe as personas da sua solução. Para tanto, baseie-se tanto nos documentos disponibilizados na disciplina e/ou nos seguintes links:
-
-> **Links Úteis**:
-> - [Rock Content](https://rockcontent.com/blog/personas/)
-> - [Hotmart](https://blog.hotmart.com/pt-br/como-criar-persona-negocio/)
-> - [O que é persona?](https://resultadosdigitais.com.br/blog/persona-o-que-e/)
-> - [Persona x Público-alvo](https://flammo.com.br/blog/persona-e-publico-alvo-qual-a-diferenca/)
-> - [Mapa de Empatia](https://resultadosdigitais.com.br/blog/mapa-da-empatia/)
-> - [Mapa de Stalkeholders](https://www.racecomunicacao.com.br/blog/como-fazer-o-mapeamento-de-stakeholders/)
->
-Lembre-se que você deve ser enumerar e descrever precisamente e personalizada todos os clientes ideais que sua solução almeja.
+<table>
+ <tbody>
+  <tr>
+   <td rowspan="3"><img src="" width="300" /></td>
+   <td colspan="3"><strong>TULIO</strong></td>
+  </tr>
+  
+  <tr>
+   <td colspan="3">
+   BARBEIRO
+   </td>
+  </tr>
+  
+  <tr>
+   <td colspan="3">
+    JOVEM ADULTO (19 A 25 ANOS)
+   </td>
+  </tr>
+  
+  <tr>
+   <td colspan="1">
+    <strong>Biografia:</strong>
+   </td>
+   <td colspan="1">
+    Túlio nasceu em 2001, cresceu bem e saudável. Enquanto concluía o ensino médio, conseguiu seu primeiro emprego como auxiliar de telhadista. Enjoado de seu trabalho e sem perspectiva de futuro na área, decidiu se profissionalizar em barbearia e abrir seu próprio negócio. Seu negócio prosperou, trabalha ao lado de diversos profissionais e hoje possuí uma agenda lotada.
+   </td>
+  </tr>
+  
+  <tr>
+   <td colspan="4" align="center">
+    <strong>DETALHES PESSOAIS</strong>
+   </td>
+  </tr>
+  
+  <tr>
+   <td colspan="1">
+    <strong>Localização:</strong>
+    <br>
+    Belo Horizonte
+   </td>
+   <td colspan="1">
+    <strong>Renda Familiar:</strong>
+    <br>
+    De R$3.501,00 a R$6.500,00
+   </td>
+   <td colspan="1">
+    <strong>Nível Educacional:</strong>
+    <br>
+    Ensino médio completo
+   </td>
+   <td colspan="1">
+    <strong>Status de Relacionamento:</strong>
+    <br>
+    Solteiro
+   </td>
+  </tr>
+  
+ <tr>
+   <td colspan="4" align="center">
+    <strong>CARREIRA</strong>
+   </td>
+  </tr>
+  
+  <tr>
+   <td colspan="1">
+    <strong>Empresa:</strong>
+    <br>
+    Barber House
+   </td>
+   <td colspan="1">
+    <strong>Tamanho da Empresa:</strong>
+    <br>
+    Pequeno porte
+   </td>
+   <td colspan="2">
+    <strong>Responsabilidades Profissionais:</strong>
+    <br>
+    Túlio atua gerenciando a equipe de barbeiros da Barber House, onde atua também como barbeiro no local.
+   </td>
+  </tr>
+  
+  <tr>
+   <td colspan="2">
+    <strong>Objetivos:</strong>
+    <br>
+    Túlio almeja realizar outros tipos de empreendimentos e se tornar um empresário de sucesso.
+   </td>
+   <td colspan="2">
+    <strong>Desafios:</strong>
+    <br>
+    Túlio atualmente atende seus clientes manualmente através de ligações e WhatsApp, o que toma muito do seu tempo e esforço que poderia ser aplicado em outros objetivos.
+   </td>
+  </tr>
+ </tbody>
+</table>
 
 ## Histórias de Usuários
 
