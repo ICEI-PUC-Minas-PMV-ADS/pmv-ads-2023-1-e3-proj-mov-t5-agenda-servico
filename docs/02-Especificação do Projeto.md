@@ -28,7 +28,7 @@ Apresente uma visão geral do que será abordado nesta parte do documento, enume
   </tr>
   
   <tr>
-   <td colspan="1" align="middle" valign="top">
+   <td colspan="1" align="left" valign="middle">
     <strong>Biografia:</strong>
    </td>
    <td colspan="3" align="left" valign="top">
@@ -99,6 +99,198 @@ Apresente uma visão geral do que será abordado nesta parte do documento, enume
     <strong>Desafios:</strong>
     <br>
     Túlio atualmente atende seus clientes manualmente através de ligações e WhatsApp, o que toma muito do seu tempo e esforço que poderia ser aplicado em outros objetivos.
+   </td>
+  </tr>
+ </tbody>
+</table>
+
+<table>
+ <tbody>
+  <tr>
+   <td rowspan="3"><img src="https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-1-e3-proj-mov-t5-agenda-servico/blob/50c2ed3569a8e89ea7ec8d9dabbcaee8ec04c48b/docs/img/persona-lucas.png" width="300" /></td>
+   <td colspan="3"><strong>LUCAS</strong></td>
+  </tr>
+  
+  <tr>
+   <td colspan="3">
+   PERSONAL TRAINER
+   </td>
+  </tr>
+  
+  <tr>
+   <td colspan="3">
+    ADULTO (26 A 40 ANOS)
+   </td>
+  </tr>
+  
+  <tr>
+   <td colspan="1" align="left" valign="middle">
+    <strong>Biografia:</strong>
+   </td>
+   <td colspan="3" align="left" valign="top">
+    Lucas nasceu no ano de 1996, em Belo Horizonte/MG. Na sua adolescência, entrou pela primeira vez em uma academia, onde se apaixonou pelo esporte e decidiu que queria viver daquilo. Aos 20 anos participou de sua primeira competição de fisiculturismo, onde ganhou em 1° lugar. Aos 22 anos se formou na PUC Minas, se tornando bacharel em educação física. Hoje, Lucas possui seu próprio negócio atuando como Personal Trainer.
+   </td>
+  </tr>
+  
+  <tr>
+   <td colspan="4" align="center">
+    <strong>DETALHES PESSOAIS</strong>
+   </td>
+  </tr>
+  
+  <tr>
+   <td colspan="1" align="left" valign="top">
+    <strong>Localização:</strong>
+    <br>
+    Belo Horizonte
+   </td>
+   <td colspan="1" align="left" valign="top">
+    <strong>Renda Familiar:</strong>
+    <br>
+    De R$3.501,00 a R$6.500,00
+   </td>
+   <td colspan="1" align="left" valign="top">
+    <strong>Nível Educacional:</strong>
+    <br>
+    Ensino superior completo
+   </td>
+   <td colspan="1" align="left" valign="top">
+    <strong>Status de Relacionamento:</strong>
+    <br>
+    Casado
+   </td>
+  </tr>
+  
+ <tr>
+   <td colspan="4" align="center">
+    <strong>CARREIRA</strong>
+   </td>
+  </tr>
+  
+  <tr>
+   <td colspan="1" align="left" valign="top">
+    <strong>Empresa:</strong>
+    <br>
+    PersoMove
+   </td>
+   <td colspan="1" align="left" valign="top">
+    <strong>Tamanho da Empresa:</strong>
+    <br>
+    Microempresa
+   </td>
+   <td colspan="2" align="left" valign="top">
+    <strong>Responsabilidades Profissionais:</strong>
+    <br>
+    Preparar e acompanhar os seus treinos de forma a realizar os exercícios com segurança, para proporcionar um condicionamento adequado, com finalidade estética, de reabilitação, de treino ou de manutenção da saúde.
+   </td>
+  </tr>
+  
+  <tr>
+   <td colspan="2" align="left" valign="top">
+    <strong>Objetivos:</strong>
+    <br>
+    O principal objetivo de Lucas é realizar o seu trabalho com qualidade e mudar a vida das pessoas ensinando-as a viver de modo saudável.
+   </td>
+   <td colspan="2" align="left" valign="top">
+    <strong>Desafios:</strong>
+    <br>
+   Lucas atende seus clientes em domicílio, seja na academia ou em suas residências. Porém, possuí dificuldade para manter sua agenda organizada, além de dificuldades para encontrar o cliente no local combinado.
+   </td>
+  </tr>
+ </tbody>
+</table>
+
+<table>
+ <tbody>
+  <tr>
+   <td rowspan="3"><img src="https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-1-e3-proj-mov-t5-agenda-servico/blob/50c2ed3569a8e89ea7ec8d9dabbcaee8ec04c48b/docs/img/persona-sheila.png" width="300" /></td>
+   <td colspan="3"><strong>SHEILA</strong></td>
+  </tr>
+  
+  <tr>
+   <td colspan="3">
+   PEDIATRA
+   </td>
+  </tr>
+  
+  <tr>
+   <td colspan="3">
+    ADULTO (26 A 40 ANOS)
+   </td>
+  </tr>
+  
+  <tr>
+   <td colspan="1" align="left" valign="middle">
+    <strong>Biografia:</strong>
+   </td>
+   <td colspan="3" align="left" valign="top">
+    Sheila nasceu em 1990, apesar de ter passado dificuldades em sua infância com sua saúde, cresceu bem. Em sua adolescência, passou em 3° lugar em medicina pela USP-SP, onde se formou com 25 anos. Com 30 anos, tornou-se Doutora em pediatria pela mesma universidade. Hoje, Sheila possui sua própria clínica especializada em Pediatria.
+   </td>
+  </tr>
+  
+  <tr>
+   <td colspan="4" align="center">
+    <strong>DETALHES PESSOAIS</strong>
+   </td>
+  </tr>
+  
+  <tr>
+   <td colspan="1" align="left" valign="top">
+    <strong>Localização:</strong>
+    <br>
+    São Paulo
+   </td>
+   <td colspan="1" align="left" valign="top">
+    <strong>Renda Familiar:</strong>
+    <br>
+    Acima de R$10.000,00
+   </td>
+   <td colspan="1" align="left" valign="top">
+    <strong>Nível Educacional:</strong>
+    <br>
+    Ensino superior completo
+   </td>
+   <td colspan="1" align="left" valign="top">
+    <strong>Status de Relacionamento:</strong>
+    <br>
+    Noiva
+   </td>
+  </tr>
+  
+ <tr>
+   <td colspan="4" align="center">
+    <strong>CARREIRA</strong>
+   </td>
+  </tr>
+  
+  <tr>
+   <td colspan="1" align="left" valign="top">
+    <strong>Empresa:</strong>
+    <br>
+    Clínica Bem-me-quer
+   </td>
+   <td colspan="1" align="left" valign="top">
+    <strong>Tamanho da Empresa:</strong>
+    <br>
+    Pequeno Porte
+   </td>
+   <td colspan="2" align="left" valign="top">
+    <strong>Responsabilidades Profissionais:</strong>
+    <br>
+    Sheila atua gerenciando sua clínica, além de realizar exames completos em recém-nascidos e crianças pequenas para verificar e registrar o estado de saúde e o desenvolvimento físico normal desses pacientes.
+   </td>
+  </tr>
+  
+  <tr>
+   <td colspan="2" align="left" valign="top">
+    <strong>Objetivos:</strong>
+    <br>
+    O principal objetivo de Sheila é ajudar crianças e bebês a crescerem bem e saudáveis, assim como uma excelente profissional a ajudou quando pequena.
+   </td>
+   <td colspan="2" align="left" valign="top">
+    <strong>Desafios:</strong>
+    <br>
+   Sheila possui uma agenda extremamente cheia, por isso, tem dificuldades em marcar horário para arrumar o cabelo, as unhas e até mesmo para uma visita de seu Personal Trainer.
    </td>
   </tr>
  </tbody>
