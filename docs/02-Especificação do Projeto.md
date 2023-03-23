@@ -358,30 +358,36 @@ As tabelas que se seguem apresentam os requisitos funcionais e não funcionais q
 
 |ID    | Descrição do Requisito  | Prioridade |
 |------|-----------------------------------------|----|
-|RF-001| Permitir que o usuário cadastre tarefas | ALTA | 
-|RF-002| Emitir um relatório de tarefas no mês   | MÉDIA |
+|RF-001| Permitir que o usuário crie uma conta (empresa ou cliente) | ALTA | 
+|RF-002| Permitir que o usuário realize login na conta criada   | ALTA |
+|RF-003| Permitir que o usuário visualize sua agenda com compromissos marcados atualizada   | ALTA |
+|RF-004| Permitir que o usuário do tipo empresa reagende um serviço junto ao usuário do tipo cliente   | ALTA |
+|RF-005| Permitir que qualquer usuário cancele um serviço com no mínimo uma hora de antecedência   | ALTA |
+|RF-006| Notificar todos os tipos de usuário sobre um serviço marcado, com no mínimo 15 minutos de antecedência  | BAIXA |
+|RF-007| Permitir que usuários do tipo cliente e empresa troquem mensagens entre si   | BAIXA |
+|RF-008| Permitir que usuários do tipo empresa defina um intervalo entre os serviços   | ALTA |
+|RF-009| Permitir que usuários do tipo empresa crie/edite/exclua serviços.   | ALTA |
+|RF-010| Permitir que usuários do tipo empresa defina onde um serviço pode ser realizado (local ou/e em domicílio)   | ALTA |
+|RF-011| Permitir que usuários do tipo cliente defina o local onde o serviço será realizado se o serviço assim permitir.  | ALTA |
+|RF-012| Permitir que o usuário do tipo cliente deixe um recado ao marcar um serviço  | BAIXA |
+|RF-013| Permitir ao usuário do tipo cliente pesquisar por serviços, podendo filtrá-los por tipo, nome da empresa ou profissional e local do serviço   | ALTA |
+|RF-014| Permitir que todos os tipos de usuário sejam redirecionados para um aplicativo de mapa, contendo o local do serviço | BAIXA | 
+|RF-015| Permitir que o usuário do tipo cliente, visualize em forma de lista, todos os serviços agendados por ele, que ainda não foi executado, independente do profissional que irá realizá-lo   | MÉDIA |
+|RF-016| Permitir ao usuário do tipo cliente, visualizar os horários disponíveis na agenda do profissional para determinado serviço  | ALTA |
+|RF-017| Permitir ao usuário do tipo cliente, agendar de forma independente, um serviço na agenda do profissional se o horário estiver disponível   | ALTA |
+|RF-018| Permitir ao usuário do tipo empresa, declarar quais dias e horários um determinado serviço poderá ficar disponível para agendamento   | ALTA |
 
 ### Requisitos não Funcionais
 
 |ID     | Descrição do Requisito  |Prioridade |
 |-------|-------------------------|----|
-|RNF-001| O sistema deve ser responsivo para rodar em um dispositivos móvel | MÉDIA | 
-|RNF-002| Deve processar requisições do usuário em no máximo 3s |  BAIXA | 
+|RNF-001| O aplicativo deverá ser responsivo permitindo a visualização em um celular de forma adequada | MÉDIA | 
+|RNF-002| O aplicativo deve ter bom nível de contraste entre os elementos da tela em conformidade |  MÉDIA | 
+|RNF-003| O aplicativo deve apresentar as informações de forma visual e acessível, através de uma interface simples |  MÉDIA | 
+|RNF-004| O aplicativo deve estar disponível para acesso a qualquer horário do dia |  MÉDIA | 
+|RNF-005| O aplicativo deve responder às ações do usuário de forma rápida |  MÉDIA | 
+|RNF-006| O aplicativo deve impossibilitar que as senhas dos usuários sejam visíveis a atores maliciosos |  MÉDIA | 
 
-Com base nas Histórias de Usuário, enumere os requisitos da sua solução. Classifique esses requisitos em dois grupos:
-
-- [Requisitos Funcionais
- (RF)](https://pt.wikipedia.org/wiki/Requisito_funcional):
- correspondem a uma funcionalidade que deve estar presente na
-  plataforma (ex: cadastro de usuário).
-- [Requisitos Não Funcionais
-  (RNF)](https://pt.wikipedia.org/wiki/Requisito_n%C3%A3o_funcional):
-  correspondem a uma característica técnica, seja de usabilidade,
-  desempenho, confiabilidade, segurança ou outro (ex: suporte a
-  dispositivos iOS e Android).
-Lembre-se que cada requisito deve corresponder à uma e somente uma
-característica alvo da sua solução. Além disso, certifique-se de que
-todos os aspectos capturados nas Histórias de Usuário foram cobertos.
 
 ## Restrições
 
@@ -390,7 +396,8 @@ O projeto está restrito pelos itens apresentados na tabela a seguir.
 |ID| Restrição                                             |
 |--|-------------------------------------------------------|
 |01| O projeto deverá ser entregue até o final do semestre |
-|02| Não pode ser desenvolvido um módulo de backend        |
+|02| A equipe não pode subcontratar o desenvolvimento do trabalho |
+|03| O projeto deve usar um único banco de dados |
 
 Enumere as restrições à sua solução. Lembre-se de que as restrições geralmente limitam a solução candidata.
 
