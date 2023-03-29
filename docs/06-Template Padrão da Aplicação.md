@@ -3,5 +3,5 @@
 Login:
 
 <div>
-<img src="./docs/img/Template.jpg" alt="">
+<img src="img/Template.jpg" alt="">
 </div>
