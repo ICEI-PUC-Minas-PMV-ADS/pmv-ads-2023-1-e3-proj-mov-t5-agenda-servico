@@ -2,4 +2,4 @@
 
 Login:
 
-<img src="./doc/img/Template,jpg" alt="">
+<img src="./docs/img/Template,jpg" alt="">
