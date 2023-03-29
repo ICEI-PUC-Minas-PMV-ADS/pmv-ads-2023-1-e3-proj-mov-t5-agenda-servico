@@ -1,18 +1,18 @@
 # Template Padrão da Aplicação
 
-Login:
+<h2>Login:</h2>
 
 <div>
 <img src="img/Template.jpg" alt="">
 </div>
 
-Index:
+<h2>Index:</h2>
 
 <div>
 <img src="img/Template2.jpg" alt="">
 </div>
 
-Psquisa / Configurações / Perfil:
+<h2>Pesquisa / Configurações / Perfil:</h2>
 
 <div>
 <img src="img/Template3.jpg" alt="">
