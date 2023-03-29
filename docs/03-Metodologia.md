@@ -33,7 +33,7 @@ processo de desenvolvimento.
 
 - **Equipe de Desenvolvimento**: Aleykson Micael Sampaio De Andrade, Henrique Alexandre Gomes Pinto, Vitor Alexandre Gomes Pinto, João Lucas Pinheiro Torres, André Felipe Gomes
 
-- **Equipe de Design**: Vitor Alexandre Gomes Pinto
+- **Equipe de Design**: Aleykson Micael Sampaio De Andrade, Vitor Alexandre Gomes Pinto
 
 
 ### Processo
