@@ -12,7 +12,7 @@
 <img src="img/Template2.jpg" alt="">
 </div>
 
-<h2>Pesquisa / Configurações / Perfil:</h2>
+<h2>Pesquisa / Perfil / Configurações:</h2>
 
 <div>
 <img src="img/Template3.jpg" alt="">
