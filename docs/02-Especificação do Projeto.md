@@ -323,23 +323,18 @@ Com base na análise das personas forma identificadas as seguintes histórias de
 
 ### Análise da Situação Atual
 
-Apresente aqui os problemas existentes que viabilizam sua proposta. Apresente o modelo do sistema como ele funciona hoje. Caso sua proposta seja inovadora e não existam processos claramente definidos, apresente como as tarefas que o seu sistema pretende implementar são executadas atualmente, mesmo que não se utilize tecnologia computacional. 
+Atualmente, o agendamento de serviços como barbeiro e cabeleireiro são feitos de forma manual. Geralmente o cliente entra em contato com o profissional, através de ligação ou mensagem de texto, o profissional muitas vezes interrompe o seu trabalho para verificar sua agenda e marcar o horário do novo cliente. Porém, esse método não é eficiente e gasta muito tempo. Uma maneira convencional de contornar essa situação seria contratar uma secretária, mas a maioria dos pequenos prestadores de serviços não tem condições para isso.
 
 ### Descrição Geral da Proposta
 
-Apresente aqui uma descrição da sua proposta abordando seus limites e suas ligações com as estratégias e objetivos do negócio. Apresente aqui as oportunidades de melhorias.
+A principal proposta desse projeto é automatizar esse processo de agendamento de serviço. O profissional cria sua conta no aplicativo, configura seu perfil com o horário de funcionamento, realiza o cadastro dos serviços que realiza, bem como os valores dos mesmos. Após isso, todo o processo de verificar a disponibilidade de horários é feito de forma automatizada pelo aplicativo. O próprio cliente verifica os horários disponíveis e realiza o agendamento conforme suas necessidades.
 
-### Processo 1 – NOME DO PROCESSO
+### Processo 1 – AGENDAR SERVIÇO
 
-Apresente aqui o nome e as oportunidades de melhorias para o processo 1. Em seguida, apresente o modelo do processo 1, descrito no padrão BPMN. 
+O cliente de forma autônoma, sem necessidade de contatar o profissional, realiza o seu agendamento, economizando tempo de ambas as partes.
 
-![Processo 1](img/02-bpmn-proc1.png)
+<img src="https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-1-e3-proj-mov-t5-agenda-servico/blob/46b75c6fb8df6295a8518907f175dbac5c980d68/docs/img/bpmn-diagrama-processo1.png" />
 
-### Processo 2 – NOME DO PROCESSO
-
-Apresente aqui o nome e as oportunidades de melhorias para o processo 2. Em seguida, apresente o modelo do processo 2, descrito no padrão BPMN.
-
-![Processo 2](img/02-bpmn-proc2.png)
 
 ## Indicadores de Desempenho
 
