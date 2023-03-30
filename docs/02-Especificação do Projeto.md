@@ -329,12 +329,21 @@ Atualmente, o agendamento de serviços como barbeiro e cabeleireiro são feitos 
 
 A principal proposta desse projeto é automatizar esse processo de agendamento de serviço. O profissional cria sua conta no aplicativo, configura seu perfil com o horário de funcionamento, realiza o cadastro dos serviços que realiza, bem como os valores dos mesmos. Após isso, todo o processo de verificar a disponibilidade de horários é feito de forma automatizada pelo aplicativo. O próprio cliente verifica os horários disponíveis e realiza o agendamento conforme suas necessidades.
 
-### Processo 1 – AGENDAR SERVIÇO
+### Processo 1 – Agendar serviço
 
 O cliente de forma autônoma, sem necessidade de contatar o profissional, realiza o seu agendamento, economizando tempo de ambas as partes.
 
-<img src="https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-1-e3-proj-mov-t5-agenda-servico/blob/46b75c6fb8df6295a8518907f175dbac5c980d68/docs/img/bpmn-diagrama-processo1.png" />
+<img src="https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-1-e3-proj-mov-t5-agenda-servico/blob/85eceb1033f2b3a5f8b29e22d1b301f7661bc1ab/docs/img/bpmn-processo1.png" />
 
+### Processo 2 –  Cliente alterar o serviço
+
+O cliente de forma autônoma, sem necessidade de contatar o profissional, realiza o reagendamento ou cancelamento do serviço com antecedência.
+
+<img src="https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-1-e3-proj-mov-t5-agenda-servico/blob/85eceb1033f2b3a5f8b29e22d1b301f7661bc1ab/docs/img/bpmn-processo2.png" />
+
+### Processo 3 –  Profissional alterar o serviço
+
+O profissional entra em contato com o cliente através do chat para negociar o reagendamento ou cancelamento do serviço. Caso o cliente não responda ao chat, o profissional pode contatar o cliente através dos métodos convencionais.
 
 ## Indicadores de Desempenho
 
