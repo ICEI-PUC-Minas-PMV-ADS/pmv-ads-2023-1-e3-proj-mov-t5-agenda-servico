@@ -27,13 +27,4 @@ São protótipos usados em design de interface para sugerir a estrutura de um si
 
 Segue o link para o wireframe interativo da aplicação.
 
-[Wireframe interativo](https://www.figma.com/proto/0tMHZYt6FESmO8yRmfbLI1/Untitled?node-id=37-1134&scaling=min-zoom&page-id=0%3A1&starting-point-node-id=37%3A1134){:target="_blank" rel="noopener"}
- 
-> **Links Úteis**:
-> - [Protótipos vs Wireframes](https://www.nngroup.com/videos/prototypes-vs-wireframes-ux-projects/)
-> - [Ferramentas de Wireframes](https://rockcontent.com/blog/wireframes/)
-> - [MarvelApp](https://marvelapp.com/developers/documentation/tutorials/)
-> - [Figma](https://www.figma.com/)
-> - [Adobe XD](https://www.adobe.com/br/products/xd.html#scroll)
-> - [Axure](https://www.axure.com/edu) (Licença Educacional)
-> - [InvisionApp](https://www.invisionapp.com/) (Licença Educacional)
+<a href="[http://...](https://www.figma.com/proto/0tMHZYt6FESmO8yRmfbLI1/Untitled?node-id=37-1134&scaling=min-zoom&page-id=0%3A1&starting-point-node-id=37%3A1134)" target="_blank">Wireframe interativo</a>
