@@ -27,4 +27,4 @@ São protótipos usados em design de interface para sugerir a estrutura de um si
 
 Segue o link para o wireframe interativo da aplicação.
 
-<a href="[http://...](https://www.figma.com/proto/0tMHZYt6FESmO8yRmfbLI1/Untitled?node-id=37-1134&scaling=min-zoom&page-id=0%3A1&starting-point-node-id=37%3A1134)" target="_blank">Wireframe interativo</a>
+<a href="https://www.figma.com/proto/0tMHZYt6FESmO8yRmfbLI1/Untitled?node-id=37-1134&scaling=min-zoom&page-id=0%3A1&starting-point-node-id=37%3A1134" target="_blank">Wireframe interativo</a>
