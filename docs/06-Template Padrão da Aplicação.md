@@ -1,6 +1,6 @@
 # Template Padrão da Aplicação
 
-<h2>Login: Cliente e Empresa</h2>
+<h2>Login / cadastro: Cliente</h2>
 
 <div>
 <img src="img/template5.png" alt="">
