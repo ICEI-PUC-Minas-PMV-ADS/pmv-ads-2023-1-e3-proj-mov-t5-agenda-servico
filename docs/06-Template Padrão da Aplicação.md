@@ -3,7 +3,7 @@
 <h2>Login: Cliente e Empresa</h2>
 
 <div>
-<img src="img/template5.jpg" alt="">
+<img src="img/template5.png" alt="">
 </div>
 
 <h2>Index: Cliente</h2>
