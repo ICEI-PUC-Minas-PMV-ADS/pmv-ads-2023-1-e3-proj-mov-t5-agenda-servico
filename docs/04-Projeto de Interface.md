@@ -17,8 +17,6 @@ Em seguida, o diagrama de fluxo de navegação do ponto de vista do prestador de
 
 ![Diagrama de fluxo de navigação do cliente](img/diagrama_fluxo_prestador.jpg)
 
-![Exemplo de Diagrama de Fluxo](img/diagramafluxo2.jpg)
-
 As referências abaixo irão auxiliá-lo na geração do artefato “Diagramas de Fluxo”.
 
 > **Links Úteis**:
@@ -29,6 +27,12 @@ As referências abaixo irão auxiliá-lo na geração do artefato “Diagramas d
 ![Exemplo de Wireframe](img/wireframe-example.png)
 
 São protótipos usados em design de interface para sugerir a estrutura de um site web e seu relacionamentos entre suas páginas. Um wireframe web é uma ilustração semelhante do layout de elementos fundamentais na interface.
+
+## Wireframe interativo
+
+Segue o link para o wireframe interativo da aplicação.
+
+[Wireframe interativo](https://www.figma.com/proto/0tMHZYt6FESmO8yRmfbLI1/Untitled?node-id=37-1134&scaling=min-zoom&page-id=0%3A1&starting-point-node-id=37%3A1134)
  
 > **Links Úteis**:
 > - [Protótipos vs Wireframes](https://www.nngroup.com/videos/prototypes-vs-wireframes-ux-projects/)
