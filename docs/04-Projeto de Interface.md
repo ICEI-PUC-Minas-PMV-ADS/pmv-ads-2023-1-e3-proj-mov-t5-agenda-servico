@@ -17,11 +17,6 @@ Em seguida, o diagrama de fluxo de navegação do ponto de vista do prestador de
 
 ![Diagrama de fluxo de navigação do cliente](img/diagrama_fluxo_prestador.jpg)
 
-As referências abaixo irão auxiliá-lo na geração do artefato “Diagramas de Fluxo”.
-
-> **Links Úteis**:
-> - [Fluxograma online: seis sites para fazer gráfico sem instalar nada | Produtividade | TechTudo](https://www.techtudo.com.br/listas/2019/03/fluxograma-online-seis-sites-para-fazer-grafico-sem-instalar-nada.ghtml)
-
 ## Wireframes
 
 ![Exemplo de Wireframe](img/wireframe-example.png)
