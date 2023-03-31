@@ -356,15 +356,76 @@ O profissional entra em contato com o cliente através do chat para negociar o r
   <td align="center"><strong>Fonte dados</strong></td>
   <td align="center"><strong>Perspectiva</strong></td>
  </tr>
- <tr></tr>
- <tr></tr>
- <tr></tr>
- <tr></tr>
- <tr></tr>
+ 
+ <tr>
+  <td>Percentual de cancelamento de serviços</td>
+  <td>Analisar a taxa de desistências e cancelamentos </td>
+  <td>Mede a porcentagem de serviços cancelados nos últimos 30 dias</td>
+  <td>SC / SA * 100, onde:
+   <br>
+SA= Quantidade total de serviços agendados
+   <br>
+SC= Quantidade total de serviços cancelados 
+</td>
+  <td>-Banco de dados (tabela de agendamentos)</td>
+  <td>Clientes e demandas</td>
+ </tr>
+ 
+ <tr>
+  <td>Número de serviços agendados </td>
+  <td>Analisar a demanda nos últimos 30 dias </td>
+  <td>Número de serviços agendados dentro do período de um mês</td>
+  <td></td>
+  <td>-Banco de dados (tabela de agendamentos)</td>
+  <td>Clientes e demandas</td>
+ </tr>
+ 
+ <tr>
+  <td>Percentual de avaliações positivas</td>
+<td>Avaliar quantitativamente as avaliações positivas</td>
+<td>Percentual de avaliações positivas em relação ao total de avaliações</td>
+<td> P / A * 100, onde:
+ <br>
+A= Quantidade total de avaliações
+ <br>
+P= Quantidade de avaliações positivas
+ </td>
+<td>Banco de dados (tabela de avaliações)</td>
+<td>Aprendizado e crescimento</td>
+ </tr>
+ 
+ <tr>
+ <td>Percentual de reclamações</td>
+ <td>Avaliar quantitativamente as reclamações</td>
+<td>Percentual de reclamações em relação ao total de avaliações</td>
+<td> 
+ R / A * 100, onde:
+ <br>
+A= Quantidade total de avaliações
+ <br>
+R= Quantidade de reclamações
+ </td>
+<td>Banco de dados (tabela de avaliações)</td>
+<td>Aprendizado e crescimento</td>
+ </tr>
+ 
+ <tr>
+ <td>Percentual de agendamento dos tipos de serviço</td>
+<td>Analisar os tipos de serviços mais populares</td>
+<td>Número de agendamentos de determinado serviço em relação ao total de agendamentos</td>
+<td>
+ S / SA * 100, onde:
+ <br>
+SA= Quantidade total de serviços agendados
+ <br>
+S= Quantidade total de agendamentos do serviço
+ </td>
+<td>Banco de dados (tabela de agendamentos)</td>
+<td>Clientes e demandas</td>
+ </tr>
+ 
  </table>
 
-![Indicadores de Desempenho](img/02-indic-desemp.png)
-Obs.: todas as informações para gerar os indicadores devem estar no diagrama de classe a ser apresentado a posteriori. 
 
 ## Requisitos
 
