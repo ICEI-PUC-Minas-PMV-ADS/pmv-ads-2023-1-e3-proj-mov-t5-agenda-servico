@@ -347,9 +347,21 @@ O profissional entra em contato com o cliente através do chat para negociar o r
 
 ## Indicadores de Desempenho
 
-Apresente aqui os principais indicadores de desempenho e algumas metas para o processo. Atenção: as informações necessárias para gerar os indicadores devem estar contempladas no diagrama de classe. Colocar no mínimo 5 indicadores. 
-
-Usar o seguinte modelo: 
+<table>
+ <tr>
+  <td align="center"><strong>Indicador</strong></td>
+  <td align="center"><strong>Objetivos</strong></td>
+  <td align="center"><strong>Descrição</strong></td>
+  <td align="center"><strong>Cálculo</strong></td>
+  <td align="center"><strong>Fonte dados</strong></td>
+  <td align="center"><strong>Perspectiva</strong></td>
+ </tr>
+ <tr></tr>
+ <tr></tr>
+ <tr></tr>
+ <tr></tr>
+ <tr></tr>
+ </table>
 
 ![Indicadores de Desempenho](img/02-indic-desemp.png)
 Obs.: todas as informações para gerar os indicadores devem estar no diagrama de classe a ser apresentado a posteriori. 
