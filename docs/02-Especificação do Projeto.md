@@ -388,7 +388,7 @@ SC= Quantidade total de serviços cancelados
  <br>
 A= Quantidade total de avaliações
  <br>
-P= Quantidade de avaliações positivas
+P= Quantidade de avaliações com 4 estrelas ou mais
  </td>
 <td>Banco de dados (tabela de avaliações)</td>
 <td>Aprendizado e crescimento</td>
@@ -403,7 +403,7 @@ P= Quantidade de avaliações positivas
  <br>
 A= Quantidade total de avaliações
  <br>
-R= Quantidade de reclamações
+R= Quantidade de de avaliações com 3 estrelas ou menos
  </td>
 <td>Banco de dados (tabela de avaliações)</td>
 <td>Aprendizado e crescimento</td>
@@ -440,7 +440,7 @@ As tabelas que se seguem apresentam os requisitos funcionais e não funcionais q
 |RF-003| Permitir que o usuário visualize sua agenda com compromissos marcados atualizada   | ALTA |
 |RF-004| Permitir que o usuário do tipo empresa reagende um serviço junto ao usuário do tipo cliente   | ALTA |
 |RF-005| Permitir que qualquer usuário cancele um serviço com no mínimo uma hora de antecedência   | ALTA |
-|RF-006| Notificar todos os tipos de usuário sobre um serviço marcado, com no mínimo 15 minutos de antecedência  | BAIXA |
+|RF-006| Notificar todos os tipos de usuário sobre um serviço marcado | BAIXA |
 |RF-007| Permitir que usuários do tipo cliente e empresa troquem mensagens entre si   | BAIXA |
 |RF-008| Permitir que usuários do tipo empresa defina um intervalo entre os serviços   | ALTA |
 |RF-009| Permitir que usuários do tipo empresa crie/edite/exclua serviços.   | ALTA |
@@ -463,7 +463,8 @@ As tabelas que se seguem apresentam os requisitos funcionais e não funcionais q
 |RNF-003| O aplicativo deve apresentar as informações de forma visual e acessível, através de uma interface simples |  MÉDIA | 
 |RNF-004| O aplicativo deve estar disponível para acesso a qualquer horário do dia |  MÉDIA | 
 |RNF-005| O aplicativo deve responder às ações do usuário de forma rápida |  MÉDIA | 
-|RNF-006| O aplicativo deve impossibilitar que as senhas dos usuários sejam visíveis a atores maliciosos |  MÉDIA | 
+|RNF-006| O aplicativo deve impossibilitar que as senhas dos usuários sejam visíveis a atores maliciosos |  MÉDIA |
+|RNF-007| As notificações de serviços agendados devem ser enviadas com no mínimo 15 minutos de antecedência |  BAIXA | 
 
 
 ## Restrições
