@@ -345,6 +345,8 @@ O cliente de forma autônoma, sem necessidade de contatar o profissional, realiz
 
 O profissional entra em contato com o cliente através do chat para negociar o reagendamento ou cancelamento do serviço. Caso o cliente não responda ao chat, o profissional pode contatar o cliente através dos métodos convencionais.
 
+<img src="https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-1-e3-proj-mov-t5-agenda-servico/blob/d05a4b329babbe4ffa3862e521b92fb7f364864e/docs/img/new-processo3.png" />
+
 ## Indicadores de Desempenho
 
 <table>
