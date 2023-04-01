@@ -1,7 +1,11 @@
 ##  Plano de teste de usabilidade
-###  System Usability Scale (SUS)
-O método de avaliação escolhido para testar a usabilidade do sistema foi o System Usability Scale (SUS), que foi proposto por John Brooke em 1986. Trata-se de um questionário com 10 questões em escala Likert aplicado após o usuário usar o sistema ou conhecer como ele funciona. Ele possui um método de cálculo da pontuação de forma normalizada. Entre suas vantagens está o fato de ser cientificamente apurado e não ser longo. 
+### Processo
+
+O método de avaliação escolhido para testar a usabilidade do sistema foi o System Usability Scale (SUS), que foi proposto por John Brooke em 1986. Trata-se de um questionário com 10 questões em escala Likert aplicado . Ele possui um método de cálculo da pontuação de forma normalizada. Entre suas vantagens está o fato de ser cientificamente apurado e não ser longo. 
+Para a execução dos testes será montado um ambiente acessível com o protótipo Agenda Serviço.
 <br>
+
+##  System Usability Scale (SUS)
 O questionário será aplicado aos usuário através da ferramente `Google Forms`, como apresentado nas imagens a seguir:
 <br><br>
 
@@ -17,7 +21,7 @@ O questionário será aplicado aos usuário através da ferramente `Google Forms
 <img src="https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-1-e3-proj-mov-t5-agenda-servico/blob/50b47045a93fcccc992350474aa10c81b286c363/docs/img/testeuser/10.png" width="500">
 
 
-## Cálculo da Pontuação
+### Cálculo da Pontuação
 Primeiro faz-se a conversão:
 - `Para itens ímpares (1, 3, 5, 7, 9)`: subtraia 1 da pontuação que o usuário respondeu.
 - `Para itens pares(2 , 4, 6, 8, 10)`:  subtraia a resposta do usuário de 5.
