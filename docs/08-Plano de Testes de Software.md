@@ -1,19 +1,36 @@
-# Plano de Testes de Software
+Segue abaixo o Plano de Teste de Software feito seguindo a metodologia de [BDD](https://coodesh.com/blog/candidates/metodologias/bdd-na-pratica-entenda-o-que-e-e-como-funciona/), (Behavior Driven Design) onde todos os requisitos são testados ao longo do projeto gerando relátorios e imagens dos testes realizados.
 
-<span style="color:red">Pré-requisitos: <a href="2-Especificação do Projeto.md"> Especificação do Projeto</a></span>, <a href="3-Projeto de Interface.md"> Projeto de Interface</a>
 
-Apresente os cenários de testes utilizados na realização dos testes da sua aplicação. Escolha cenários de testes que demonstrem os requisitos sendo satisfeitos.
+<h2>Requisitos Funcionais</h2>
 
-Enumere quais cenários de testes foram selecionados para teste. Neste tópico o grupo deve detalhar quais funcionalidades avaliadas, o grupo de usuários que foi escolhido para participar do teste e as ferramentas utilizadas.
- 
-## Ferramentas de Testes (Opcional)
+| RF  | Cenário | Pré-Condição | Dado | Quando | Então |
+| -   |   -     |      -       |  -   |  -     |  -    |
+|RF-001 | usuário efetuar o cadastramento da conta | usuário acessar a página de cadastro | usuário preenche o formulário de cadastro| usuário clica no botão de cadastrar | o app realiza o cadastro com os dados necessários|
+|RF-002 | usuário efetuar o login no app | usuário deverá estar cadastrado | usuário preenche seus dados na tela de login | usuário clica no botão de logar  | o usuário realiza o login e é redirecionado para página home|
+|RF-003 | usuário irá consultar seus serviços na agenda | o usuário estar logado e existir serviços cadastrados na agenda | acessa a página da agenda de serviços | o usuário é redirecionado para página de serviços agendados  | A página de serviços agendados e renderizada mostrando todos os serviços que foram cadastrados. |
+|RF-004 | O usuário do tipo empresa irá reagendar um serviço com a autorização do usuário do tipo cliente   | O serviço já estar cadastrado e agendado por um usuário do tipo cliente | o usuário do tipo empresa solicita a reagendamento do serviço | o usuário do tipo cliente aceita o reagendamento e clica no botão de confirmar | O serviço vai ser alterado, salvando as novas informações que foram inseridas |
+|RF-005 | usuário irá cancelar um serviço agendado | o serviço estar agendado | o serviço esteja no prazo de cancelamento e com o status de à realizar | o usuário confirma o cancelamento do serviço  | O serviço que está agendado é deletado. |
+|RF-006 | usuário recebera um aviso sobre o serviço marcado   | o usuário do tipo cliente marca um serviço | o usuário do tipo empresa é autora daquele serviço cadastrado | o usuário do tipo empresa realiza o login no app  | Uma mensagem de aviso é gerada automaticamente |
+|RF-007 | O usuário irá mandar uma mensagem para outro usuário  | Ambos os usuários devem estar cadastrados no app  | a mensagem é redigida por um dos usuários no campo de mensagens | o usuário confirma o envio da mensagem  | A mensagem é criada e o usuário é notificado de uma nova mensagem. |
+|RF-008 | O usuário do tipo empresa irá cadastrar um horário de intervalo entre serviços   | o usuário deve ser do tipo empresa | O usuário do tipo empresa deve ter o serviço cadastrado ou estar cadastrando o serviço  | o usuário confirma a alteração | o serviço deve apresentar os horários de intervalos que não podem ser agendados por outros usuários |
+|RF-009 | usuário irá criar um novo serviço, edita-lo e deletar esse serviço. | O usuário deve ser do tipo empresa | o usuário do tipo empresa deve cadastrar o serviço, depois altera-lo e por fim deleta-lo | o usuário deve confirmar o cadastramento do serviço, depois realizar sua alteração e por fim a exclusão    |  o serviço deve ser cadastrado, depois sofrer as alterações desejadas e por fim ser deletado. |
+|RF-010 | O usuário do tipo empresa irá cadastrar o local onde o serviço será realizado | O usuário ser do tipo empresa | o usuário deve e estar cadastrando um serviço  | o usuário cadastra o serviço e define a localização do mesmo  | O endereço fica disponível e também sua visualização no mapa. |
+|RF-011 | O usuário do tipo cliente irá agendar onde o serviço será realizado. | o usuário ser do tipo cliente | o serviço permita troca de localização para sua realização | O usuário confirma o agendamento do endereço para o serviço  | o endereço deve ser registrado e visualizado no agendamento do serviço |
+|RF-012 | O usuário do tipo cliente irá deixar uma mensagem ao marcar o serviço. | usuário ser do tipo cliente  | usuário preenche o campo de mensagem do agendamento do serviço | o usuário cadastra o serviço e confirma a mensagem do campo de mensagem  | o serviço deve ser agendado contendo a mensagem no seu corpo principal. |
+|RF-013 | O usuário irá pesquisar os serviços existentes, filtrando sua pesquisa por tipo, nome da empresa e local de serviço  |  devem existir serviços cadastrados | o usuário deve escolher os filtros da pesquisa  | o usuário selecionar o filtro  | deve ser exibido todos os serviços relacionados aquela pesquisa |
+|RF-014 | O usuário irá consultar o local do serviço através de um mapa | o serviço deve possuir sua localização cadastrada | A localização deve estar previamente cadastrada no Api de mapa | usuário selecione a opção de ver o local no mapa   | Um mapa deve ser exibido com a localização correta do serviço. |
+|RF-015 | O usuário do tipo cliente irá consultar todos os serviços que foram agendados. | O usuário deve possuir serviços agendados |  Os serviços estajam dentro do prazo e já não tenham vencido a data limite  | o usuário solicitar a consulta   | Uma lista com todos os serviços atuais do usuário deve ser exibida |
+|RF-016 |O usuário irá consultar os horários disponíveis de um determinado profissional  | o usuário do tipo empresa ter serviços cadastrados | o usuário do tipo cliente selecione o usuário do tipo empresa | o usuário selecionar os serviços cadastrados  | Dever ser exibido todos os serviços cadastrados de um determinado cliente |
+|RF-017 |O usuário do tipo cliente irá agendar um serviço que estiver com o horário disponível. | o serviço deve estar cadastrado | o serviço tenha o horário disponível | o usuário do tipo cliente confirmar o agendamento do serviço  | o serviço deve ser agendado e notificado ao usuário do tipo empresa |
+|RF-018 |O usuário do tipo empresa deve selecionar os dias em que seus serviços serão prestados  | o usuário deve ser do tipo empresa | O serviço deve estar previamente cadastrado   | o usuário confirma o cadastramento dos dias em que irá prestar seus serviços  | A data deve ser cadastrada impossibilitando o agendamento de serviços nas datas de folga. |
 
-Comente sobre as ferramentas de testes utilizadas.
- 
-> **Links Úteis**:
-> - [IBM - Criação e Geração de Planos de Teste](https://www.ibm.com/developerworks/br/local/rational/criacao_geracao_planos_testes_software/index.html)
-> - [Práticas e Técnicas de Testes Ágeis](http://assiste.serpro.gov.br/serproagil/Apresenta/slides.pdf)
-> -  [Teste de Software: Conceitos e tipos de testes](https://blog.onedaytesting.com.br/teste-de-software/)
-> - [Criação e Geração de Planos de Teste de Software](https://www.ibm.com/developerworks/br/local/rational/criacao_geracao_planos_testes_software/index.html)
-> - [Ferramentas de Test para Java Script](https://geekflare.com/javascript-unit-testing/)
-> - [UX Tools](https://uxdesign.cc/ux-user-research-and-user-testing-tools-2d339d379dc7)
+
+        
+<h2>Requisitos Não-Funcionais</h2>
+
+| RF  | Cenário | Pré-Condição | Dado | Quando | Então |
+| -   |   -     |      -       |  -   |  -     |  -    |
+|RF-001 |O usuário irá acessar o app através de um smartphone | fazer login em um smartphone | O app estar funcional | Acessa as páginas do App   | A resolução e os conponentes devem estar conforme o wireframe(Protótipo) |
+|RF-003 |O usuário irá navegar pelas páginas do app.| todas as páginas funcionais| O modelo dos prótotipos | entrar nas páginas  | O sistema deve ser intuitivo e de fácil acesso |
+|RF-004 |O usuário irá acessar o app em diferentes horários do dia | O sistema deve estar funcional | dado que o sistema esteja funcional   | realizar o login em diferentes horários  | O sistema deve se comportar de maeira padrão e não apresentar lentidão ou travamentos. |
+|RF-007 |O Sistema irá gerar uma notificação em até 15 minutos | agendar um serviço | usuário agenda um serviço e gera uma mensagem | usuário confirma a o agendamento do serviço  |  o sistema deve gerar o alerta em menos de 15 minutos. |
