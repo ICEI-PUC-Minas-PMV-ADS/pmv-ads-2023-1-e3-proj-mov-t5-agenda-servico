@@ -30,4 +30,6 @@ Primeiro faz-se a conversão:
 
 Por fim, some todos os valores das 10 respostas convertidas e multiplique por 2.5. Essa é a pontuação final, que pode ir de 0 a 100.
 
-Esse é o procedimento para as respostas de 1 usuário participante da avaliação. Idealmente, deve-se fazer isso para mais de um usuário e fazer a média do valor final. O valor de referência para análise do resultado final é `68 pontos`, que é um valor obtido como típico em avaliação com mais de 400 produtos. Um resultado final abaixo de 50 é um sinal de que problemas de usabilidade podem levar ao insucesso do sistema.
+### Apuração dos resultados
+
+O cáculo acima se refera ao procedimento para as respostas de 1 usuário participante da avaliação. Idealmente, deve-se fazer isso para mais de um usuário e fazer a média do valor final. O valor de referência para análise do resultado final é `68 pontos`, que é um valor obtido como típico em avaliação com mais de 400 produtos. Um resultado final abaixo de 50 é um sinal de que problemas de usabilidade podem levar ao insucesso do sistema.
