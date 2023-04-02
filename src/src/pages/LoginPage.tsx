@@ -70,7 +70,11 @@ export function LoginPage({ navigation }: NativeStackScreenProps<AppParamsList, 
             </TouchableWithoutFeedback>
           </View>
 
-          <PrimaryButton title={"Login"} />
+          <PrimaryButton title={"Login"} onPress={() => {
+            if (email === "usuario@gmail.com" && password === "123456") {
+              navigation.navigate({ name: 'Home', params: {} });
+            }
+          }} />
 
           <View style={{ flexDirection: 'row', alignItems: 'center', margin: 10 }}>
             <View style={{ flex: 1, height: 1, backgroundColor: BlackColor}} />
