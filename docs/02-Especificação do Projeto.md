@@ -438,7 +438,7 @@ As tabelas que se seguem apresentam os requisitos funcionais e não funcionais q
 |ID    | Descrição do Requisito  | Prioridade |
 |------|-----------------------------------------|----|
 |RF-001| Permitir que o usuário crie uma conta (empresa ou cliente) | ALTA | 
-|RF-002| Permitir que o usuário realize login na conta criada   | ALTA |
+|RF-002| Permitir que o usuário realize login   | ALTA |
 |RF-003| Permitir que o usuário visualize sua agenda com compromissos marcados atualizada   | ALTA |
 |RF-004| Permitir que o usuário do tipo empresa reagende um serviço junto ao usuário do tipo cliente   | ALTA |
 |RF-005| Permitir que qualquer usuário cancele um serviço com no mínimo uma hora de antecedência   | ALTA |
