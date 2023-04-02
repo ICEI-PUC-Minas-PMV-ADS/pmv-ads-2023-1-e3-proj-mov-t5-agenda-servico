@@ -438,7 +438,7 @@ As tabelas que se seguem apresentam os requisitos funcionais e não funcionais q
 |ID    | Descrição do Requisito  | Prioridade |
 |------|-----------------------------------------|----|
 |RF-001| Permitir que o usuário crie uma conta (empresa ou cliente) | ALTA | 
-|RF-002| Permitir que o usuário realize login na conta criada   | ALTA |
+|RF-002| Permitir que o usuário realize login   | ALTA |
 |RF-003| Permitir que o usuário visualize sua agenda com compromissos marcados atualizada   | ALTA |
 |RF-004| Permitir que o usuário do tipo empresa reagende um serviço junto ao usuário do tipo cliente   | ALTA |
 |RF-005| Permitir que qualquer usuário cancele um serviço com no mínimo uma hora de antecedência   | ALTA |
@@ -490,6 +490,9 @@ A matriz de rastreabilidade é uma ferramenta usada para facilitar a visualizaç
 <img src="https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-1-e3-proj-mov-t5-agenda-servico/blob/5769c6ed72c6fbb32b8c2b30e76354d69b52a277/docs/img/matriz-rastreabilidade.jpeg" />
 
 
-## Planejamento de Cronograma, Custos e Pessoal do Projeto
-<img src="https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-1-e3-proj-mov-t5-agenda-servico/blob/b80fa96e915d6a28cd25ae50ee19f24b237bc539/docs/img/planejamento-cronograma-custos-pessoal.png" />
+## Planejamento de Cronograma
+<img src="img/Cronograma.png" />
+
+## Custos e Pessoal do Projeto
+<img src="img/Recursos.png" />
 
