@@ -1,12 +1,15 @@
 import { useState } from "react";
-import { Platform, ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
+import { ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
 import { BackgroundColor, BlackColor, PrimaryColor, TextInputHintColor, WhiteColor } from "../constants/colors";
 import { InputIconText, InputText } from "../components/Inputs";
 import { IcEyeOffSvg, IcEyeSvg } from "../constants/icons";
-import CheckBox from "@react-native-community/checkbox";
 import { FacebookButton, GoogleButton, PrimaryButton } from "../components/Buttons";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
-import { Settings, Profile, AccessToken, LoginManager, AuthenticationToken } from 'react-native-fbsdk-next';
+import { Settings, AccessToken, LoginManager } from 'react-native-fbsdk-next';
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { AppParamsList } from "../ParamList";
+
+import CheckBox from "@react-native-community/checkbox";
 
 GoogleSignin.configure({
   scopes: ['email'],
@@ -20,7 +23,7 @@ Settings.setAppID('2273447656158262');
  * LoginPage
  */
 
-export function LoginPage() {
+export function LoginPage({ navigation }: NativeStackScreenProps<AppParamsList, 'Login'>) {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState<string>('');
@@ -82,6 +85,8 @@ export function LoginPage() {
                 const userInfo = await GoogleSignin.signIn();
                 console.log(userInfo);
 
+                navigation.navigate({ name: 'Home', params: {} });
+
                 // TODO: O token na base de dados.
               } catch(e: any) {
                 console.log(e.code);
@@ -104,6 +109,7 @@ export function LoginPage() {
                   const result = await AccessToken.getCurrentAccessToken();
                   console.log(result?.accessToken);
                 }
+                navigation.navigate({ name: 'Home', params: {} });
               } catch (error) {
                 console.log(error);
               }              

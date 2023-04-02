@@ -7,13 +7,27 @@ import {
   View,
 } from 'react-native';
 
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+
 import { FirebaseProvider } from './contexts/firebase_context';
 
 import { NavigationContainer } from '@react-navigation/native';
 
 import { BackgroundColor } from './constants/colors';
 
+import { AppParamsList } from './ParamList';
+
 import { LoginPage } from './pages/LoginPage';
+
+import { HomePage } from './pages/HomePage';
+
+
+
+/***
+ * Stack Navigator
+ */
+
+const Stack = createNativeStackNavigator<AppParamsList>();
 
 /***
  * App
@@ -31,7 +45,10 @@ function App(): JSX.Element {
             />
             
             <View style={styles.pageContainer}>
-              <LoginPage />
+              <Stack.Navigator initialRouteName='Login' screenOptions={{ headerShown: false }}>
+                <Stack.Screen name='Login' component={LoginPage} />
+                <Stack.Screen name='Home' component={HomePage} />
+              </Stack.Navigator>
             </View>
           </SafeAreaView>
         </View>
