@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
 import { BackgroundColor, BlackColor, PrimaryColor, TextInputHintColor, WhiteColor } from "../constants/colors";
 import { InputIconText, InputText } from "../components/Inputs";
@@ -12,6 +12,7 @@ import { AppParamsList } from "../ParamList";
 import CheckBox from "@react-native-community/checkbox";
 import { UserRepository } from "../repositories/user_repository";
 import { User } from '../models/user';
+import { useErrorContext } from "../contexts/error_context";
 
 GoogleSignin.configure({
   scopes: ['email'],
@@ -30,6 +31,7 @@ export function LoginPage({ navigation }: NativeStackScreenProps<AppParamsList, 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState<string>('');
   const [remember, setRemember] = useState(false);
+  const { dispatchError } = useErrorContext();
 
   return (
     <View style={styles.container}>
@@ -73,16 +75,15 @@ export function LoginPage({ navigation }: NativeStackScreenProps<AppParamsList, 
           </View>
 
           <PrimaryButton title={"Login"} onPress={() => {
-            // TODO: Implementar login.
             const userRepo = new UserRepository();
-            const user = new User();
-            user.nome = 'Vitor';
-            user.email = 'vitor@email.com';
-            user.hash = '123';
-            user.imagem_perfil = 'imagem';
-            user.telefone = '31 90000-0000';
-            user.tipo = 'cliente';
-            userRepo.create(user, (userModel) => {});
+            userRepo.findUserByEmail(email, (user) => {
+              // TODO: Implementar login.
+              if (user) {
+
+              } else {
+                dispatchError('Usuário e/ou senha invalido!');
+              }
+            });
           }} />
 
           <View style={{ flexDirection: 'row', alignItems: 'center', margin: 10 }}>
@@ -150,6 +151,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: BackgroundColor,
+    position: 'relative',
   },
   scrollContainer: {
     flex: 1,
@@ -178,5 +180,6 @@ const styles = StyleSheet.create({
     color: PrimaryColor,
     fontFamily: 'Manrope-Bold',
     fontSize: 16,
-  }
+  },
+  
 });
