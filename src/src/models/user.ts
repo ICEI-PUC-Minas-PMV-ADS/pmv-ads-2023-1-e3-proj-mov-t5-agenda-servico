@@ -8,5 +8,5 @@ export class User extends Model {
   telefone?: String;  
   email?: String;
   tipo?: String;
-  createdAt?: Date;
+  createdAt?: Date = new Date();
 }

@@ -75,9 +75,14 @@ export function LoginPage({ navigation }: NativeStackScreenProps<AppParamsList, 
           <PrimaryButton title={"Login"} onPress={() => {
             // TODO: Implementar login.
             const userRepo = new UserRepository();
-            userRepo.findUserByEmail('john@email.com', (user) => {
-              console.log(user);
-            });
+            const user = new User();
+            user.nome = 'Vitor';
+            user.email = 'vitor@email.com';
+            user.hash = '123';
+            user.imagem_perfil = 'imagem';
+            user.telefone = '31 90000-0000';
+            user.tipo = 'cliente';
+            userRepo.create(user, (userModel) => {});
           }} />
 
           <View style={{ flexDirection: 'row', alignItems: 'center', margin: 10 }}>
