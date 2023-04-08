@@ -19,17 +19,25 @@ export class UserRepository extends Repository<User> {
   protected serialize(model: User): any {
     return {
       id: model?.id,
-      name: model?.name,
+      nome: model?.nome,
+      hash: model?.hash,
+      imagem_perfil: model?.imagem_perfil,
+      telefone: model?.telefone,
       email: model?.email,
+      tipo: model?.tipo,
       createdAt: model?.createdAt?.getTime(),
     };
   }
 
   protected deserialize(json: any): User {
     const user = new User();    
-    user.id = json.id;
-    user.name = json.name;
-    user.email = json.email;
+    user.id = json.id,
+    user.nome = json.nome,
+    user.hash = json.hash,
+    user.imagem_perfil = json.imagem_perfil,
+    user.telefone = json.telefone,
+    user.email = json.email,
+    user.tipo = json.tipo,
     user.createdAt = new Date(json.createdAt);
     return user;
   }
