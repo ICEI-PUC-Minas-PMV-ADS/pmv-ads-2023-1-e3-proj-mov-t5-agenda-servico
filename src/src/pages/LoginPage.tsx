@@ -10,6 +10,8 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { AppParamsList } from "../ParamList";
 
 import CheckBox from "@react-native-community/checkbox";
+import { UserRepository } from "../repositories/user_repository";
+import { User } from '../models/user';
 
 GoogleSignin.configure({
   scopes: ['email'],
@@ -71,9 +73,11 @@ export function LoginPage({ navigation }: NativeStackScreenProps<AppParamsList, 
           </View>
 
           <PrimaryButton title={"Login"} onPress={() => {
-            if (email === "usuario@gmail.com" && password === "123456") {
-              navigation.navigate({ name: 'Home', params: {} });
-            }
+            // TODO: Implementar login.
+            const userRepo = new UserRepository();
+            userRepo.findUserByEmail('john@email.com', (user) => {
+              console.log(user);
+            });
           }} />
 
           <View style={{ flexDirection: 'row', alignItems: 'center', margin: 10 }}>
