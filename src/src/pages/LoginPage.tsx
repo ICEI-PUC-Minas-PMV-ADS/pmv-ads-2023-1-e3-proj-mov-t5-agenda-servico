@@ -175,7 +175,7 @@ export function LoginPage({ navigation }: NativeStackScreenProps<AppParamsList, 
                       const userRepo = new UserRepository();
                       const newUser = new User();
 
-                      newUser.email = currentProfile.email ?? "";
+                      newUser.email = currentProfile.email ?? currentProfile.userID ?? "";
                       newUser.nome = currentProfile.firstName ?? "";
                       newUser.imagem_perfil = currentProfile.imageURL ?? "";
                       newUser.tipo = USER_CLIENT;

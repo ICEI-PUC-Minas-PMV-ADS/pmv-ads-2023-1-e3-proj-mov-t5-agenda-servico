@@ -31,6 +31,7 @@ export class UserRepository extends Repository<User> {
     user.telefone = json.telefone,
     user.email = json.email,
     user.tipo = json.tipo,
+    user.tipo_login = json.tipo_login;
     user.createdAt = new Date(json.createdAt);
     return user;
   }
