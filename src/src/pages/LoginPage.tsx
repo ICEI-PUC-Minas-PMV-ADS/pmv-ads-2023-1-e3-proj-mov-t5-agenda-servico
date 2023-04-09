@@ -5,7 +5,7 @@ import { InputIconText, InputText } from "../components/Inputs";
 import { IcEyeOffSvg, IcEyeSvg } from "../constants/icons";
 import { FacebookButton, GoogleButton, PrimaryButton } from "../components/Buttons";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
-import { Settings, AccessToken, LoginManager } from 'react-native-fbsdk-next';
+import { Settings, AccessToken, LoginManager, Profile } from 'react-native-fbsdk-next';
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { AppParamsList } from "../ParamList";
 import { UserRepository } from "../repositories/user_repository";
@@ -133,7 +133,7 @@ export function LoginPage({ navigation }: NativeStackScreenProps<AppParamsList, 
                 userRepo.findUserByEmail(userInfo.user.email, (user) => {
                   if (user && user.tipo_login === 'google') {
                     EncryptedStorage.setItem(KEY_USERDATA, JSON.stringify(user)).then(() => {
-                      navigation.navigate({ name: 'Home', params: {} });
+                      navigation.replace('Home', {});
                     });
                   } else {
                     const newUser = new User();
@@ -144,7 +144,7 @@ export function LoginPage({ navigation }: NativeStackScreenProps<AppParamsList, 
                     newUser.tipo_login = 'google';
                     userRepo.create(newUser, (_) => {
                       EncryptedStorage.setItem(KEY_USERDATA, JSON.stringify(newUser)).then(() => {
-                        navigation.navigate({ name: 'Home', params: {} });
+                        navigation.replace('Home', {});
                       });
                     });
                   }
@@ -153,6 +153,7 @@ export function LoginPage({ navigation }: NativeStackScreenProps<AppParamsList, 
                 // TODO: O token na base de dados.
               } catch (e: any) {
                 console.log(e.code);
+                errorContext.dispatchError('Falha ao fazer autenticação!');
               }
             }} />
 
@@ -161,20 +162,39 @@ export function LoginPage({ navigation }: NativeStackScreenProps<AppParamsList, 
 
               try {
                 const result = await LoginManager.logInWithPermissions(
-                  ['public_profile', 'email'],
-                  'limited',
-                  'my_nonce'
+                  ['public_profile', 'email'], 'limited', 'my_nonce'
                 );
 
                 // TODO: O token na base de dados.
-                console.log(result);
+                if (!result.isCancelled)
                 {
-                  const result = await AccessToken.getCurrentAccessToken();
-                  console.log(result?.accessToken);
-                }
-                navigation.navigate({ name: 'Home', params: {} });
+                  const acessToken = await AccessToken.getCurrentAccessToken();
+                  if (acessToken) {
+                    const currentProfile = await Profile.getCurrentProfile();
+                    if (currentProfile) {
+                      const userRepo = new UserRepository();
+                      const newUser = new User();
+
+                      newUser.email = currentProfile.email ?? "";
+                      newUser.nome = currentProfile.firstName ?? "";
+                      newUser.imagem_perfil = currentProfile.imageURL ?? "";
+                      newUser.tipo = USER_CLIENT;
+                      newUser.tipo_login = 'facebook';
+                      userRepo.create(newUser, (_) => {
+                        EncryptedStorage.setItem(KEY_USERDATA, JSON.stringify(newUser)).then(() => {
+                          navigation.replace('Home', {});
+                        });
+                      });
+                    }
+                  } else {
+                    errorContext.dispatchError('Falha ao fazer autenticação!');
+                  }
+                } else {
+                  errorContext.dispatchError('Falha ao fazer autenticação!');
+                }                
               } catch (error) {
                 console.log(error);
+                errorContext.dispatchError('Falha ao fazer autenticação!');
               }
             }} />
           </View>
