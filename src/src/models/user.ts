@@ -8,5 +8,6 @@ export class User extends Model {
   telefone?: String;  
   email?: String;
   tipo?: String;
+  tipo_login?: 'google' | 'facebook' | 'app';
   createdAt?: Date = new Date();
 }

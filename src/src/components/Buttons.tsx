@@ -10,7 +10,9 @@ import {
 import {
   BackgroundColor,
   PrimaryColor,
+  PrimaryColorDark,
   SecondaryColor,
+  TextInputColorDark,
   WhiteColor
 } from '../constants/colors';
 
@@ -25,6 +27,7 @@ import {
 
 export interface PrimaryButtonProps {
   title: string;
+  disabled?: boolean;
   onPress?: ((event: GestureResponderEvent) => void);
 }
 
@@ -32,10 +35,10 @@ export interface PrimaryButtonProps {
  * PrimaryButton
  */
 
-export function PrimaryButton({ title, onPress }: PrimaryButtonProps) {
+export function PrimaryButton({ title, disabled = false, onPress }: PrimaryButtonProps) {
   return (
-    <Pressable android_ripple={{ color: BackgroundColor }} style={style.buttonStyle}  onPress={onPress}>
-      <Text style={style.textStyle}>{title}</Text>
+    <Pressable android_ripple={{ color: BackgroundColor }} style={[style.buttonStyle, {backgroundColor: disabled ? PrimaryColorDark : PrimaryColor}]} disabled={disabled} onPress={onPress}>
+      <Text style={[style.textStyle, {color: disabled ? TextInputColorDark : WhiteColor}]}>{title}</Text>
     </Pressable>
   );
 }
@@ -86,14 +89,12 @@ export function FacebookButton({ onPress }: FacebookButtonProps) {
 
 const style = StyleSheet.create({
   buttonStyle: {
-    backgroundColor: PrimaryColor,
     borderRadius: 16,
     margin: 16,
     alignItems: 'center',
     padding: 16
   },
   textStyle: {
-    color: WhiteColor,
     fontSize: 16,
     fontFamily: 'Manrope-SemiBold',
   },

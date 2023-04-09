@@ -11,7 +11,7 @@ export abstract class Repository<TModel extends Model> {
     const normalizedModel = this.serialize(model);
     delete normalizedModel.id;
 
-    push(ref(database, this.table), normalizedModel).then((data) => {
+    push(ref(database, this.table), JSON.parse(JSON.stringify(normalizedModel))).then((data) => {
       callback?.(this.deserialize({...model, id: data.key}));
     });
   }

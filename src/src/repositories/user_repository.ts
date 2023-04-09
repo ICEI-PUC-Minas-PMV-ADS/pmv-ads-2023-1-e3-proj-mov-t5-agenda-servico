@@ -17,14 +17,7 @@ export class UserRepository extends Repository<User> {
   }
 
   protected serialize(model: User): any {
-    return {
-      id: model?.id,
-      nome: model?.nome,
-      hash: model?.hash,
-      imagem_perfil: model?.imagem_perfil,
-      telefone: model?.telefone,
-      email: model?.email,
-      tipo: model?.tipo,
+    return {...model,
       createdAt: model?.createdAt?.getTime(),
     };
   }

@@ -23,6 +23,7 @@ import { LoginPage } from './pages/LoginPage';
 
 import { HomePage } from './pages/HomePage';
 import { ErrorConsumer, ErrorProvider } from './contexts/error_context';
+import { AppContext, AppProvider } from './contexts/app_context';
 
 
 
@@ -39,33 +40,35 @@ const Stack = createNativeStackNavigator<AppParamsList>();
 function App(): JSX.Element {
   return (
     <NavigationContainer>
-      <FirebaseProvider>
-        <ErrorProvider>
-          <View style={styles.rootContainer}>
-            <SafeAreaView style={styles.safeContainer}>
-              <StatusBar
-                barStyle={'light-content'}
-                backgroundColor={BackgroundColor}
-              />
-              
-              <View style={styles.pageContainer}>
-                <Stack.Navigator initialRouteName='Login' screenOptions={{ headerShown: false }}>
-                  <Stack.Screen name='Login' component={LoginPage} />
-                  <Stack.Screen name='Home' component={HomePage} />
-                </Stack.Navigator>
-              </View>
-            </SafeAreaView>
-
-            <ErrorConsumer>
-              {context => <Animated.View style={[styles.errorContainer, { display: context.errorMessage ? 'flex' : 'none', opacity: context.containerAnim }]}>
-                <View style={styles.errorPanel}>
-                  <Text style={styles.errorMessage}>{context.errorMessage}</Text>
+      <AppProvider>
+        <FirebaseProvider>
+          <ErrorProvider>
+            <View style={styles.rootContainer}>
+              <SafeAreaView style={styles.safeContainer}>
+                <StatusBar
+                  barStyle={'light-content'}
+                  backgroundColor={BackgroundColor}
+                />
+                
+                <View style={styles.pageContainer}>
+                  <Stack.Navigator initialRouteName='Login' screenOptions={{ headerShown: false }}>
+                    <Stack.Screen name='Login' component={LoginPage} />
+                    <Stack.Screen name='Home' component={HomePage} />
+                  </Stack.Navigator>
                 </View>
-              </Animated.View>}
-            </ErrorConsumer>
-          </View>
-        </ErrorProvider>
-      </FirebaseProvider>
+              </SafeAreaView>
+
+              <ErrorConsumer>
+                {context => <Animated.View style={[styles.errorContainer, { display: context.errorMessage ? 'flex' : 'none', opacity: context.containerAnim }]}>
+                  <View style={styles.errorPanel}>
+                    <Text style={styles.errorMessage}>{context.errorMessage}</Text>
+                  </View>
+                </Animated.View>}
+              </ErrorConsumer>
+            </View>
+          </ErrorProvider>
+        </FirebaseProvider>
+      </AppProvider>
     </NavigationContainer>
   );
 }
