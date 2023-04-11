@@ -7,7 +7,7 @@ import { FacebookButton, GoogleButton, PrimaryButton } from "../components/Butto
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { Settings, AccessToken, LoginManager, Profile } from 'react-native-fbsdk-next';
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { AppParamsList } from "../ParamList";
+import { AppParamsList } from "../@types/ParamList";
 import { UserRepository } from "../repositories/user_repository";
 import { User } from '../models/user';
 import { useErrorContext } from "../contexts/error_context";
@@ -17,6 +17,7 @@ import { useAppContext } from "../contexts/app_context";
 
 import CheckBox from "@react-native-community/checkbox";
 import EncryptedStorage from "react-native-encrypted-storage";
+
 
 
 GoogleSignin.configure({
@@ -166,8 +167,7 @@ export function LoginPage({ navigation }: NativeStackScreenProps<AppParamsList, 
                 );
 
                 // TODO: O token na base de dados.
-                if (!result.isCancelled)
-                {
+                if (!result.isCancelled) {
                   const acessToken = await AccessToken.getCurrentAccessToken();
                   if (acessToken) {
                     const currentProfile = await Profile.getCurrentProfile();
@@ -191,7 +191,7 @@ export function LoginPage({ navigation }: NativeStackScreenProps<AppParamsList, 
                   }
                 } else {
                   errorContext.dispatchError('Falha ao fazer autenticação!');
-                }                
+                }
               } catch (error) {
                 console.log(error);
                 errorContext.dispatchError('Falha ao fazer autenticação!');
@@ -203,10 +203,12 @@ export function LoginPage({ navigation }: NativeStackScreenProps<AppParamsList, 
             <Text style={[styles.touchableText, { textAlign: 'center' }]}>Entrar como empresa!</Text>
           </TouchableWithoutFeedback>
 
-          <View style={{ flexDirection: 'row', justifyContent: 'center', margin: 48 }}>
-            <Text style={styles.whiteText}>Não tem uma conta?</Text>
-            <Text style={[styles.touchableText, { marginHorizontal: 4 }]}>Sign Up</Text>
-          </View>
+          <TouchableWithoutFeedback onPress={() => { navigation.navigate('Email', {}) }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'center', margin: 48 }}>
+              <Text style={styles.whiteText}>Não tem uma conta?</Text>
+              <Text style={[styles.touchableText, { marginHorizontal: 4 }]}>Sign Up</Text>
+            </View>
+          </TouchableWithoutFeedback>
         </ScrollView>
       </View>
   );
