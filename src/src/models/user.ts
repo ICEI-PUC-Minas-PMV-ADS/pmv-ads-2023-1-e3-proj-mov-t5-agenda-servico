@@ -5,9 +5,14 @@ export class User extends Model {
   nome?: String;
   hash?: String;
   imagem_perfil?: String;
-  telefone?: String;  
+  telefone?: String;
   email?: String;
-  tipo?: String;
+  tipo?: 'cliente' | 'prestador';
   tipo_login?: 'google' | 'facebook' | 'app';
-  createdAt?: Date = new Date();
+  created_at?: Date = new Date();
+  endereco_fk?: String;
+  portifolio_fk?: String;
+  nome_fantasia?: String;
+  descricao?: String;
+  cnpj?: String;
 }
