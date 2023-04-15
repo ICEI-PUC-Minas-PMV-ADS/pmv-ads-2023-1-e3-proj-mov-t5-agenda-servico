@@ -76,5 +76,5 @@ export abstract class Repository<TModel extends Model> {
   }
 
   protected abstract serialize(model: TModel): any;
-  protected abstract deserialize(json: any): TModel
+  protected abstract deserialize(model: any): TModel
 }
