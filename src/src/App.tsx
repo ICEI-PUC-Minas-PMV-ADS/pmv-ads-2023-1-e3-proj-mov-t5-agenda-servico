@@ -9,24 +9,22 @@ import {
   Animated,
 } from 'react-native';
 
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import { FirebaseProvider } from './contexts/firebase_context';
+import {FirebaseProvider} from './contexts/firebase_context';
 
-import { NavigationContainer } from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 
-import { BackgroundColor } from './constants/colors';
+import {BackgroundColor} from './constants/colors';
 
-import { AppParamsList } from './ParamList';
+import {AppParamsList} from './ParamList';
 
-import { LoginPage } from './pages/LoginPage';
+import {LoginPage} from './pages/LoginPage';
 
-import { HomePage } from './pages/HomePage';
-import { ErrorConsumer, ErrorProvider } from './contexts/error_context';
-import { AppContext, AppProvider } from './contexts/app_context';
-import { TestPage } from './pages/TestPage';
-
-
+import {HomePage} from './pages/HomePage';
+import {ErrorConsumer, ErrorProvider} from './contexts/error_context';
+import {AppContext, AppProvider} from './contexts/app_context';
+import {TestPage} from './pages/TestPage';
 
 /***
  * Stack Navigator
@@ -52,20 +50,33 @@ function App(): JSX.Element {
                 />
 
                 <View style={styles.pageContainer}>
-                  <Stack.Navigator initialRouteName='Test' screenOptions={{ headerShown: false }}>
-                    <Stack.Screen name='Login' component={LoginPage} />
-                    <Stack.Screen name='Home' component={HomePage} />
-                    <Stack.Screen name='Test' component={TestPage} />
+                  <Stack.Navigator
+                    initialRouteName="Test"
+                    screenOptions={{headerShown: false}}>
+                    <Stack.Screen name="Login" component={LoginPage} />
+                    <Stack.Screen name="Home" component={HomePage} />
+                    <Stack.Screen name="Test" component={TestPage} />
                   </Stack.Navigator>
                 </View>
               </SafeAreaView>
 
               <ErrorConsumer>
-                {context => <Animated.View style={[styles.errorContainer, { display: context.errorMessage ? 'flex' : 'none', opacity: context.containerAnim }]}>
-                  <View style={styles.errorPanel}>
-                    <Text style={styles.errorMessage}>{context.errorMessage}</Text>
-                  </View>
-                </Animated.View>}
+                {context => (
+                  <Animated.View
+                    style={[
+                      styles.errorContainer,
+                      {
+                        display: context.errorMessage ? 'flex' : 'none',
+                        opacity: context.containerAnim,
+                      },
+                    ]}>
+                    <View style={styles.errorPanel}>
+                      <Text style={styles.errorMessage}>
+                        {context.errorMessage}
+                      </Text>
+                    </View>
+                  </Animated.View>
+                )}
               </ErrorConsumer>
             </View>
           </ErrorProvider>

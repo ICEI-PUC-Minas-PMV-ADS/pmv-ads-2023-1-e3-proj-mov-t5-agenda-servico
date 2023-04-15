@@ -1,6 +1,6 @@
-import { View } from "react-native";
-import { PrimaryButton } from "../components/Buttons";
+import React from 'react';
+import {View} from 'react-native';
 
 export function TestPage() {
-    return <View></View>;
+  return <View />;
 }

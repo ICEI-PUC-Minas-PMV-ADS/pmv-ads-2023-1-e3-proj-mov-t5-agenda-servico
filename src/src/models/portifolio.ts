@@ -1,6 +1,6 @@
-import { Model } from "./model";
+import {Model} from './model';
 
 export class Portifolio extends Model {
-    id?: String;
-    fotos?: String[];
+  id?: String;
+  fotos?: String[];
 }

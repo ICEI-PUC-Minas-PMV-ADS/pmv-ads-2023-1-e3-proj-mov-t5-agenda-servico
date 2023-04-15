@@ -1,17 +1,20 @@
-import React from "react";
+import React from 'react';
 import { Animated } from 'react-native';
 
 /***
  * Context
  */
 
-type ErrorState = {
-  errorMessage?: string,
-  containerAnim: Animated.Value,
-  dispatchError: (errorMessage: string) => void,
+export type ErrorState = {
+  errorMessage?: string;
+  containerAnim: Animated.Value;
+  dispatchError: (errorMessage: string) => void;
 };
 
-export const ErrorContext = React.createContext<ErrorState>({ containerAnim: new Animated.Value(0), dispatchError: () => {} });
+export const ErrorContext = React.createContext<ErrorState>({
+  containerAnim: new Animated.Value(0),
+  dispatchError: () => { },
+});
 
 export const ErrorProvider = ({ children }: any) => {
   const [errorMessage, setErrorMessage] = React.useState<string | undefined>();
@@ -22,7 +25,7 @@ export const ErrorProvider = ({ children }: any) => {
       Animated.timing(containerAnim, {
         toValue: 1,
         duration: 300,
-        useNativeDriver: true,        
+        useNativeDriver: true,
       }).start();
 
       setErrorMessage(message);
@@ -30,10 +33,12 @@ export const ErrorProvider = ({ children }: any) => {
         Animated.timing(containerAnim, {
           toValue: 0,
           duration: 300,
-          useNativeDriver: true,        
+          useNativeDriver: true,
         }).start();
 
-        setTimeout(() => { setErrorMessage(undefined); }, 300);        
+        setTimeout(() => {
+          setErrorMessage(undefined);
+        }, 300);
       }, 2000);
     }
   }, []);
@@ -48,6 +53,6 @@ export const ErrorProvider = ({ children }: any) => {
 export const ErrorConsumer = ErrorContext.Consumer;
 
 export const useErrorContext = () => {
-  const errorContext = React.useContext(ErrorContext);  
+  const errorContext = React.useContext(ErrorContext);
   return errorContext;
 };

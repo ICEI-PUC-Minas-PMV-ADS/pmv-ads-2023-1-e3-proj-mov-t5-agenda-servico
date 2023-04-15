@@ -1,15 +1,15 @@
-import { User } from '../models/user';
-import { Repository } from './repository';
+import {User} from '../models/user';
+import {Repository} from './repository';
 
 export class UserRepository extends Repository<User> {
   constructor() {
-    super('Users')
+    super('Users');
   }
 
   findUserByEmail(email: string, callback: (model: User | undefined) => void) {
-    this.getAll((users) => {
+    this.getAll(users => {
       if (users) {
-        callback(users.find((u) => u.email === email));
+        callback(users.find(u => u.email === email));
       } else {
         callback(undefined);
       }

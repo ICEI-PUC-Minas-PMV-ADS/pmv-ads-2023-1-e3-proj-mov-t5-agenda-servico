@@ -1,11 +1,6 @@
 import React from 'react';
 
-import {
-  StyleSheet,
-  GestureResponderEvent,
-  Pressable,
-  Text,
-} from 'react-native';
+import {StyleSheet, GestureResponderEvent, Pressable, Text} from 'react-native';
 
 import {
   BackgroundColor,
@@ -13,13 +8,10 @@ import {
   PrimaryColorDark,
   SecondaryColor,
   TextInputColorDark,
-  WhiteColor
+  WhiteColor,
 } from '../constants/colors';
 
-import {
-  IcGoogleSvg,
-  IcFacebookSvg
-} from '../constants/icons';
+import {IcGoogleSvg, IcFacebookSvg} from '../constants/icons';
 
 /***
  * PrimaryButton props
@@ -28,17 +20,34 @@ import {
 export interface PrimaryButtonProps {
   title: string;
   disabled?: boolean;
-  onPress?: ((event: GestureResponderEvent) => void);
+  onPress?: (event: GestureResponderEvent) => void;
 }
 
 /***
  * PrimaryButton
  */
 
-export function PrimaryButton({ title, disabled = false, onPress }: PrimaryButtonProps) {
+export function PrimaryButton({
+  title,
+  disabled = false,
+  onPress,
+}: PrimaryButtonProps) {
   return (
-    <Pressable android_ripple={{ color: BackgroundColor }} style={[style.buttonStyle, {backgroundColor: disabled ? PrimaryColorDark : PrimaryColor}]} disabled={disabled} onPress={onPress}>
-      <Text style={[style.textStyle, {color: disabled ? TextInputColorDark : WhiteColor}]}>{title}</Text>
+    <Pressable
+      android_ripple={{color: BackgroundColor}}
+      style={[
+        style.buttonStyle,
+        {backgroundColor: disabled ? PrimaryColorDark : PrimaryColor},
+      ]}
+      disabled={disabled}
+      onPress={onPress}>
+      <Text
+        style={[
+          style.textStyle,
+          {color: disabled ? TextInputColorDark : WhiteColor},
+        ]}>
+        {title}
+      </Text>
     </Pressable>
   );
 }
@@ -48,16 +57,19 @@ export function PrimaryButton({ title, disabled = false, onPress }: PrimaryButto
  */
 
 export interface GoogleButtonProps {
-  onPress?: ((event: GestureResponderEvent) => void);
+  onPress?: (event: GestureResponderEvent) => void;
 }
 
 /***
  * Google Button
  */
 
-export function GoogleButton({ onPress }: GoogleButtonProps) {
+export function GoogleButton({onPress}: GoogleButtonProps) {
   return (
-    <Pressable android_ripple={{ color: BackgroundColor }} style={style.googleButton} onPress={onPress}>
+    <Pressable
+      android_ripple={{color: BackgroundColor}}
+      style={style.googleButton}
+      onPress={onPress}>
       <IcGoogleSvg />
     </Pressable>
   );
@@ -68,16 +80,19 @@ export function GoogleButton({ onPress }: GoogleButtonProps) {
  */
 
 export interface FacebookButtonProps {
-  onPress?: ((event: GestureResponderEvent) => void);
+  onPress?: (event: GestureResponderEvent) => void;
 }
 
 /***
  * Google Button
  */
 
-export function FacebookButton({ onPress }: FacebookButtonProps) {
+export function FacebookButton({onPress}: FacebookButtonProps) {
   return (
-    <Pressable android_ripple={{ color: BackgroundColor }} style={style.facebookButton} onPress={onPress}>
+    <Pressable
+      android_ripple={{color: BackgroundColor}}
+      style={style.facebookButton}
+      onPress={onPress}>
       <IcFacebookSvg />
     </Pressable>
   );
@@ -92,7 +107,7 @@ const style = StyleSheet.create({
     borderRadius: 16,
     margin: 16,
     alignItems: 'center',
-    padding: 16
+    padding: 16,
   },
   textStyle: {
     fontSize: 16,
@@ -104,7 +119,7 @@ const style = StyleSheet.create({
     borderRadius: 16,
     margin: 16,
     alignItems: 'center',
-    padding: 10
+    padding: 10,
   },
   facebookButton: {
     flex: 1,
@@ -112,6 +127,6 @@ const style = StyleSheet.create({
     borderRadius: 16,
     margin: 16,
     alignItems: 'center',
-    padding: 10
-  }
+    padding: 10,
+  },
 });

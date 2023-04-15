@@ -1,5 +1,5 @@
 export type AppParamsList = {
-  Home: {},
-  Login: {},
-  Test: {},
+  Home: {};
+  Login: {};
+  Test: {};
 };
