@@ -24,6 +24,7 @@ import { LoginPage } from './pages/LoginPage';
 import { HomePage } from './pages/HomePage';
 import { ErrorConsumer, ErrorProvider } from './contexts/error_context';
 import { AppContext, AppProvider } from './contexts/app_context';
+import { TestPage } from './pages/TestPage';
 
 
 
@@ -49,11 +50,12 @@ function App(): JSX.Element {
                   barStyle={'light-content'}
                   backgroundColor={BackgroundColor}
                 />
-                
+
                 <View style={styles.pageContainer}>
-                  <Stack.Navigator initialRouteName='Login' screenOptions={{ headerShown: false }}>
+                  <Stack.Navigator initialRouteName='Test' screenOptions={{ headerShown: false }}>
                     <Stack.Screen name='Login' component={LoginPage} />
                     <Stack.Screen name='Home' component={HomePage} />
+                    <Stack.Screen name='Test' component={TestPage} />
                   </Stack.Navigator>
                 </View>
               </SafeAreaView>

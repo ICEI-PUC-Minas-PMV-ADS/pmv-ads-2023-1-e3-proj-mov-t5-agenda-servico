@@ -12,22 +12,22 @@ export abstract class Repository<TModel extends Model> {
     delete normalizedModel.id;
 
     push(ref(database, this.table), JSON.parse(JSON.stringify(normalizedModel))).then((data) => {
-      callback?.(this.deserialize({...model, id: data.key}));
+      callback?.(this.deserialize({ ...model, id: data.key }));
     });
   }
 
   getAll(callback?: (models: TModel[] | undefined) => void): void {
     fget(ref(database, `${this.table}`)).then((snapshot) => {
       const data = snapshot.val();
-      if (data !== null && data instanceof Object) {       
-        const models: TModel[] = []; 
+      if (data !== null && data instanceof Object) {
+        const models: TModel[] = [];
         for (let modelKey in data) {
           models.push(this.deserialize({ ...data[modelKey as keyof object], id: modelKey }));
         }
         callback?.(models);
       } else {
         callback?.(undefined);
-      }      
+      }
     });
   }
 
@@ -50,7 +50,7 @@ export abstract class Repository<TModel extends Model> {
       const data = snapshot.val();
       if (data !== null && data instanceof Object) {
         delete normalizedModel.id;
-        set(ref(database, `${this.table}/${modelKey}`), normalizedModel).then(() => {
+        set(ref(database, `${this.table}/${modelKey}`), JSON.parse(JSON.stringify(normalizedModel))).then(() => {
           callback?.(model);
         });
       } else {

@@ -1,9 +1,9 @@
 import { Address } from "../models/address";
 import { Repository } from "./repository";
 
-class AddressRepository extends Repository<Address> {
+export class AddressRepository extends Repository<Address> {
     constructor() {
-        super('address');
+        super('Address');
     }
 
     protected serialize(model: Address): any {
