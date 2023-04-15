@@ -6,7 +6,7 @@ import { AppParamsList } from '../ParamList';
  * HomePage
  */
 
-export function HomePage({ navigation }: NativeStackScreenProps<AppParamsList, 'Login'>) {
+export function HomePage({ navigation }: NativeStackScreenProps<AppParamsList, 'Home'>) {
   return (
     <View>
       <TouchableWithoutFeedback onPress={() => {
