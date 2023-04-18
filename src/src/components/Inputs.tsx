@@ -1,4 +1,4 @@
-import {useCallback, useState} from 'react';
+import { useCallback, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -192,7 +192,6 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   textInputContainer: {
-    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: TextInputBackgroundColor,
