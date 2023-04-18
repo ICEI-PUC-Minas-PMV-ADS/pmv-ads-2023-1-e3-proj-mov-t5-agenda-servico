@@ -1,5 +1,5 @@
-import {User} from '../models/user';
-import {Repository} from './repository';
+import { User } from '../models/user';
+import { Repository } from './repository';
 
 export class UserRepository extends Repository<User> {
   constructor() {
@@ -19,7 +19,7 @@ export class UserRepository extends Repository<User> {
   protected serialize(model: User): any {
     return {
       ...model,
-      createdAt: model?.created_at?.getTime(),
+      created_at: model?.created_at?.getTime(),
     };
   }
 
