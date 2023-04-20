@@ -48,7 +48,7 @@ function App(): JSX.Element {
 
               <View style={styles.pageContainer}>
                 <Stack.Navigator
-                  initialRouteName="Test"
+                  initialRouteName="Home"
                   screenOptions={{ headerShown: false }}>
                   <Stack.Screen name="Login" component={LoginPage} />
                   <Stack.Screen name="Home" component={HomePage} />
