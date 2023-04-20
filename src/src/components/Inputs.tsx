@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -37,7 +37,13 @@ export function InputText({
   secureTextEntry = false,
   onChange,
 }: InputTextProps) {
-  const [textValue, onChangeTextValue] = useState(value);
+  const [textValue, setTextValue] = useState(value);
+
+  useEffect(() => {
+    if (value !== null) {
+      setTextValue(value);
+    }
+  }, [value]);
 
   return (
     <View style={styles.container}>
@@ -51,7 +57,7 @@ export function InputText({
           secureTextEntry={secureTextEntry}
           value={textValue}
           onChangeText={value => {
-            onChangeTextValue(value);
+            setTextValue(value);
             onChange?.(value);
           }}
         />
@@ -81,7 +87,13 @@ export function InputPhoneText({
   value,
   onChange,
 }: InputPhoneTextProps) {
-  const [textPhone, onChangeTextPhone] = useState(value);
+  const [textPhone, setTextPhone] = useState(value);
+
+  useEffect(() => {
+    if (value !== null) {
+      setTextPhone(value);
+    }
+  }, [value]);
 
   return (
     <View style={styles.container}>
@@ -105,7 +117,7 @@ export function InputPhoneText({
           underlineColorAndroid="transparent"
           value={textPhone}
           onChangeText={value => {
-            onChangeTextPhone(value);
+            setTextPhone(value);
             onChange?.(value);
           }}
         />
@@ -143,7 +155,13 @@ export function InputIconText({
   onChange,
   onClickIcon,
 }: InputIconTextProps) {
-  const [textValue, onChangeTextValue] = useState(value);
+  const [textValue, setTextValue] = useState(value);
+
+  useEffect(() => {
+    if (value !== null) {
+      setTextValue(value);
+    }
+  }, [value]);
 
   const CustomIconContainer = useCallback(() => {
     const CustomIcon = icon;
@@ -171,7 +189,7 @@ export function InputIconText({
           secureTextEntry={secureTextEntry}
           value={textValue}
           onChangeText={value => {
-            onChangeTextValue(value);
+            setTextValue(value);
             onChange?.(value);
           }}
         />
@@ -211,7 +229,7 @@ const styles = StyleSheet.create({
   },
   textInputIcon: {
     color: TextInputIconColor,
-    marginEnd: 4,
+    marginHorizontal: 8,
   },
   inputPhoneDivider: {
     width: 1,

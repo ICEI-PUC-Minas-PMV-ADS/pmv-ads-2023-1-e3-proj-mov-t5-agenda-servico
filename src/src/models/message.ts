@@ -1,9 +1,9 @@
-import {Model} from './model';
+import { Model } from './model';
 
 export class Message extends Model {
-  id?: String;
-  prestador_servico_fk?: String;
-  cliente_fk?: String;
-  corpo_mensagem?: String;
+  id?: string;
+  prestador_servico_fk?: string;
+  cliente_fk?: string;
+  corpo_mensagem?: string;
   data_criacao?: Date;
 }

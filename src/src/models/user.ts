@@ -1,18 +1,18 @@
-import {Model} from './model';
+import { Model } from './model';
 
 export class User extends Model {
-  id?: String;
-  nome?: String;
-  hash?: String;
-  imagem_perfil?: String;
-  telefone?: String;
-  email?: String;
+  id?: string;
+  nome?: string;
+  hash?: string;
+  imagem_perfil?: string;
+  telefone?: string;
+  email?: string;
   tipo?: 'cliente' | 'prestador';
   tipo_login?: 'google' | 'facebook' | 'app';
   created_at?: Date = new Date();
-  endereco_fk?: String;
-  portifolio_fk?: String;
-  nome_fantasia?: String;
-  descricao?: String;
-  cnpj?: String;
+  endereco_fk?: string;
+  portifolio_fk?: string;
+  nome_fantasia?: string;
+  descricao?: string;
+  cnpj?: string;
 }

@@ -1,9 +1,9 @@
-import {Model} from './model';
+import { Model } from './model';
 
 export class Notification extends Model {
-  id?: String;
-  titulo?: String;
-  usuario_fk?: String;
-  descricao?: String;
+  id?: string;
+  titulo?: string;
+  usuario_fk?: string;
+  descricao?: string;
   data_criacao?: Date;
 }
