@@ -48,7 +48,7 @@ export function WhereWork() {
           </TouchableWithoutFeedback>
         </View>
       </View>
-      <PrimaryButton title={'Continuar'} onPress={() => { navigation.navigate('Who', {}) }} />
+      <PrimaryButton title={'Continuar'} onPress={() => { navigation.navigate('CEP', {}) }} />
     </View>
 
   )

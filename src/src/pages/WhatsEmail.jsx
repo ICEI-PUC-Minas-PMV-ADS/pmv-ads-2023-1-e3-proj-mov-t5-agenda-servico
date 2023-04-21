@@ -1,9 +1,9 @@
 import React from "react";
 import { StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
-import { BackgroundColor, PrimaryColor, SecondaryColor, WhiteColor } from "../constants/colors";
+import { BackgroundColor, PrimaryColor, WhiteColor } from "../constants/colors";
 import { PrimaryButton } from "../components/Buttons";
 import { useNavigation } from "@react-navigation/native";
-import { TextInput } from 'react-native-paper';
+import { OtherInput } from "../components/OtherInput";
 
 export function WhatsEmail() {
 
@@ -13,16 +13,10 @@ export function WhatsEmail() {
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
-        <TextInput
+        <OtherInput
           label="Email"
           value={text}
-          theme={{ colors: { onSurfaceVariant: 'white' } }}
           onChangeText={text => setText(text)}
-          mode="outlined"
-          style={styles.input}
-          outlineColor={PrimaryColor}
-          activeOutlineColor={PrimaryColor}
-          textColor={WhiteColor}
         />
       </View>
       <View style={styles.buttonContainer}>
@@ -62,11 +56,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Manrope-Bold',
     fontSize: 14
   },
-  input: {
-    backgroundColor: SecondaryColor,
-    fontSize: 18,
 
-  },
   inputContainer: {
     padding: 16
   }

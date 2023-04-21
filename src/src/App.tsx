@@ -15,6 +15,9 @@ import { Route } from "./routes";
 import { Provider as PaperProvider } from 'react-native-paper'
 
 
+
+
+
 function App(): JSX.Element {
   return (
     <AppProvider>

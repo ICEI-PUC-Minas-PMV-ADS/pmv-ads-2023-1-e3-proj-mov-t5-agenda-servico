@@ -6,5 +6,10 @@ export type AppParamsList = {
   About: {},
   Password: {},
   Category: {},
-  WhereWork:{}
+  WhereWork: {},
+  CEP: {},
+  Address: {},
+  Opening: {},
+  Day: {},
+  Interval: {}
 };

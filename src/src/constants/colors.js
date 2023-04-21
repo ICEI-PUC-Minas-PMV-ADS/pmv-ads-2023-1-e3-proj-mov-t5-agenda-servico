@@ -17,4 +17,4 @@ export const BottomNavigationLightColor = '#999999'
 
 export const WhiteColor = '#FFFFFF';
 export const BlackColor = '#000000';
-export const LightGray = '#D3D3D3';
+export const LightGray = '#A9A9A9';
