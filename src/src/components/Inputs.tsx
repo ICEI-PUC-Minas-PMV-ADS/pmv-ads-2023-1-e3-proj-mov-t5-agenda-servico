@@ -88,6 +88,7 @@ export function InputPhoneText({
   onChange,
 }: InputPhoneTextProps) {
   const [textPhone, setTextPhone] = useState(value);
+  
   useEffect(()=>{
     if(value !== undefined)
       setTextPhone(value);
@@ -154,7 +155,13 @@ export function InputIconText({
   onChange,
   onClickIcon,
 }: InputIconTextProps) {
-  const [textValue, onChangeTextValue] = useState(value);
+  const [textValue, setTextValue] = useState(value);
+
+  useEffect(() => {
+    if (value !== null) {
+      setTextValue(value);
+    }
+  }, [value]);
 
   const CustomIconContainer = useCallback(() => {
     const CustomIcon = icon;
@@ -182,7 +189,7 @@ export function InputIconText({
           secureTextEntry={secureTextEntry}
           value={textValue}
           onChangeText={value => {
-            onChangeTextValue(value);
+            setTextValue(value);
             onChange?.(value);
           }}
         />
@@ -203,7 +210,6 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   textInputContainer: {
-    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: TextInputBackgroundColor,
@@ -223,7 +229,7 @@ const styles = StyleSheet.create({
   },
   textInputIcon: {
     color: TextInputIconColor,
-    marginEnd: 4,
+    marginHorizontal: 8,
   },
   inputPhoneDivider: {
     width: 1,

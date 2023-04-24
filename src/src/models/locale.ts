@@ -1,4 +1,4 @@
-import {Model} from './model';
+import { Model } from './model';
 
 export class Locale extends Model {
   id?: string;
