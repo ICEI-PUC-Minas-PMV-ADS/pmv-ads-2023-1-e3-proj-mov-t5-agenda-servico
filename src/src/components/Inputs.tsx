@@ -1,4 +1,4 @@
-import {useCallback, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -37,7 +37,11 @@ export function InputText({
   secureTextEntry = false,
   onChange,
 }: InputTextProps) {
-  const [textValue, onChangeTextValue] = useState(value);
+  const [textValue, setTextValue] = useState("");
+   useEffect(() =>{
+    if(value !== undefined) 
+      setTextValue(value);
+   }, [value] )
 
   return (
     <View style={styles.container}>
@@ -46,12 +50,14 @@ export function InputText({
         <TextInput
           style={styles.textInput}
           placeholder={placeholder}
+        
           placeholderTextColor={TextInputHintColor}
           underlineColorAndroid="transparent"
           secureTextEntry={secureTextEntry}
           value={textValue}
+  
           onChangeText={value => {
-            onChangeTextValue(value);
+            setTextValue(value);
             onChange?.(value);
           }}
         />
@@ -81,7 +87,11 @@ export function InputPhoneText({
   value,
   onChange,
 }: InputPhoneTextProps) {
-  const [textPhone, onChangeTextPhone] = useState(value);
+  const [textPhone, setTextPhone] = useState(value);
+  useEffect(()=>{
+    if(value !== undefined)
+      setTextPhone(value);
+  },[value])
 
   return (
     <View style={styles.container}>
@@ -100,12 +110,13 @@ export function InputPhoneText({
         <View style={styles.inputPhoneDivider} />
         <TextInput
           style={styles.textInput}
+          keyboardType= 'number-pad'
           placeholder={placeholder}
           placeholderTextColor={TextInputHintColor}
           underlineColorAndroid="transparent"
           value={textPhone}
           onChangeText={value => {
-            onChangeTextPhone(value);
+            setTextPhone(value);
             onChange?.(value);
           }}
         />

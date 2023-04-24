@@ -2,11 +2,11 @@ import {Model} from './model';
 
 export class Address extends Model {
   id?: number;
-  cep?: String;
-  logradouro?: String;
+  cep?: string;
+  logradouro?: string;
   numero?: number;
-  bairro?: String;
-  uf?: String;
-  complemento?: String;
-  observacoes?: String;
+  bairro?: string;
+  uf?: string;
+  complemento?: string;
+  observacoes?: string;
 }

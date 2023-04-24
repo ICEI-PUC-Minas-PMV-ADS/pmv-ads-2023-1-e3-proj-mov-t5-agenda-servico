@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {StyleSheet, GestureResponderEvent, Pressable, Text} from 'react-native';
+import { StyleSheet, GestureResponderEvent, Pressable, Text, Button, View } from 'react-native';
 
 import {
   BackgroundColor,
@@ -11,7 +11,7 @@ import {
   WhiteColor,
 } from '../constants/colors';
 
-import {IcGoogleSvg, IcFacebookSvg} from '../constants/icons';
+import { IcGoogleSvg, IcFacebookSvg, IcBackArrow } from '../constants/icons';
 
 /***
  * PrimaryButton props
@@ -34,17 +34,17 @@ export function PrimaryButton({
 }: PrimaryButtonProps) {
   return (
     <Pressable
-      android_ripple={{color: BackgroundColor}}
+      android_ripple={{ color: BackgroundColor }}
       style={[
         style.buttonStyle,
-        {backgroundColor: disabled ? PrimaryColorDark : PrimaryColor},
+        { backgroundColor: disabled ? PrimaryColorDark : PrimaryColor },
       ]}
       disabled={disabled}
       onPress={onPress}>
       <Text
         style={[
           style.textStyle,
-          {color: disabled ? TextInputColorDark : WhiteColor},
+          { color: disabled ? TextInputColorDark : WhiteColor },
         ]}>
         {title}
       </Text>
@@ -64,10 +64,10 @@ export interface GoogleButtonProps {
  * Google Button
  */
 
-export function GoogleButton({onPress}: GoogleButtonProps) {
+export function GoogleButton({ onPress }: GoogleButtonProps) {
   return (
     <Pressable
-      android_ripple={{color: BackgroundColor}}
+      android_ripple={{ color: BackgroundColor }}
       style={style.googleButton}
       onPress={onPress}>
       <IcGoogleSvg />
@@ -87,15 +87,37 @@ export interface FacebookButtonProps {
  * Google Button
  */
 
-export function FacebookButton({onPress}: FacebookButtonProps) {
+export function FacebookButton({ onPress }: FacebookButtonProps) {
   return (
     <Pressable
-      android_ripple={{color: BackgroundColor}}
+      android_ripple={{ color: BackgroundColor }}
       style={style.facebookButton}
       onPress={onPress}>
       <IcFacebookSvg />
     </Pressable>
   );
+}
+
+/**
+ * Return button 
+ */
+export interface ReturnButtonProps {
+  onPress?: (event: GestureResponderEvent) => void;
+
+}
+
+export function ReturnButton({ onPress }: ReturnButtonProps) {
+  return (
+    <Pressable
+      onPress={onPress}
+    >
+      <View style={style.returnButton}>
+        <IcBackArrow />
+        <Text style={style.textReturn}> Voltar</Text>
+      </View>
+    </Pressable>
+  )
+
 }
 
 /***
@@ -129,4 +151,16 @@ const style = StyleSheet.create({
     alignItems: 'center',
     padding: 10,
   },
+  returnButton : {
+    flexDirection: 'row',
+    alignItems:'center',
+
+  },
+  textReturn: {
+    color: WhiteColor,
+    fontSize: 22,
+    fontFamily: 'Manrope-SemiBold',
+
+  }
+
 });

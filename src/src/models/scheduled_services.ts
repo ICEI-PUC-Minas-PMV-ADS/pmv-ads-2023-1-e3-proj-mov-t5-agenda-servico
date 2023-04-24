@@ -1,13 +1,13 @@
 import {Model} from './model';
 
 export class ScheduledServices extends Model {
-  id?: String;
-  servico_fk?: String;
-  descricao?: String;
+  id?: string;
+  servico_fk?: string;
+  descricao?: string;
   data?: Date;
-  status?: String;
-  cliente_fk?: String;
-  local_fk?: String;
+  status?: string;
+  cliente_fk?: string;
+  local_fk?: string;
   preco?: Number;
   numero_endereco?: Number;
   avaliacao?: Boolean;
