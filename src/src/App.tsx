@@ -17,8 +17,6 @@ import { BackgroundColor } from './constants/colors';
 
 import { AppParamsList } from './ParamList';
 
-import { LoginPage } from './pages/LoginPage';
-
 import {LoginPage} from './pages/LoginPage';
 
 import {HomePage} from './pages/HomePage';
