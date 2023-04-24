@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -37,13 +37,11 @@ export function InputText({
   secureTextEntry = false,
   onChange,
 }: InputTextProps) {
-  const [textValue, setTextValue] = useState(value);
-
-  useEffect(() => {
-    if (value !== null) {
+  const [textValue, setTextValue] = useState("");
+   useEffect(() =>{
+    if(value !== undefined) 
       setTextValue(value);
-    }
-  }, [value]);
+   }, [value] )
 
   return (
     <View style={styles.container}>
@@ -52,10 +50,12 @@ export function InputText({
         <TextInput
           style={styles.textInput}
           placeholder={placeholder}
+        
           placeholderTextColor={TextInputHintColor}
           underlineColorAndroid="transparent"
           secureTextEntry={secureTextEntry}
           value={textValue}
+  
           onChangeText={value => {
             setTextValue(value);
             onChange?.(value);
@@ -88,12 +88,11 @@ export function InputPhoneText({
   onChange,
 }: InputPhoneTextProps) {
   const [textPhone, setTextPhone] = useState(value);
-
-  useEffect(() => {
-    if (value !== null) {
+  
+  useEffect(()=>{
+    if(value !== undefined)
       setTextPhone(value);
-    }
-  }, [value]);
+  },[value])
 
   return (
     <View style={styles.container}>
@@ -112,6 +111,7 @@ export function InputPhoneText({
         <View style={styles.inputPhoneDivider} />
         <TextInput
           style={styles.textInput}
+          keyboardType= 'number-pad'
           placeholder={placeholder}
           placeholderTextColor={TextInputHintColor}
           underlineColorAndroid="transparent"

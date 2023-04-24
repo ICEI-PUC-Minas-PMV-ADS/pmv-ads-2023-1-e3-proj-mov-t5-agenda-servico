@@ -19,10 +19,14 @@ import { AppParamsList } from './ParamList';
 
 import { LoginPage } from './pages/LoginPage';
 
-import { HomePage } from './pages/HomePage';
-import { ErrorConsumer, ErrorProvider } from './contexts/error_context';
-import { AppProvider } from './contexts/app_context';
-import { TestPage } from './pages/TestPage';
+import {LoginPage} from './pages/LoginPage';
+
+import {HomePage} from './pages/HomePage';
+import {ErrorConsumer, ErrorProvider} from './contexts/error_context';
+import {AppContext, AppProvider} from './contexts/app_context';
+import {TestPage} from './pages/TestPage';
+import ClientProfilePage from './pages/ClientProfilePage';
+import ProfessionalProfilePage from './pages/ProfessionalProfilePage';
 
 /***
  * Stack Navigator
@@ -48,11 +52,13 @@ function App(): JSX.Element {
 
               <View style={styles.pageContainer}>
                 <Stack.Navigator
-                  initialRouteName="Home"
-                  screenOptions={{ headerShown: false }}>
+                  initialRouteName="ProfessionalProfile"
+                  screenOptions={{headerShown: false}}>
                   <Stack.Screen name="Login" component={LoginPage} />
                   <Stack.Screen name="Home" component={HomePage} />
                   <Stack.Screen name="Test" component={TestPage} />
+                  <Stack.Screen name="ProfessionalProfile" component={ProfessionalProfilePage} />
+                  <Stack.Screen name="ClientProfile" component={ClientProfilePage} />
                 </Stack.Navigator>
               </View>
             </SafeAreaView>
