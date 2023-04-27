@@ -1,6 +1,6 @@
-import {database} from '../FirebaseApp';
-import {ref, push, get as fget, set, remove} from 'firebase/database';
-import {Model} from '../models/model';
+import { database } from '../FirebaseApp';
+import { ref, push, get as fget, set, remove } from 'firebase/database';
+import { Model } from '../models/model';
 
 export abstract class Repository<TModel extends Model> {
   protected table: string | undefined = undefined;
@@ -10,14 +10,12 @@ export abstract class Repository<TModel extends Model> {
   }
 
   create(model: TModel, callback?: (model: TModel | undefined) => void): void {
-    const normalizedModel = this.serialize(model);
-    delete normalizedModel.id;
-
+    const { id, ...normalizedModel } = this.serialize(model);
     push(
       ref(database, this.table),
       JSON.parse(JSON.stringify(normalizedModel)),
     ).then(data => {
-      callback?.(this.deserialize({...model, id: data.key}));
+      callback?.(this.deserialize({ ...model, id: data.key }));
     });
   }
 
@@ -28,7 +26,7 @@ export abstract class Repository<TModel extends Model> {
         const models: TModel[] = [];
         for (let modelKey in data) {
           models.push(
-            this.deserialize({...data[modelKey as keyof object], id: modelKey}),
+            this.deserialize({ ...data[modelKey as keyof object], id: modelKey }),
           );
         }
         callback?.(models);
@@ -42,7 +40,7 @@ export abstract class Repository<TModel extends Model> {
     fget(ref(database, `${this.table}/${id}`)).then(snapshot => {
       const data = snapshot.val();
       if (data !== null && data instanceof Object) {
-        callback?.(this.deserialize({...data, id: id}));
+        callback?.(this.deserialize({ ...data, id: id }));
       } else {
         callback?.(undefined);
       }
@@ -50,13 +48,10 @@ export abstract class Repository<TModel extends Model> {
   }
 
   update(model: TModel, callback?: (model: TModel | undefined) => void): void {
-    const normalizedModel = this.serialize(model);
-    const modelKey = normalizedModel.id;
-
+    const { id: modelKey, ...normalizedModel } = this.serialize(model);
     fget(ref(database, `${this.table}/${modelKey}`)).then(snapshot => {
       const data = snapshot.val();
       if (data !== null && data instanceof Object) {
-        delete normalizedModel.id;
         set(
           ref(database, `${this.table}/${modelKey}`),
           JSON.parse(JSON.stringify(normalizedModel)),
@@ -70,9 +65,7 @@ export abstract class Repository<TModel extends Model> {
   }
 
   delete(model: TModel, callback?: (success: boolean) => void): void {
-    const normalizedModel = this.serialize(model);
-    const modelKey = normalizedModel.id;
-
+    const { id: modelKey } = this.serialize(model);
     fget(ref(database, `${this.table}/${modelKey}`)).then(snapshot => {
       const data = snapshot.val();
       if (data !== null && data instanceof Object) {
