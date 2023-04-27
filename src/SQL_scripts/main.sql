@@ -110,7 +110,7 @@ CREATE TABLE Addresses(
 -- CONFIGURA RELACIONAMENTOS.
 --
 
-ALTER TABLE Users ADD CONSTRAINT Users_enderecos_fk FOREIGN KEY(enderecos_fk) REFERENCES Addresses(id);
+ALTER TABLE Users ADD CONSTRAINT Users_endereco_fk FOREIGN KEY(endereco_fk) REFERENCES Addresses(id);
 ALTER TABLE Users ADD CONSTRAINT Users_portifolio_fk FOREIGN KEY(portifolio_fk) REFERENCES Portifolios(id);
 
 ALTER TABLE Services ADD CONSTRAINT Services_prestador_servico_fk FOREIGN KEY(prestador_servico_fk) REFERENCES Users(id);
@@ -123,9 +123,9 @@ ALTER TABLE Qualifications ADD CONSTRAINT Qualifications_profissional_fk FOREIGN
 
 ALTER TABLE Portifolios ADD CONSTRAINT Portifolios_profissional_fk FOREIGN KEY(profissional_fk) REFERENCES Users(id);
 
-ALTER TABLE Photos ADD CONSTRAINT Photos_portifolio_fk FOREIGN KEY REFERENCES(portifolio_fk) Portifolios(id);
+ALTER TABLE Photos ADD CONSTRAINT Photos_portifolio_fk FOREIGN KEY(portifolio_fk) REFERENCES Portifolios(id);
 
-ALTER TABLE Notifications ADD CONSTRAINT Notifications_usuario_fk FOREIGN KEY REFERENCES(usuario_fk) Users(id);
+ALTER TABLE Notifications ADD CONSTRAINT Notifications_usuario_fk FOREIGN KEY(usuario_fk) REFERENCES Users(id);
 
-ALTER TABLE Messages ADD CONSTRAINT Messages_prestador_servico_fk FOREIGN KEY(servico_fk) REFERENCES Users(id);
+ALTER TABLE Messages ADD CONSTRAINT Messages_prestador_servico_fk FOREIGN KEY(prestador_servico_fk) REFERENCES Users(id);
 ALTER TABLE Messages ADD CONSTRAINT Messages_cliente_fk FOREIGN KEY(cliente_fk) REFERENCES Users(id);
