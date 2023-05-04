@@ -4,6 +4,8 @@ import { InputIconText, InputPhoneText, InputText } from '../components/Inputs';
 import { BackgroundColor } from '../constants/colors';
 import { FacebookButton, GoogleButton, PrimaryButton } from '../components/Buttons';
 import { IcCategorySearch, IcEyeSvg } from '../constants/icons';
+import { AddressRepository } from '../repositories/address_repository';
+import { Address } from '../models/address';
 
 export function TestPage() {
   return (

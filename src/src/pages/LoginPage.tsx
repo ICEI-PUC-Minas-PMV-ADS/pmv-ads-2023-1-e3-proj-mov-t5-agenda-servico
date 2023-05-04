@@ -1,4 +1,18 @@
-import React, { useState } from 'react';
+import React, { useReducer } from 'react';
+
+import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
+import { AppParamsList } from '../ParamList';
+import { UserRepository } from '../repositories/user_repository';
+import { User } from '../models/user';
+import { useErrorContext, ErrorState } from '../contexts/error_context';
+import { KEY_USERDATA, USER_CLIENT } from '../constants/app';
+import { useAppContext } from '../contexts/app_context';
+import { LoginAction, LoginInitialState, LoginReducer, LoginState } from '../reducers/login_reducer';
+import { hash } from '../utils/crypto';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { InputIconText, InputText } from '../components/Inputs';
+import { IcEyeOffSvg, IcEyeSvg } from '../constants/icons';
+
 import {
   ScrollView,
   StyleSheet,
@@ -6,6 +20,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
+
 import {
   BackgroundColor,
   BlackColor,
@@ -13,31 +28,54 @@ import {
   TextInputHintColor,
   WhiteColor,
 } from '../constants/colors';
-import { InputIconText, InputText } from '../components/Inputs';
-import { IcEyeOffSvg, IcEyeSvg } from '../constants/icons';
+
 import {
   FacebookButton,
   GoogleButton,
   PrimaryButton,
 } from '../components/Buttons';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
+
 import {
   Settings,
   AccessToken,
   LoginManager,
   Profile,
 } from 'react-native-fbsdk-next';
-import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
-import { AppParamsList } from '../ParamList';
-import { UserRepository } from '../repositories/user_repository';
-import { User } from '../models/user';
-import { useErrorContext, ErrorState } from '../contexts/error_context';
-import { KEY_USERDATA, USER_CLIENT } from '../constants/app';
-import { hash } from '../utils/crypto';
-import { useAppContext } from '../contexts/app_context';
 
 import CheckBox from '@react-native-community/checkbox';
 import EncryptedStorage from 'react-native-encrypted-storage';
+
+/***
+ * login
+ */
+
+const login = async (
+  navigation: NativeStackNavigationProp<AppParamsList, "Login", undefined>,
+  errorContext: ErrorState,
+  state: LoginState,
+  dispatch: React.Dispatch<LoginAction>
+) => {
+  dispatch({ type: 'set_is_checking_auth', payload: true });
+
+  const userRepo = new UserRepository();
+  userRepo.findUserByEmail(state.email, user => {
+    if (user && user.tipo_login === 'app') {
+      if (user.hash === hash(state.password)) {
+        EncryptedStorage.setItem(
+          KEY_USERDATA,
+          JSON.stringify(user),
+        ).then(() => {
+          navigation.replace('Home', {});
+        });
+      } else {
+        errorContext.dispatchError('Usuário e/ou senha invalido!');
+      }
+    } else {
+      errorContext.dispatchError('Usuário e/ou senha invalido!');
+    }
+    dispatch({ type: 'set_is_checking_auth', payload: false });
+  });
+};
 
 /***
  * googleLogin
@@ -153,12 +191,7 @@ const faceBookLogin = async (
 export function LoginPage({
   navigation,
 }: NativeStackScreenProps<AppParamsList, 'Login'>) {
-  const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState<string>('');
-  const [remember, setRemember] = useState(false);
-  const [isCheckingAuth, setIsCheckingAuth] = useState(false);
-  const [isCheckingUserData, setIsCheckingUserData] = useState(true);
+  const [state, dispatch] = useReducer(LoginReducer, LoginInitialState);
 
   const errorContext = useErrorContext();
   const appContext = useAppContext();
@@ -169,12 +202,12 @@ export function LoginPage({
         appContext.setUser(JSON.parse(value));
         navigation.replace('Home', {});
       } else {
-        setIsCheckingUserData(false);
+        dispatch({ type: 'set_is_checking_user_data', payload: false });
       }
     });
-  }, [appContext, navigation]);
+  }, [appContext, navigation, dispatch]);
 
-  return isCheckingUserData ? (
+  return state.isCheckingUserData ? (
     <View style={styles.container} />
   ) : (
     <View style={styles.container}>
@@ -191,17 +224,17 @@ export function LoginPage({
         <InputText
           label="Email"
           placeholder="email"
-          onChange={value => setEmail(value)}
+          onChange={value => dispatch({ type: 'set_email', payload: value })}
         />
 
         <InputIconText
           label="Senha"
           placeholder="senha"
-          secureTextEntry={!showPassword}
-          icon={showPassword ? IcEyeOffSvg : IcEyeSvg}
+          secureTextEntry={!state.showPassword}
+          icon={state.showPassword ? IcEyeOffSvg : IcEyeSvg}
           iconLocation="end"
-          onClickIcon={() => setShowPassword(!showPassword)}
-          onChange={value => setPassword(value)}
+          onClickIcon={() => dispatch({ type: 'set_show_password', payload: !state.showPassword })}
+          onChange={value => dispatch({ type: 'set_password', payload: value })}
         />
 
         <View
@@ -209,8 +242,8 @@ export function LoginPage({
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <CheckBox
               tintColors={{ true: WhiteColor }}
-              value={remember}
-              onChange={() => setRemember(!remember)}
+              value={state.remember}
+              onChange={() => dispatch({ type: 'set_remember', payload: !state.remember })}
             />
             <Text style={styles.whiteText}>Relembrar</Text>
           </View>
@@ -221,31 +254,9 @@ export function LoginPage({
         </View>
 
         <PrimaryButton
-          title={isCheckingAuth ? 'Aguarde' : 'Login'}
-          disabled={isCheckingAuth}
-          onPress={() => {
-            setIsCheckingAuth(true);
-
-            const userRepo = new UserRepository();
-            userRepo.findUserByEmail(email, user => {
-              if (user && user.tipo_login === 'app') {
-                const passwordHash = hash(password);
-                if (user.hash === passwordHash) {
-                  EncryptedStorage.setItem(
-                    KEY_USERDATA,
-                    JSON.stringify(user),
-                  ).then(() => {
-                    navigation.replace('Home', {});
-                  });
-                } else {
-                  errorContext.dispatchError('Usuário e/ou senha invalido!');
-                }
-              } else {
-                errorContext.dispatchError('Usuário e/ou senha invalido!');
-              }
-              setIsCheckingAuth(false);
-            });
-          }}
+          title={state.isCheckingAuth ? 'Aguarde' : 'Login'}
+          disabled={state.isCheckingAuth}
+          onPress={() => { login(navigation, errorContext, state, dispatch) }}
         />
 
         <View style={{ flexDirection: 'row', alignItems: 'center', margin: 10 }}>

@@ -17,12 +17,12 @@ import { BackgroundColor } from './constants/colors';
 
 import { AppParamsList } from './ParamList';
 
-import {LoginPage} from './pages/LoginPage';
+import { LoginPage } from './pages/LoginPage';
 
-import {HomePage} from './pages/HomePage';
-import {ErrorConsumer, ErrorProvider} from './contexts/error_context';
-import {AppContext, AppProvider} from './contexts/app_context';
-import {TestPage} from './pages/TestPage';
+import { HomePage } from './pages/HomePage';
+import { ErrorConsumer, ErrorProvider } from './contexts/error_context';
+import { AppContext, AppProvider } from './contexts/app_context';
+import { TestPage } from './pages/TestPage';
 import ClientProfilePage from './pages/ClientProfilePage';
 import ProfessionalProfilePage from './pages/ProfessionalProfilePage';
 
@@ -50,8 +50,8 @@ function App(): JSX.Element {
 
               <View style={styles.pageContainer}>
                 <Stack.Navigator
-                  initialRouteName="ProfessionalProfile"
-                  screenOptions={{headerShown: false}}>
+                  initialRouteName="Login"
+                  screenOptions={{ headerShown: false }}>
                   <Stack.Screen name="Login" component={LoginPage} />
                   <Stack.Screen name="Home" component={HomePage} />
                   <Stack.Screen name="Test" component={TestPage} />
