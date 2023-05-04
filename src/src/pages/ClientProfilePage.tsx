@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { InputPhoneText, InputText } from "../components/Inputs";
 import { BackgroundColor, WhiteColor } from "../constants/colors";
@@ -8,29 +8,34 @@ import { Text } from "react-native";
 import { ProfileImage } from "../components/ProfileImage";
 import { useAppContext } from "../contexts/app_context";
 import { useErrorContext } from "../contexts/error_context";
+import { NativeStackScreenProps } from "@react-navigation/native-stack/lib/typescript/src/types";
+import { AppParamsList } from "../ParamList";
 
 export interface ClientProfilePageProps {
     userTeste: () => void;
 }
 
-export default function ClientProfilePage() {
+export default function ClientProfilePage({navigation}: NativeStackScreenProps<AppParamsList, 'ClientProfile'>) {
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
     const [email, setEmail] = useState('');
 
     const userRep = new UserRepository();
     const userContext = useAppContext();
+
+    if(userContext.user === undefined){
+        navigation.navigate({name:'Login', params:{}})
+    }
+
+    useEffect( () => {
+        setName(userContext.user?.nome ?? "")
+        setPhone(userContext.user?.telefone ?? "");
+        setEmail(userContext.user?.email ?? "");;
+    },[ ])
     
-    React.useEffect(() => {
-        userRep.get("-NTOtU12PdVi56X8lTxw", (user) => {
-            if (user !== undefined) {
-                userContext.setUser(user)
-            }
-        })
-    }, [])
 
     const changeInfoAccount = React.useCallback (( ) => {
-        var newUser = {...userContext.user};
+        let newUser = {...userContext.user};
         if (newUser !== undefined) {
             newUser.nome = name;
             newUser.telefone = phone;
@@ -48,7 +53,7 @@ export default function ClientProfilePage() {
         <View style={styles.body}>
             <ScrollView>
                 <ReturnButton 
-                    onPress={ () => {  }}
+                    onPress={ () => { navigation.pop() }}
                 />
                 <Text style={styles.title}> Perfil </Text>
                 <ProfileImage
@@ -73,6 +78,7 @@ export default function ClientProfilePage() {
                     placeholder="Entre com o e-mail exemplo@gmail.com"
                     label="E-mail"
                     value={userContext.user?.email}
+                    readonly
                     onChange={value => setEmail(value)}
                 />
 

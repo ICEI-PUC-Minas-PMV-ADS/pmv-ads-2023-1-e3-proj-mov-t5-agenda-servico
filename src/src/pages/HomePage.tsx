@@ -39,7 +39,7 @@ export function HomePage({
       : <View>
         <TouchableWithoutFeedback
           onPress={() => {
-            navigation.navigate({ name: 'Login', params: {} });
+            navigation.navigate({ name: 'ClientProfile', params: {} });
           }}>
           <Text>Click me!</Text>
         </TouchableWithoutFeedback>

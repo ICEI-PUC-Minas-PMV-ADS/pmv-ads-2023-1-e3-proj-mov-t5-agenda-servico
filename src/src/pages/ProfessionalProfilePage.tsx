@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { InputPhoneText, InputText } from "../components/Inputs";
 import { BackgroundColor, WhiteColor } from "../constants/colors";
@@ -8,30 +8,36 @@ import { Text } from "react-native";
 import { ProfileImage } from "../components/ProfileImage";
 import { useAppContext } from "../contexts/app_context";
 import { useErrorContext } from "../contexts/error_context";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { AppParamsList } from "../ParamList";
 
 export interface ProfessionalProfilePageProps {
     userTeste: () => void;
 }
 
-export default function ProfessionalProfilePage() {
+export default function ProfessionalProfilePage({navigation,
+}: NativeStackScreenProps<AppParamsList, 'ProfessionalProfile'>) {
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
     const [email, setEmail] = useState('');
-    const [descricao, setDescrição] = useState('');
+    const [descricao, setDescricao] = useState('');
 
     const userRep = new UserRepository();
     const userContext = useAppContext();
 
-    React.useEffect(() => {
-        userRep.get("-NTOtU12PdVi56X8lTxw", (user) => {
-            if (user !== undefined) {
-                userContext.setUser(user)
-            }
-        })
-    }, [])
+    if(userContext.user === undefined){
+        navigation.navigate({name:'Login', params:{}})
+    }
+
+    useEffect( () => {
+        setName(userContext.user?.nome ?? "")
+        setPhone(userContext.user?.telefone ?? "");
+        setEmail(userContext.user?.email ?? "");
+        setDescricao(userContext.user?.descricao ?? "");
+    },[ ])
 
     const changeInfoAccount = React.useCallback(() => {
-        var newUser = { ...userContext.user };
+        let newUser = { ...userContext.user };
         if (newUser !== undefined) {
             newUser.nome = name;
             newUser.telefone = phone;
@@ -50,7 +56,7 @@ export default function ProfessionalProfilePage() {
         <View style={styles.body}>
             <ScrollView>
                 <ReturnButton
-                    onPress={() => { }}
+                    onPress={() => {navigation.pop() }}
                 />
                 <Text style={styles.title}> Perfil Empresarial </Text>
                 <ProfileImage
@@ -75,7 +81,9 @@ export default function ProfessionalProfilePage() {
                     placeholder="Entre com o e-mail empresarial"
                     label="E-mail empresarial"
                     value={userContext.user?.email}
+                    readonly
                     onChange={value => setEmail(value)}
+                    
                 />
 
              
@@ -83,12 +91,12 @@ export default function ProfessionalProfilePage() {
                     placeholder="Entre com a descrição Geral"
                     label="Descrição Geral: "
                     value={userContext.user?.descricao}
-                    onChange={value => setDescrição(value)}
+                    onChange={value => setDescricao(value)}
                 />
 
                 <PrimaryButton
                     title="Salvar Informações"
-                    onPress={() => changeInfoAccount()}
+                    onPress={ () => changeInfoAccount()}
                 />
 
             </ScrollView>

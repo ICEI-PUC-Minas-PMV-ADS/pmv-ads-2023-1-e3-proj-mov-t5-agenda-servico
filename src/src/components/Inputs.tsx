@@ -22,6 +22,7 @@ interface InputTextProps {
   placeholder?: string;
   label?: string;
   value?: string;
+  readonly?: boolean;
   secureTextEntry?: boolean;
   onChange?: (value: string) => void;
 }
@@ -34,6 +35,7 @@ export function InputText({
   placeholder,
   label,
   value,
+  readonly = false,
   secureTextEntry = false,
   onChange,
 }: InputTextProps) {
@@ -50,7 +52,7 @@ export function InputText({
         <TextInput
           style={styles.textInput}
           placeholder={placeholder}
-        
+          editable={!readonly}
           placeholderTextColor={TextInputHintColor}
           underlineColorAndroid="transparent"
           secureTextEntry={secureTextEntry}
