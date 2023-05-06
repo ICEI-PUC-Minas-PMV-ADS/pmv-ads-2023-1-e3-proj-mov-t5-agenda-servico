@@ -2,7 +2,7 @@ import React from 'react';
 import EncryptedStorage from 'react-native-encrypted-storage';
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { View, Text, StyleSheet, TouchableWithoutFeedback, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableWithoutFeedback, Image, ActivityIndicator, ScrollView } from 'react-native';
 import { AppParamsList } from '../ParamList';
 import { KEY_USERDATA } from '../constants/app';
 import { useAppContext } from '../contexts/app_context';
@@ -10,6 +10,9 @@ import { BackgroundColor, WhiteColor } from '../constants/colors';
 import { PrimaryColor } from '../constants/colors';
 import { InputIconText } from '../components/Inputs';
 import { IcCategorySearch } from '../constants/icons';
+import { ScheduledServices } from '../models/scheduled_services';
+import { ScheduledServiceList } from '../components/ScheduledServiceList';
+import { ScheduledServicesRepository } from '../repositories/scheduled_services';
 
 /***
  * HomePage
@@ -19,10 +22,11 @@ export function HomePage({
   navigation,
 }: NativeStackScreenProps<AppParamsList, 'Home'>) {
   const [selectedTab, setSelectedTab] = React.useState(0);
-  const [loadState, setLoadState] = React.useState(false);
+  const [loadingUserData, setLoadingUserData] = React.useState(true);
   const appContext = useAppContext();
 
   React.useLayoutEffect(() => {
+    console.log('Checking user data');
     if (!appContext?.user) {
       EncryptedStorage.getItem(KEY_USERDATA).then(userData => {
         if (userData) {
@@ -30,14 +34,19 @@ export function HomePage({
         } else {
           navigation?.replace('Login', {});
         }
-        setLoadState(true);
+        setLoadingUserData(false);
       });
     } else {
-      setLoadState(true);
+      setLoadingUserData(false);
+      console.log('user data checked');
     }
   }, []);
 
-  return (!loadState ? <></> : <HomePageContent selectedTab={selectedTab} setSelectedTab={(tab) => setSelectedTab(tab)} />);
+  return (
+    loadingUserData
+      ? <View style={style.loadingContainer}><ActivityIndicator /></View>
+      : <HomePageContent selectedTab={selectedTab} setSelectedTab={(tab) => setSelectedTab(tab)} />
+  );
 }
 
 /***
@@ -54,8 +63,22 @@ type HomePageContentProps = {
  */
 
 function HomePageContent({ selectedTab, setSelectedTab }: HomePageContentProps) {
+  const [data, setData] = React.useState<ScheduledServices[]>([]);
+  const [loading, setLoading] = React.useState(true);
+  const appContext = useAppContext();
+
+  React.useEffect(() => {
+    if (appContext?.user) {
+      const scheduledServicesRepo = new ScheduledServicesRepository();
+      scheduledServicesRepo.filterScheduledServicesByUser(appContext.user, (scheduledServices) => {
+        setData(scheduledServices);
+        setLoading(false);
+      });
+    }
+  }, [setData, setLoading, appContext]);
+
   return (
-    <View style={style.container}>
+    <ScrollView style={style.container}>
       <Text style={style.title}>Agendamentos</Text>
 
       {/* TAB */}
@@ -81,9 +104,14 @@ function HomePageContent({ selectedTab, setSelectedTab }: HomePageContentProps) 
       {/* Content */}
 
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Image source={require('../../assets/images/Empty.png')} />
+        {loading
+          ? <View style={style.loadingContainer}><ActivityIndicator /></View>
+          : (data.length > 0
+            ? <ScheduledServiceList data={data} />
+            : <Image source={require('../../assets/images/Empty.png')} />)
+        }
       </View>
-    </View>
+    </ScrollView>
   );
 }
 

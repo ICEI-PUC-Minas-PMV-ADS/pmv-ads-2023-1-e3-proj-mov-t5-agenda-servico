@@ -1,7 +1,7 @@
 import { Model } from './model';
 
 export class Address extends Model {
-  id?: number;
+  id?: string;
   cep?: string;
   logradouro?: string;
   numero?: number;

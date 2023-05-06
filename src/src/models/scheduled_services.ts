@@ -1,4 +1,5 @@
 import { Model } from './model';
+import { Service } from './service';
 
 export class ScheduledServices extends Model {
   id?: string;
