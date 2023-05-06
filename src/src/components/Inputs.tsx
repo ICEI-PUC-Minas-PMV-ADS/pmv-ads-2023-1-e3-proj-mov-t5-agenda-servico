@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -24,6 +24,7 @@ interface InputTextProps {
   value?: string;
   readonly?: boolean;
   secureTextEntry?: boolean;
+  margin?: number;
   onChange?: (value: string) => void;
 }
 
@@ -37,16 +38,17 @@ export function InputText({
   value,
   readonly = false,
   secureTextEntry = false,
+  margin = 12,
   onChange,
 }: InputTextProps) {
   const [textValue, setTextValue] = useState("");
-   useEffect(() =>{
-    if(value !== undefined) 
+  useEffect(() => {
+    if (value !== undefined)
       setTextValue(value);
-   }, [value] )
+  }, [value])
 
   return (
-    <View style={styles.container}>
+    <View style={{ margin: margin }}>
       {label !== undefined && <Text style={styles.textLabel}>{label}</Text>}
       <View style={styles.textInputContainer}>
         <TextInput
@@ -57,7 +59,7 @@ export function InputText({
           underlineColorAndroid="transparent"
           secureTextEntry={secureTextEntry}
           value={textValue}
-  
+
           onChangeText={value => {
             setTextValue(value);
             onChange?.(value);
@@ -90,11 +92,11 @@ export function InputPhoneText({
   onChange,
 }: InputPhoneTextProps) {
   const [textPhone, setTextPhone] = useState(value);
-  
-  useEffect(()=>{
-    if(value !== undefined)
+
+  useEffect(() => {
+    if (value !== undefined)
       setTextPhone(value);
-  },[value])
+  }, [value])
 
   return (
     <View style={styles.container}>
@@ -113,7 +115,7 @@ export function InputPhoneText({
         <View style={styles.inputPhoneDivider} />
         <TextInput
           style={styles.textInput}
-          keyboardType= 'number-pad'
+          keyboardType='number-pad'
           placeholder={placeholder}
           placeholderTextColor={TextInputHintColor}
           underlineColorAndroid="transparent"
@@ -139,6 +141,7 @@ interface InputIconTextProps {
   iconLocation?: 'start' | 'end';
   icon: React.FunctionComponent<React.SVGAttributes<SVGElement>>;
   secureTextEntry?: boolean;
+  margin?: number;
   onChange?: (value: string) => void;
   onClickIcon?: () => void;
 }
@@ -154,6 +157,7 @@ export function InputIconText({
   icon,
   iconLocation = 'start',
   secureTextEntry = false,
+  margin = 12,
   onChange,
   onClickIcon,
 }: InputIconTextProps) {
@@ -175,7 +179,7 @@ export function InputIconText({
   }, [icon]);
 
   return (
-    <View style={styles.container}>
+    <View style={{ margin: margin }}>
       {label !== undefined ? (
         <Text style={styles.textLabel}>{label}</Text>
       ) : (
