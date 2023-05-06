@@ -2,12 +2,13 @@ import React from "react";
 import { StyleSheet, View, Text, TouchableWithoutFeedback } from "react-native";
 import { BackgroundColor, PrimaryColor, WhiteColor, LightGray } from "../constants/colors";
 import { useNavigation } from "@react-navigation/native";
-import { Checkbox } from 'react-native-paper';
+import { Checkbox, HelperText } from 'react-native-paper';
 import { PrimaryButton } from "../components/Buttons";
 
 export function WhereWork() {
-  const [establishment, setEstablishment] = React.useState(false);
+  const [establishment, setEstablishment] = React.useState(true);
   const [home, setHome] = React.useState(false);
+  const atLeastOneVerified = establishment || home
   const navigation = useNavigation();
 
   return (
@@ -48,7 +49,17 @@ export function WhereWork() {
           </TouchableWithoutFeedback>
         </View>
       </View>
-      <PrimaryButton title={'Continuar'} onPress={() => { navigation.navigate('CEP', {}) }} />
+      <View>
+        <View style={{ alignItems: 'center' }}>
+          <HelperText type="error" visible={!atLeastOneVerified}>
+            Por favor, escolha pelo menos uma das opções acima
+          </HelperText>
+        </View>
+        <PrimaryButton title={'Continuar'} onPress={() => {
+          if (atLeastOneVerified)
+            navigation.navigate('CEP', {})
+        }} />
+      </View>
     </View>
 
   )
@@ -88,5 +99,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     paddingLeft: 45
   }
+
 
 })

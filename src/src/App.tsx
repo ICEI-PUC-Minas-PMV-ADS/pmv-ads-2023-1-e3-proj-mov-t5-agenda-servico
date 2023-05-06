@@ -12,7 +12,6 @@ import { BackgroundColor } from './constants/colors';
 import { ErrorConsumer, ErrorProvider } from './contexts/error_context';
 import { AppContext, AppProvider } from './contexts/app_context';
 import { Route } from "./routes";
-import { Provider as PaperProvider } from 'react-native-paper'
 
 
 
@@ -23,26 +22,24 @@ function App(): JSX.Element {
     <AppProvider>
       <FirebaseProvider>
         <ErrorProvider>
-          <PaperProvider>
-            <View style={styles.rootContainer}>
-              <SafeAreaView style={styles.safeContainer}>
-                <StatusBar
-                  barStyle={'light-content'}
-                  backgroundColor={BackgroundColor}
-                />
-                <View style={styles.pageContainer}>
-                  <Route />
+          <View style={styles.rootContainer}>
+            <SafeAreaView style={styles.safeContainer}>
+              <StatusBar
+                barStyle={'light-content'}
+                backgroundColor={BackgroundColor}
+              />
+              <View style={styles.pageContainer}>
+                <Route />
+              </View>
+            </SafeAreaView>
+            <ErrorConsumer>
+              {context => <Animated.View style={[styles.errorContainer, { display: context.errorMessage ? 'flex' : 'none', opacity: context.containerAnim }]}>
+                <View style={styles.errorPanel}>
+                  <Text style={styles.errorMessage}>{context.errorMessage}</Text>
                 </View>
-              </SafeAreaView>
-              <ErrorConsumer>
-                {context => <Animated.View style={[styles.errorContainer, { display: context.errorMessage ? 'flex' : 'none', opacity: context.containerAnim }]}>
-                  <View style={styles.errorPanel}>
-                    <Text style={styles.errorMessage}>{context.errorMessage}</Text>
-                  </View>
-                </Animated.View>}
-              </ErrorConsumer>
-            </View>
-          </PaperProvider>
+              </Animated.View>}
+            </ErrorConsumer>
+          </View>
         </ErrorProvider>
       </FirebaseProvider>
     </AppProvider>

@@ -7,14 +7,13 @@ import { FacebookButton, GoogleButton, PrimaryButton } from "../components/Butto
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { Settings, AccessToken, LoginManager, Profile } from 'react-native-fbsdk-next';
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { AppParamsList } from "../@types/ParamList";
+import { AppParamsList } from "../routes/ParamList";
 import { UserRepository } from "../repositories/user_repository";
 import { User } from '../models/user';
 import { useErrorContext } from "../contexts/error_context";
 import { KEY_USERDATA, USER_CLIENT } from "../constants/app";
 import { hash } from "../utils/crypto";
 import { useAppContext } from "../contexts/app_context";
-
 import CheckBox from "@react-native-community/checkbox";
 import EncryptedStorage from "react-native-encrypted-storage";
 
@@ -203,7 +202,7 @@ export function LoginPage({ navigation }: NativeStackScreenProps<AppParamsList, 
             <Text style={[styles.touchableText, { textAlign: 'center' }]}>Entrar como empresa!</Text>
           </TouchableWithoutFeedback>
 
-          <TouchableWithoutFeedback onPress={() => { navigation.navigate('Email', {}) }}>
+          <TouchableWithoutFeedback onPress={() => { navigation.navigate('RegisterRoute', {}) }}>
             <View style={{ flexDirection: 'row', justifyContent: 'center', margin: 48 }}>
               <Text style={styles.whiteText}>Não tem uma conta?</Text>
               <Text style={[styles.touchableText, { marginHorizontal: 4 }]}>Sign Up</Text>

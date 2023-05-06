@@ -4,23 +4,42 @@ import { BackgroundColor, PrimaryColor, WhiteColor } from "../constants/colors";
 import { PrimaryButton } from "../components/Buttons";
 import { useNavigation } from "@react-navigation/native";
 import { OtherInput } from "../components/OtherInput";
+import { HelperText } from 'react-native-paper';
 
 export function WhatsEmail() {
 
   const navigation = useNavigation();
-  const [text, setText] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [isValid, setIsValid] = React.useState(true);
+
+  //Valida o email
+  function handleEmailChange(email) {
+    const emailRegex = /^\S+@\S+\.\S+$/;
+    setEmail(email);
+    setIsValid(emailRegex.test(email));
+  }
 
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
         <OtherInput
           label="Email"
-          value={text}
-          onChangeText={text => setText(text)}
+          value={email}
+          onChangeText={handleEmailChange}
+          error={!isValid}
+          autoCapitalize="none"
+          autoCompleteType="email"
+          keyboardType="email-address"
         />
+        <HelperText type="error" visible={!isValid}>
+          Por favor, digite um email valido
+        </HelperText>
       </View>
       <View style={styles.buttonContainer}>
-        <PrimaryButton title={'Confirmar'} onPress={() => { navigation.navigate('Who', {}) }} />
+        <PrimaryButton title={'Confirmar'} onPress={() => {
+          if (isValid)
+            navigation.navigate('Who', {})
+        }} />
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
           <Text style={styles.whiteText}>Ao inscrever-se você concorda com nossos</Text>
           <TouchableWithoutFeedback onPress={() => { }}>
@@ -39,7 +58,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: BackgroundColor,
     justifyContent: "space-between",
-    paddingTop: 30
 
   },
   buttonContainer: {

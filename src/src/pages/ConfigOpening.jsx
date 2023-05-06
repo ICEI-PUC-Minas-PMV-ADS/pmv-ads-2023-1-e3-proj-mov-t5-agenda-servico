@@ -1,15 +1,44 @@
-import React, { useState } from "react"
-import { StyleSheet, Text, View, FlatList } from "react-native";
+import React from "react"
+import { StyleSheet, Text, View, FlatList, TouchableOpacity } from "react-native";
 import { List } from 'react-native-paper';
 import { BackgroundColor, WhiteColor, LightGray } from "../constants/colors";
 import { PrimaryButton } from "../components/Buttons";
 import Icon from 'react-native-vector-icons/FontAwesome';
-import dataOpening from "../example/openingHours";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute, useIsFocused } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage"
+import openingHours from "../example/openingHours";
+
+
 
 export function Opening() {
+  const route = useRoute();
   const arrowIcon = <Icon name="chevron-right" size={15} color={LightGray} />;
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
+  const HoursOpening = JSON.stringify(openingHours)
+  //criação ou recuperação dos dados 
+  const [dataOpening, setDataOpening] = React.useState('')
+
+  const getData = () => {
+    AsyncStorage.getItem('opening').then(value => {
+      if (value !== null) {
+        setDataOpening(JSON.parse(value))
+      }
+      else {
+        AsyncStorage.setItem('opening', HoursOpening).then(
+          AsyncStorage.getItem('opening').then(
+            value => setDataOpening(JSON.parse(value))
+          )
+
+        )
+      }
+    })
+  }
+
+  React.useEffect(() => {
+    getData()
+  }, [isFocused])
+
 
   const Item = ({ title, opening, closure, open }) => {
     const renderTime = () => {
@@ -26,6 +55,8 @@ export function Opening() {
       }
     }
 
+
+
     return (
       <View style={styles.listItem}>
         <List.Item
@@ -41,18 +72,17 @@ export function Opening() {
 
           </View>
           }
-          onPress={() => { navigation.navigate('Day', {}) }}
           right={() => arrowIcon}
-          description={() => {
-
-          }
-          }
         />
       </View>
     )
   }
 
-    ;
+  const navigateToDay = (item, index) => {
+    navigation.navigate('Day', { dayIndex: index });
+  }
+
+
 
   return (
     <View style={styles.container}>
@@ -64,14 +94,20 @@ export function Opening() {
 
           <FlatList
             data={dataOpening}
-            renderItem={({ item }) => <Item title={item.day} opening={item.opening} closure={item.closure} open={item.open} />}
-            keyExtractor={item => item.id}
+
+            renderItem={({ item, index }) =>
+              <TouchableOpacity onPress={() => navigateToDay(item,index)}>
+                <Item title={item.day} opening={item.opening} closure={item.closure} open={item.open} />
+              </TouchableOpacity>
+            }
+
+
           />
 
         </View>
       </View>
       <View style={styles.buttonContainer}>
-        <PrimaryButton title={'Continuar'} onPress={() => { navigation.navigate('Address', {}) }} />
+        <PrimaryButton title={'Continuar'} onPress={() => { navigation.navigate('Services', {}) }} />
       </View>
     </View>
 

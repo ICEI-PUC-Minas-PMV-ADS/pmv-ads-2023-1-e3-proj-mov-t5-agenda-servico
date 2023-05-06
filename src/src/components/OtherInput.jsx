@@ -5,14 +5,23 @@ import { StyleSheet } from "react-native";
 
 
 export function OtherInput(props) {
+  const color = () => {
+    if (!props.desativado || props.desativado == false) {
+      return '#FFFFFF'
+    }
+    else {
+      return '#A9A9A9'
+    }
+  }
+
   return (
     <TextInput
-      theme={{ colors: { onSurfaceVariant: 'white' } }}
+      theme={{ colors: { onSurfaceVariant: color() } }}
       mode="outlined"
       style={styles.input}
       outlineColor={PrimaryColor}
       activeOutlineColor={PrimaryColor}
-      textColor={WhiteColor}
+      textColor={color()}
       {...props}
     />
   )
@@ -22,7 +31,7 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: SecondaryColor,
     fontSize: 18,
-    marginTop: 20
+    fontFamily: 'Arial',
   },
 }
 )

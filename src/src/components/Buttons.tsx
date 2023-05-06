@@ -7,19 +7,23 @@ import {
   Text,
 } from 'react-native';
 
+
 import {
   BackgroundColor,
   PrimaryColor,
   PrimaryColorDark,
   SecondaryColor,
   TextInputColorDark,
-  WhiteColor
+  WhiteColor,
+  Red
 } from '../constants/colors';
 
 import {
   IcGoogleSvg,
   IcFacebookSvg
 } from '../constants/icons';
+
+
 
 /***
  * PrimaryButton props
@@ -37,8 +41,8 @@ export interface PrimaryButtonProps {
 
 export function PrimaryButton({ title, disabled = false, onPress }: PrimaryButtonProps) {
   return (
-    <Pressable android_ripple={{ color: BackgroundColor }} style={[style.buttonStyle, {backgroundColor: disabled ? PrimaryColorDark : PrimaryColor}]} disabled={disabled} onPress={onPress}>
-      <Text style={[style.textStyle, {color: disabled ? TextInputColorDark : WhiteColor}]}>{title}</Text>
+    <Pressable android_ripple={{ color: BackgroundColor }} style={[style.buttonStyle, { backgroundColor: disabled ? PrimaryColorDark : PrimaryColor }]} disabled={disabled} onPress={onPress}>
+      <Text style={[style.textStyle, { color: disabled ? TextInputColorDark : WhiteColor }]}>{title}</Text>
     </Pressable>
   );
 }
@@ -79,6 +83,18 @@ export function FacebookButton({ onPress }: FacebookButtonProps) {
   return (
     <Pressable android_ripple={{ color: BackgroundColor }} style={style.facebookButton} onPress={onPress}>
       <IcFacebookSvg />
+    </Pressable>
+  );
+}
+
+/***
+ * Delete Button
+ */
+
+export function DeleteButton({ title, disabled = false, onPress }: PrimaryButtonProps) {
+  return (
+    <Pressable android_ripple={{ color: BackgroundColor }} style={[style.buttonStyle, { backgroundColor: disabled ? PrimaryColorDark : Red }]} disabled={disabled} onPress={onPress}>
+      <Text style={[style.textStyle, { color: disabled ? TextInputColorDark : WhiteColor }]}>{title}</Text>
     </Pressable>
   );
 }

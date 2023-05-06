@@ -1,4 +1,4 @@
-const dataOpening = [
+const openingHours = [
   {
     id: '1',
     day: 'Domingo',
@@ -15,6 +15,7 @@ const dataOpening = [
     closure: '18:00',
     breaks: [
       {
+        id: '1',
         start: '12:00',
         end: '13:00'
       },
@@ -28,6 +29,7 @@ const dataOpening = [
     closure: '18:00',
     breaks: [
       {
+        id: '1',
         start: '12:00',
         end: '13:00'
       },
@@ -41,6 +43,7 @@ const dataOpening = [
     closure: '18:00',
     breaks: [
       {
+        id: '1',
         start: '12:00',
         end: '13:00'
       },
@@ -54,6 +57,7 @@ const dataOpening = [
     closure: '18:00',
     breaks: [
       {
+        id: '1',
         start: '12:00',
         end: '13:00'
       },
@@ -67,6 +71,7 @@ const dataOpening = [
     closure: '18:00',
     breaks: [
       {
+        id: '1',
         start: '12:00',
         end: '13:00'
       },
@@ -80,6 +85,7 @@ const dataOpening = [
     closure: '18:00',
     breaks: [
       {
+        id: '1',
         start: '12:00',
         end: '13:00'
       },
@@ -88,4 +94,4 @@ const dataOpening = [
 
 ]
 
-export default dataOpening;
+export default openingHours;

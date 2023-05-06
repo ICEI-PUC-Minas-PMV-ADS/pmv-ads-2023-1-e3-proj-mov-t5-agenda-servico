@@ -8,7 +8,7 @@ export function TimePicker(props) {
     <TimePickerModal
       use24HourClock={true}
       inputFontSize={48}
-      label='Selecione as horas'
+      label='Selecione o tempo'
       cancelLabel='Cancelar'
       {...props}
     />

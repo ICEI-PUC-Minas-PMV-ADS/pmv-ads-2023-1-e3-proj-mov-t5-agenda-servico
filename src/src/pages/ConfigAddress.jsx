@@ -2,19 +2,48 @@ import React, { useState } from "react"
 import { StyleSheet, Text, View, ScrollView, KeyboardAvoidingView, TouchableWithoutFeedback } from "react-native";
 import { BackgroundColor, WhiteColor } from "../constants/colors";
 import { PrimaryButton } from "../components/Buttons";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { OtherInput } from '../components/OtherInput'
+import { HelperText } from 'react-native-paper';
 
 
 
 export function Address() {
 
   const navigation = useNavigation();
-  const [street, setStreet] = useState('')
+  const route = useRoute();
+
+  const endereco = route.params.endereco
+
+  const [cep, setCep] = useState(endereco.cep)
+  const [street, setStreet] = useState(endereco.logradouro)
+  const [neighborhood, setNeighborhood] = useState(endereco.bairro)
+  const [city, setCity] = useState(endereco.cidade)
+  const [state, setState] = useState(endereco.estado)
+
   const [number, setNumber] = useState('')
-  const [neighborhood, setNeighborhood] = useState('')
-  const [city, setCity] = useState('')
-  const [state, setState] = useState('')
+  const [isValidNumber, setIsValidNumber] = React.useState(true);
+
+  const [error, setError] = React.useState(false);
+
+  const [complement, setComplement] = useState('')
+
+  function handleNumberChange(number) {
+    const numberRegex = /^[0-9]+$/;
+    setNumber(number);
+    setIsValidNumber(numberRegex.test(number));
+    setError(false)
+  }
+
+  function allChecked() {
+    if (number === "" || !isValidNumber) {
+      setError(true);
+      return false
+    } else {
+      setError(false)
+      return true
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -25,52 +54,85 @@ export function Address() {
               <Text style={styles.whiteText}> Onde seus clientes podem te encontrar? </Text>
             </View>
             <View style={styles.inputContainer}>
-
-              <OtherInput
-                label="Logradouro"
-                value={street}
-                onChangeText={text => setStreet(text)} />
-
-              <OtherInput
-                label="Número"
-                value={number}
-                onChangeText={text => setNumber(text)}
-                keyboardType='numeric' />
-
-              <OtherInput
-                label="Bairro"
-                value={neighborhood}
-                onChangeText={text => setNeighborhood(text)} />
-
-              <OtherInput
-                label="Cidade"
-                value={city}
-                onChangeText={text => setCity(text)} />
-
-              <OtherInput
-                label="Estado"
-                value={state}
-                onChangeText={text => setState(text)} />
-
-
               <TouchableWithoutFeedback onPress={() => { navigation.navigate('CEP', {}) }}>
                 <View>
                   <OtherInput
                     label="CEP"
+                    value={cep}
                     editable={false} />
+                  <HelperText>
+                  </HelperText>
                 </View>
               </TouchableWithoutFeedback>
 
+              <View>
+                <OtherInput
+                  label="Logradouro"
+                  value={street}
+                  onChangeText={text => setStreet(text)}
+                  editable={false}
+                  desativado={true}
+                />
 
+                <HelperText>
+                </HelperText>
+              </View>
+              <View>
+                <OtherInput
+                  label="Número"
+                  value={number}
+                  onChangeText={handleNumberChange}
+                  keyboardType='numeric'
+                  error={!isValidNumber}
+                />
+                <HelperText type='error' visible={!isValidNumber}>
+                  Por favor, digite um número de residencia valido
+                </HelperText>
+              </View>
 
-
+              <View>
+                <OtherInput
+                  label="Complemento (opcional)"
+                  value={complement}
+                  onChangeText={text => setComplement(text)}
+                />
+                <HelperText type='info'>
+                  Ex: Apt.200, Casa B, Perto da lanchonete.
+                </HelperText>
+              </View>
+              <View>
+                <OtherInput
+                  label="Bairro"
+                  value={neighborhood}
+                  onChangeText={text => setNeighborhood(text)}
+                  editable={false}
+                  desativado={true} />
+                <HelperText>
+                </HelperText>
+              </View>
             </View>
           </View>
-          <View style={styles.buttonContainer}>
-            <PrimaryButton title={'Continuar'} onPress={() => { navigation.navigate('CEP', {}) }} />
-          </View>
+
         </ScrollView>
+
       </KeyboardAvoidingView>
+      <View style={styles.buttonContainer}>
+        <View style={{ alignItems: 'center' }}>
+          <HelperText type="error" visible={error}>
+            Por favor, preencha corretamente as informações acima.
+          </HelperText>
+        </View>
+        <PrimaryButton title={'Continuar'} onPress={() => {
+          if (allChecked()) {
+            endereco.numero = number
+            endereco.complemento = complement
+
+            navigation.navigate('DisplacementFee', { ...route.params })
+          }
+
+
+        }} />
+      </View>
     </View>
 
   )
