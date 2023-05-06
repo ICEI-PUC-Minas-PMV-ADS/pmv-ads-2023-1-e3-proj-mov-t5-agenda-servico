@@ -55,16 +55,6 @@ type HomePageContentProps = {
 
 function HomePageContent({ selectedTab, setSelectedTab }: HomePageContentProps) {
   return (
-<<<<<<< Updated upstream
-    !loadState
-      ? <></>
-      : <View>
-        <TouchableWithoutFeedback
-          onPress={() => {
-            navigation.navigate({ name: 'ProfessionalProfile', params: {} });
-          }}>
-          <Text>Click me!</Text>
-=======
     <View style={style.container}>
       <Text style={style.title}>Agendamentos</Text>
 
@@ -81,7 +71,6 @@ function HomePageContent({ selectedTab, setSelectedTab }: HomePageContentProps) 
           <View style={[style.tabItem, selectedTab == 1 && style.tabSelectedItem]}>
             <Text style={style.tabItemLabel}>Favoritos</Text>
           </View>
->>>>>>> Stashed changes
         </TouchableWithoutFeedback>
       </View>
 
@@ -94,7 +83,6 @@ function HomePageContent({ selectedTab, setSelectedTab }: HomePageContentProps) 
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Image source={require('../../assets/images/Empty.png')} />
       </View>
-
     </View>
   );
 }
