@@ -26,7 +26,6 @@ export function HomePage({
   const appContext = useAppContext();
 
   React.useLayoutEffect(() => {
-    console.log('Checking user data');
     if (!appContext?.user) {
       EncryptedStorage.getItem(KEY_USERDATA).then(userData => {
         if (userData) {
@@ -38,7 +37,6 @@ export function HomePage({
       });
     } else {
       setLoadingUserData(false);
-      console.log('user data checked');
     }
   }, []);
 
