@@ -6,7 +6,7 @@ import { OtherInput } from '../components/OtherInput'
 import { TextPicker } from '../components/TextPicker';
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { HelperText } from 'react-native-paper';
-
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 
 
@@ -14,7 +14,7 @@ export function DisplacementFee() {
   const navigation = useNavigation();
   const route = useRoute();
 
-
+  const [displacementFee, setDisplacementFee] = useState('')
   const [fee, setFee] = useState('R$ 0,00')
   const [distance, setDistance] = useState('5 km')
   const [type, setType] = useState('Gratuito');
@@ -40,13 +40,22 @@ export function DisplacementFee() {
     { label: '50 km', value: '50 km', },
   ];
 
-  const DisplacementFee = {
-    distance: distance,
-    fee: {
-      type: type,
-      value: fee
-    },
-  }
+  React.useEffect(() => {
+    AsyncStorage.getItem('displacementfee').then(value => {
+      if (value !== null) {
+        setDisplacementFee(JSON.parse(value))
+      }
+    })
+  }, []);
+
+  React.useEffect(() => {
+    if (displacementFee) {
+      setDistance(displacementFee.distance)
+      setFee(displacementFee.fee.value)
+      setType(displacementFee.fee.type)
+    }
+  }, [displacementFee]);
+
 
   const handleFeeChange = (text) => {
     // remove tudo que não for número
@@ -86,7 +95,20 @@ export function DisplacementFee() {
     else return false
   }, [type]);
 
+  const newFee = {
+    distance: distance,
+    fee: {
+      type: type,
+      value: fee
+    },
+  }
 
+  const saveFee = () => {
+    const newData = JSON.stringify(newFee)
+    AsyncStorage.setItem('displacementfee', newData).then(
+      navigation.navigate('Opening', {})
+    )
+  }
 
   return (
     <View style={styles.container}>
@@ -139,7 +161,7 @@ export function DisplacementFee() {
           if (type == 'Começa em' && fee == 'R$ 0,00' || type == 'Fixo' && fee == 'R$ 0,00' || type == 'Começa em' && fee == '' || type == 'Fixo' && fee == '') {
             setError(true)
           }
-          else navigation.navigate('Opening', {})
+          else saveFee()
 
         }} />
       </View>

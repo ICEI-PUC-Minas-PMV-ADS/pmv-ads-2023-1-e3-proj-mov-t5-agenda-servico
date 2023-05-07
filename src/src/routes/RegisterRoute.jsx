@@ -14,6 +14,7 @@ import { Interval } from '../pages/ConfigInterval';
 import { DisplacementFee } from '../pages/DisplacementFee';
 import { Services } from '../pages/ConfigServices';
 import { ServiceDetails } from '../pages/ServiceDetails';
+import { TestRegister } from '../pages/newRegisterTest';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 
@@ -26,7 +27,7 @@ export default function RegisterRoute() {
 
   return (
 
-    <Stack.Navigator initialRouteName='Opening'>
+    <Stack.Navigator initialRouteName='Email'>
 
       <Stack.Screen name='Email' component={WhatsEmail} options={{
         title: 'Qual é o seu e-mail?',
@@ -126,6 +127,14 @@ export default function RegisterRoute() {
 
       <Stack.Screen name='ServiceDetails' component={ServiceDetails} options={{
         title: 'Detalhes do serviço',
+        headerStyle: {
+          backgroundColor: BackgroundColor
+        },
+        headerTintColor: WhiteColor
+      }} />
+
+      <Stack.Screen name='teste' component={TestRegister} options={{
+        title: 'Teste',
         headerStyle: {
           backgroundColor: BackgroundColor
         },

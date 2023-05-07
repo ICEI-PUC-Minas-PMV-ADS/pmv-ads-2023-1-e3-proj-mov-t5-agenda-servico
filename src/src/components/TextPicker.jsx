@@ -24,8 +24,7 @@ export function TextPicker({ inputLabel, options, selectedValue, onChange }) {
         ref={pickerRef}
         style={styles.picker}
         selectedValue={selectedValue}
-        onValueChange={onChange
-        }
+        onValueChange={onChange}
       >
         {options.map((option, index) => (
           <Picker.Item key={index} label={option.label} value={option.value} />

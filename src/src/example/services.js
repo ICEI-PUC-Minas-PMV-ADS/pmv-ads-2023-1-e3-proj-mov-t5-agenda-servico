@@ -1,4 +1,4 @@
-const services = [
+const baseServices = [
   {
     id: '1',
     name: 'Barba',
@@ -36,4 +36,4 @@ const services = [
 
 ]
 
-export default services;
+export default baseServices;

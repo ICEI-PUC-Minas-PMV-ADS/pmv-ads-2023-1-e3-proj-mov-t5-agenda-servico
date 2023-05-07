@@ -8,10 +8,9 @@ import { TimePickerModal } from 'react-native-paper-dates';
 
 
 
-export function TimeTextPicker({ inputLabel, onTimeChange }) {
+export function TimeTextPicker({ inputLabel, onTimeChange, time, setTime }) {
   const [visible, setVisible] = React.useState(false)
-  const [time, setTime] = React.useState('30min')
-
+  
   const hoursConvert = (hours) => {
     if (hours == 0) {
       return ('')

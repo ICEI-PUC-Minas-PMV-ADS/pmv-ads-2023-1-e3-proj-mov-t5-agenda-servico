@@ -1,21 +1,166 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, TouchableWithoutFeedback } from "react-native";
-import { BackgroundColor, WhiteColor, LightGray } from "../constants/colors";
+import { BackgroundColor, WhiteColor, LightGray, BackgroundInput } from "../constants/colors";
 import { PrimaryButton } from "../components/Buttons";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute, useIsFocused } from "@react-navigation/native";
 import { TimeTextPicker } from "../components/TimeTextPicker";
 import { OtherInput } from "../components/OtherInput";
-import { Checkbox, Button } from 'react-native-paper';
+import { Checkbox } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { DeleteButton } from "../components/Buttons";
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 export function ServiceDetails() {
   const deleteIcon = <Icon name="trash" size={20} />;
   const navigation = useNavigation();
+  const route = useRoute()
+  const isFocused = useIsFocused()
   const [name, setName] = useState('')
   const [price, setPrice] = useState('')
-  const [startAt, setStartAt] = React.useState(false);
-  const [residence, setResidence] = React.useState(false);
+  const [startAt, setStartAt] = useState(false);
+  const [residence, setResidence] = useState(false);
+  const [time, setTime] = useState('')
+  const [hours, setHours] = useState('')
+  const [minutes, setMinutes] = useState('')
+  const [id, setId] = useState('')
+
+  const [services, setServices] = useState('')
+  const serviceIndex = route.params.serviceIndex
+  const [service, setService] = useState('')
+
+  if (serviceIndex != undefined) {
+    React.useEffect(() => {
+      const loadServices = async () => {
+        const value = await AsyncStorage.getItem('services');
+        const convertedValue = JSON.parse(value)
+        setServices(convertedValue)
+        setService(convertedValue[serviceIndex])
+
+      };
+
+      loadServices();
+    }, []);
+
+    React.useEffect(() => {
+      if (service) {
+        setName(service.name)
+        setPrice(service.price)
+        setStartAt(service.startin)
+        setResidence(service.homeservice)
+        setHours(service.duration.hours)
+        setMinutes(service.duration.minutes)
+        setId(service.id)
+        setTime(`${hoursConvert(service.duration.hours)} ${minutesConvert(service.duration.minutes)}`)
+      }
+    }, [service]);
+  }
+  else {
+    React.useEffect(() => {
+      const loadServices = async () => {
+        const value = await AsyncStorage.getItem('services');
+        const convertedValue = JSON.parse(value)
+        setServices(convertedValue)
+      };
+
+      loadServices();
+    }, []);
+
+
+    React.useEffect(() => {
+      if (services) {
+
+        setName()
+        setPrice()
+        setStartAt()
+        setResidence()
+        setTime()
+
+        const maiorId = services.reduce((maior, objeto) => {
+          const id = parseInt(objeto.id);
+          if (id > parseInt(maior.id)) {
+            return objeto;
+          }
+          return maior;
+        });
+
+        const novoId = (parseInt(maiorId.id) + 1).toString();
+
+        setId(novoId)
+
+      }
+    }, [services]);
+
+  }
+
+
+  const hoursConvert = (hours) => {
+    if (hours == 0) {
+      return ('')
+    }
+    else {
+      return (`${hours}h`)
+    }
+  }
+
+  const minutesConvert = (minutes) => {
+    if (minutes == 0) {
+      return ('')
+    }
+    else {
+      return (`${minutes}min`)
+    }
+  }
+
+
+
+  const newService = {
+    id: id,
+    name: name,
+    duration: {
+      hours: hours,
+      minutes: minutes
+    },
+    price: price,
+    startin: startAt,
+    homeservice: residence,
+  }
+
+  const onUpdate = () => {
+    const copy = [...services]
+    copy[serviceIndex] = newService
+    const newData = JSON.stringify(copy)
+    AsyncStorage.setItem('services', newData).then(
+      navigation.navigate('Services', {})
+    )
+  };
+
+  const createService = () => {
+    const copy = [...services]
+    copy.push(newService)
+    const newData = JSON.stringify(copy)
+    AsyncStorage.setItem('services', newData).then(
+      navigation.navigate('Services', {})
+    )
+  }
+
+  const onDelete = () => {
+    const copy = [...services]
+    copy.splice(serviceIndex, 1)
+    const newData = JSON.stringify(copy)
+    AsyncStorage.setItem('services', newData).then(
+      navigation.navigate('Services', {})
+    )
+  };
+
+
+  function buttonDelete() {
+    if (serviceIndex != undefined)
+      return (
+        <View style={{ flex: 1 }}>
+          <DeleteButton title={deleteIcon} onPress={() => { onDelete() }} />
+        </View>
+      )
+  }
 
   return (
 
@@ -35,9 +180,11 @@ export function ServiceDetails() {
           <View style={{ marginTop: 20 }}>
             <TimeTextPicker
               inputLabel='Duração'
+              time={time}
+              setTime={setTime}
               onTimeChange={(newTime) => {
-                console.log('Novo valor de horas:', newTime.hours)
-                console.log('Novo valor de minutos:', newTime.minutes)
+                setHours(newTime.hours)
+                setMinutes(newTime.minutes)
               }}
             />
           </View>
@@ -83,11 +230,14 @@ export function ServiceDetails() {
       </View>
 
       <View style={styles.buttonContainer}>
-        <View style={{ flex: 1 }}>
-          <DeleteButton title={deleteIcon} onPress={() => { navigation.navigate('Services', {}) }} />
-        </View>
+        <>{buttonDelete()}</>
         <View style={{ flex: 2 }}>
-          <PrimaryButton title={'Salvar'} onPress={() => { navigation.navigate('Services', {}) }} />
+          <PrimaryButton title={'Salvar'} onPress={() => {
+            if (serviceIndex != undefined)
+              onUpdate()
+            else
+              createService()
+          }} />
         </View>
       </View>
     </View >

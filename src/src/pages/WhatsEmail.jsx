@@ -5,18 +5,28 @@ import { PrimaryButton } from "../components/Buttons";
 import { useNavigation } from "@react-navigation/native";
 import { OtherInput } from "../components/OtherInput";
 import { HelperText } from 'react-native-paper';
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 export function WhatsEmail() {
 
   const navigation = useNavigation();
   const [email, setEmail] = React.useState("");
   const [isValid, setIsValid] = React.useState(true);
+  const [error, setError] = React.useState(false);
 
   //Valida o email
   function handleEmailChange(email) {
     const emailRegex = /^\S+@\S+\.\S+$/;
     setEmail(email);
     setIsValid(emailRegex.test(email));
+    setError(false)
+  }
+
+  const saveEmail = () => {
+
+    AsyncStorage.setItem('email', email).then(
+      navigation.navigate('Who', {})
+    )
   }
 
   return (
@@ -36,9 +46,18 @@ export function WhatsEmail() {
         </HelperText>
       </View>
       <View style={styles.buttonContainer}>
+        <View style={{ alignItems: 'center' }}>
+          <HelperText type="error" visible={error}>
+            Por favor, insira um email válido.
+          </HelperText>
+        </View>
         <PrimaryButton title={'Confirmar'} onPress={() => {
-          if (isValid)
-            navigation.navigate('Who', {})
+          if (isValid && email != "") {
+
+            saveEmail()
+          }
+          else setError(true)
+
         }} />
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
           <Text style={styles.whiteText}>Ao inscrever-se você concorda com nossos</Text>

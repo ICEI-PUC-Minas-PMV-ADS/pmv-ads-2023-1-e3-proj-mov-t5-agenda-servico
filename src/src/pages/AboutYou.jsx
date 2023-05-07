@@ -6,6 +6,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { OtherInput } from "../components/OtherInput";
 import { HelperText, TextInput } from 'react-native-paper';
 import Emoji from 'react-native-emoji';
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 
 export function AboutYou() {
@@ -13,7 +14,7 @@ export function AboutYou() {
 
   const navigation = useNavigation();
   const route = useRoute();
-
+  const [about, setAbout] = React.useState();
 
   const [error, setError] = React.useState(false);
 
@@ -25,6 +26,24 @@ export function AboutYou() {
 
   const [name, setName] = React.useState("");
   const [isValidName, setIsValidName] = React.useState(true);
+
+  //carrega os dados anteriormente salvos
+
+  React.useEffect(() => {
+    AsyncStorage.getItem('about').then(value => {
+      if (value !== null) {
+        setAbout(JSON.parse(value))
+      }
+    })
+  }, []);
+
+  React.useEffect(() => {
+    if (about) {
+      setCompany(about.company)
+      setName(about.name)
+      setPhoneNumber(about.phone)
+    }
+  }, [about]);
 
   //Valida o nome da compania
   function handleCompanyChange(company) {
@@ -70,6 +89,19 @@ export function AboutYou() {
     }
   }
 
+  const newAbout = {
+    company: company,
+    name: name,
+    phone: phoneNumber
+  }
+
+  const saveAbout = () => {
+    const newData = JSON.stringify(newAbout)
+    AsyncStorage.setItem('about', newData).then(
+      navigation.navigate('Password', {})
+    )
+  }
+
   return (
     <View style={styles.container}>
       <View>
@@ -92,7 +124,7 @@ export function AboutYou() {
           <View>
             <OtherInput
               label="Nome e sobrenome"
-              defaultValue={name}
+              value={name}
               onChangeText={handleNameChange}
               error={!isValidName}
 
@@ -129,7 +161,7 @@ export function AboutYou() {
         </View>
         <PrimaryButton title={'Continuar'} onPress={() => {
           if (allChecked())
-            navigation.navigate('Category', {})
+            saveAbout()
 
 
         }} />

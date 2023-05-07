@@ -4,12 +4,42 @@ import { BackgroundColor, PrimaryColor, WhiteColor, LightGray } from "../constan
 import { useNavigation } from "@react-navigation/native";
 import { Checkbox, HelperText } from 'react-native-paper';
 import { PrimaryButton } from "../components/Buttons";
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 export function WhereWork() {
+  const [whereWork, setWhereWork] = React.useState();
   const [establishment, setEstablishment] = React.useState(true);
   const [home, setHome] = React.useState(false);
   const atLeastOneVerified = establishment || home
   const navigation = useNavigation();
+
+  React.useEffect(() => {
+    AsyncStorage.getItem('wherework').then(value => {
+      if (value !== null) {
+        setWhereWork(JSON.parse(value))
+      }
+    })
+  }, []);
+
+  React.useEffect(() => {
+    if (whereWork) {
+      setEstablishment(whereWork.establishment)
+      setHome(whereWork.homeservice)
+
+    }
+  }, [whereWork]);
+
+  const newWhereWork = {
+    establishment: establishment,
+    homeservice: home
+  }
+
+  const saveWhereWork = () => {
+    const newData = JSON.stringify(newWhereWork)
+    AsyncStorage.setItem('wherework', newData).then(
+      navigation.navigate('CEP', {})
+    )
+  }
 
   return (
     <View style={styles.container}>
@@ -57,7 +87,7 @@ export function WhereWork() {
         </View>
         <PrimaryButton title={'Continuar'} onPress={() => {
           if (atLeastOneVerified)
-            navigation.navigate('CEP', {})
+            saveWhereWork()
         }} />
       </View>
     </View>

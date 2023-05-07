@@ -1,10 +1,11 @@
 import React from "react";
-import { StyleSheet, Text, View, FlatList } from "react-native";
+import { StyleSheet, Text, View, FlatList, TouchableOpacity } from "react-native";
 import { List } from 'react-native-paper';
 import Categories from "../example/bd";
 import { BackgroundColor, WhiteColor } from "../constants/colors";
 import { useNavigation } from "@react-navigation/native";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 const arrowIcon = <Icon name="chevron-right" size={15} color={WhiteColor} />;
 
@@ -14,22 +15,35 @@ export function Category() {
     <View style={styles.listItem}>
       <List.Item
         title={() => <Text style={styles.whiteText}>{title}</Text>}
-        onPress={() => { navigation.navigate('WhereWork', {}) }}
         right={() => arrowIcon}
       />
     </View>
 
   );
+
+  const saveCategory = (category) => {
+    const newData = JSON.stringify(category)
+    AsyncStorage.setItem('category', newData).then(
+      navigation.navigate('WhereWork', {})
+    )
+  }
+
   return (
     <View style={styles.container}>
 
       <FlatList
         data={Categories}
-        renderItem={({ item }) => <Item title={item.name} />}
+        renderItem={({ item }) =>
+          <TouchableOpacity onPress={() => saveCategory(item)}>
+            <Item title={item.name} />
+          </TouchableOpacity>
+
+        }
         keyExtractor={item => item.id}
       />
     </View>
   )
+
 }
 
 const styles = StyleSheet.create({

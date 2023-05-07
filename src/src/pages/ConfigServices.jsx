@@ -1,16 +1,42 @@
 import React from "react"
-import { StyleSheet, Text, View, FlatList } from "react-native";
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, ScrollView } from "react-native";
 import { List } from 'react-native-paper';
-import { BackgroundColor, WhiteColor, LightGray } from "../constants/colors";
+import { BackgroundColor, WhiteColor, LightGray, PrimaryColor, BackgroundInput } from "../constants/colors";
 import { PrimaryButton } from "../components/Buttons";
 import Icon from 'react-native-vector-icons/FontAwesome';
-import services from "../example/services";
-import { useNavigation } from "@react-navigation/native";
+import baseServices from "../example/services";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage"
+
+const convertedBaseSevices = JSON.stringify(baseServices)
 
 export function Services() {
   const arrowIcon = <Icon name="chevron-right" size={15} color={LightGray} style={{ marginLeft: 20 }} />;
   const plusIcon = <Icon name="plus" size={20} color={WhiteColor} />
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
+  const [services, setServices] = React.useState('')
+
+  const getData = () => {
+    AsyncStorage.getItem('services').then(value => {
+      if (value !== null) {
+        setServices(JSON.parse(value))
+      }
+      else {
+        AsyncStorage.setItem('services', convertedBaseSevices).then(
+          AsyncStorage.getItem('opening').then(
+            value => setServices(JSON.parse(value))
+          )
+
+        )
+      }
+    })
+  }
+
+  React.useEffect(() => {
+    getData()
+  }, [isFocused])
+
 
   const Item = ({ title, duration, price }) => {
 
@@ -31,15 +57,16 @@ export function Services() {
 
           </View>
           }
-          onPress={() => { navigation.navigate('ServiceDetails', {}) }}
-
-
         />
       </View>
     )
   }
 
-    ;
+  const navigateToDetails = (index) => {
+    navigation.navigate('ServiceDetails', { serviceIndex: index });
+  }
+
+
 
   return (
     <View style={styles.container}>
@@ -47,23 +74,32 @@ export function Services() {
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
           <Text style={styles.whiteText}> Adicione pelo menos um serviço agora. Posteriormente, você pode adicionar mais, editar detalhes e agrupar serviços em categorias. </Text>
         </View>
-        <View style={styles.listContainer}>
-          <FlatList
-            data={services}
-            renderItem={({ item }) => <Item title={item.name} duration={item.duration} price={item.price} />}
-            keyExtractor={item => item.id}
-          />
-          <View style={styles.listItem}>
+        <View style={{ marginTop: 15 }}>
+          <View style={styles.listAdd}>
             <List.Item
               title={() => <Text style={styles.whiteText}>Adicionar serviço</Text>}
               onPress={() => { navigation.navigate('ServiceDetails', {}) }}
               left={() => plusIcon}
             />
           </View>
+          <View style={styles.listContainer}>
+
+            <ScrollView>
+              <FlatList
+                data={services}
+                renderItem={({ item, index }) =>
+                  <TouchableOpacity onPress={() => navigateToDetails(index)}>
+                    <Item title={item.name} duration={item.duration} price={item.price} />
+                  </TouchableOpacity>
+                }
+                keyExtractor={item => item.id}
+              />
+            </ScrollView>
+          </View>
         </View>
       </View>
       <View style={styles.buttonContainer}>
-        <PrimaryButton title={'Continuar'} onPress={() => { navigation.navigate('Home', {}) }} />
+        <PrimaryButton title={'Continuar'} onPress={() => { navigation.navigate('teste', {}) }} />
       </View>
     </View>
 
@@ -91,6 +127,12 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: LightGray,
     padding: 10,
+
+  },
+  listAdd: {
+    borderBottomWidth: 1,
+    borderColor: WhiteColor,
+    padding: 10,
   },
   titleContainer: {
     flex: 1,
@@ -99,7 +141,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   listContainer: {
-    marginTop: 15
+    maxHeight: 370
   },
   description: {
     color: LightGray,

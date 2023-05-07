@@ -7,12 +7,10 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { List, Switch } from 'react-native-paper';
 import { TimePicker } from '../components/TimePicker'
 import AsyncStorage from "@react-native-async-storage/async-storage"
-import openingHours from "../example/openingHours";
 
 
 
 export function Day() {
-  const HoursOpening = JSON.stringify(openingHours)
   //declarando variaveis necessarias
   const route = useRoute();
   const navigation = useNavigation();
@@ -35,7 +33,7 @@ export function Day() {
     };
 
     carregarItem();
-  }, []);
+  }, [isFocused]);
 
   React.useEffect(() => {
     if (item) {
@@ -224,7 +222,7 @@ export function Day() {
         }
       </View>
       <View style={styles.buttonContainer}>
-        <PrimaryButton title={'OK'} onPress={() => {
+        <PrimaryButton title={'Salvar'} onPress={() => {
           onUpdate(item.id)
         }} />
       </View>

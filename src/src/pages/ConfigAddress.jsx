@@ -5,6 +5,7 @@ import { PrimaryButton } from "../components/Buttons";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { OtherInput } from '../components/OtherInput'
 import { HelperText } from 'react-native-paper';
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 
 
@@ -18,8 +19,6 @@ export function Address() {
   const [cep, setCep] = useState(endereco.cep)
   const [street, setStreet] = useState(endereco.logradouro)
   const [neighborhood, setNeighborhood] = useState(endereco.bairro)
-  const [city, setCity] = useState(endereco.cidade)
-  const [state, setState] = useState(endereco.estado)
 
   const [number, setNumber] = useState('')
   const [isValidNumber, setIsValidNumber] = React.useState(true);
@@ -43,6 +42,23 @@ export function Address() {
       setError(false)
       return true
     }
+  }
+
+  const newAdress = {
+    cep: cep,
+    street: street,
+    number: number,
+    neighborhood: neighborhood,
+    city: endereco.cidade,
+    state: endereco.estado,
+    complement: complement
+  }
+
+  const saveAdress = () => {
+    const newData = JSON.stringify(newAdress)
+    AsyncStorage.setItem('adress', newData).then(
+      navigation.navigate('DisplacementFee', {})
+    )
   }
 
   return (
@@ -124,10 +140,7 @@ export function Address() {
         </View>
         <PrimaryButton title={'Continuar'} onPress={() => {
           if (allChecked()) {
-            endereco.numero = number
-            endereco.complemento = complement
-
-            navigation.navigate('DisplacementFee', { ...route.params })
+            saveAdress()
           }
 
 
