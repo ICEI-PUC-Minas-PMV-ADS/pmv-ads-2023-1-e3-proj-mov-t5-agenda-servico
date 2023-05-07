@@ -10,17 +10,12 @@ import {
 
 import { BackgroundColor } from './constants/colors';
 import { ErrorConsumer, ErrorProvider } from './contexts/error_context';
-import { AppContext, AppProvider } from './contexts/app_context';
+import { AppProvider } from './contexts/app_context';
 import { Route } from "./routes";
-
-
-
-
 
 function App(): JSX.Element {
   return (
     <AppProvider>
-
       <ErrorProvider>
         <View style={styles.rootContainer}>
           <SafeAreaView style={styles.safeContainer}>
@@ -41,7 +36,6 @@ function App(): JSX.Element {
           </ErrorConsumer>
         </View>
       </ErrorProvider>
-
     </AppProvider>
   );
 }

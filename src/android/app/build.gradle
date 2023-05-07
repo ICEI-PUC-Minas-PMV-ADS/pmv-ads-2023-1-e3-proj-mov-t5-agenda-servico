@@ -102,6 +102,7 @@ android {
     namespace "com.projetoagenda"
     defaultConfig {
         applicationId "com.projetoagenda"
+        compileSdkVersion rootProject.ext.compileSdkVersion
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

@@ -3,7 +3,7 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { View, Text, StyleSheet, TouchableWithoutFeedback, Image, ActivityIndicator, ScrollView } from 'react-native';
-import { AppParamsList } from '../ParamList';
+import { AppParamsList } from '../routes/ParamList';
 import { KEY_USERDATA } from '../constants/app';
 import { useAppContext } from '../contexts/app_context';
 import { BackgroundColor, WhiteColor } from '../constants/colors';
@@ -106,7 +106,7 @@ function HomePageContent({ selectedTab, setSelectedTab }: HomePageContentProps) 
           ? <View style={style.loadingContainer}><ActivityIndicator /></View>
           : (data.length > 0
             ? <ScheduledServiceList data={data} />
-            : <Image source={require('../../assets/images/Empty.png')} />)
+            : <View style={style.emptyContainer}><Image source={require('../../assets/images/Empty.png')} /></View>)
         }
       </View>
     </ScrollView>
@@ -118,16 +118,19 @@ function HomePageContent({ selectedTab, setSelectedTab }: HomePageContentProps) 
  */
 
 const style = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: BackgroundColor,
+    padding: 16,
+  },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: BackgroundColor,
   },
-  container: {
-    flex: 1,
-    backgroundColor: BackgroundColor,
-    padding: 16,
+  emptyContainer: {
+    marginVertical: 130,
   },
   title: {
     color: WhiteColor,
