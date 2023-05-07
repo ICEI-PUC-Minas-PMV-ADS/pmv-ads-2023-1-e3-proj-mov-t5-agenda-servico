@@ -13,7 +13,7 @@ O usuário digita o email que deseja cadastrar. É realizado uma busca no banco 
 ### Tela "WhoYou" 
 A partir da tela “WhoYou” cria-se uma bifurcação onde o usuário define seu tipo de conta (empresarial ou cliente).
 
-<img src="./img/registerPages/WhoYou.png.png" width="400px"> 
+<img src="./img/registerPages/WhoYou.png" width="400px"> 
 
 ### Registro de usuários do tipo empresarial
 
