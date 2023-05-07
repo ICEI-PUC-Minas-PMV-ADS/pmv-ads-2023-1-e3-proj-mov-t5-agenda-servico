@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {
   SafeAreaView,
   StatusBar,
@@ -9,80 +8,41 @@ import {
   Animated,
 } from 'react-native';
 
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-import { NavigationContainer } from '@react-navigation/native';
-
 import { BackgroundColor } from './constants/colors';
-
-import { AppParamsList } from './ParamList';
-
-import { LoginPage } from './pages/LoginPage';
-
-import { HomePage } from './pages/HomePage';
 import { ErrorConsumer, ErrorProvider } from './contexts/error_context';
 import { AppContext, AppProvider } from './contexts/app_context';
-import { TestPage } from './pages/TestPage';
-import ClientProfilePage from './pages/ClientProfilePage';
-import ProfessionalProfilePage from './pages/ProfessionalProfilePage';
+import { Route } from "./routes";
 
-/***
- * Stack Navigator
- */
 
-const Stack = createNativeStackNavigator<AppParamsList>();
 
-/***
- * App
- */
+
 
 function App(): JSX.Element {
   return (
-    <NavigationContainer>
-      <AppProvider>
-        <ErrorProvider>
-          <View style={styles.rootContainer}>
-            <SafeAreaView style={styles.safeContainer}>
-              <StatusBar
-                barStyle={'light-content'}
-                backgroundColor={BackgroundColor}
-              />
+    <AppProvider>
 
-              <View style={styles.pageContainer}>
-                <Stack.Navigator
-                  initialRouteName="Login"
-                  screenOptions={{ headerShown: false }}>
-                  <Stack.Screen name="Login" component={LoginPage} />
-                  <Stack.Screen name="Home" component={HomePage} />
-                  <Stack.Screen name="Test" component={TestPage} />
-                  <Stack.Screen name="ProfessionalProfile" component={ProfessionalProfilePage} />
-                  <Stack.Screen name="ClientProfile" component={ClientProfilePage} />
-                </Stack.Navigator>
+      <ErrorProvider>
+        <View style={styles.rootContainer}>
+          <SafeAreaView style={styles.safeContainer}>
+            <StatusBar
+              barStyle={'light-content'}
+              backgroundColor={BackgroundColor}
+            />
+            <View style={styles.pageContainer}>
+              <Route />
+            </View>
+          </SafeAreaView>
+          <ErrorConsumer>
+            {context => <Animated.View style={[styles.errorContainer, { display: context.errorMessage ? 'flex' : 'none', opacity: context.containerAnim }]}>
+              <View style={styles.errorPanel}>
+                <Text style={styles.errorMessage}>{context.errorMessage}</Text>
               </View>
-            </SafeAreaView>
+            </Animated.View>}
+          </ErrorConsumer>
+        </View>
+      </ErrorProvider>
 
-            <ErrorConsumer>
-              {context => (
-                <Animated.View
-                  style={[
-                    styles.errorContainer,
-                    {
-                      display: context.errorMessage ? 'flex' : 'none',
-                      opacity: context.containerAnim,
-                    },
-                  ]}>
-                  <View style={styles.errorPanel}>
-                    <Text style={styles.errorMessage}>
-                      {context.errorMessage}
-                    </Text>
-                  </View>
-                </Animated.View>
-              )}
-            </ErrorConsumer>
-          </View>
-        </ErrorProvider>
-      </AppProvider>
-    </NavigationContainer>
+    </AppProvider>
   );
 }
 

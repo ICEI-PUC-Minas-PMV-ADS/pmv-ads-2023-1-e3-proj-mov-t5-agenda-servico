@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
 
 import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
-import { AppParamsList } from '../ParamList';
+import { AppParamsList } from '../routes/ParamList';
 import { UserRepository } from '../repositories/user_repository';
 import { User } from '../models/user';
 import { useErrorContext, ErrorState } from '../contexts/error_context';
@@ -288,7 +288,7 @@ export function LoginPage({
             Entrar como empresa!
           </Text>
         </TouchableWithoutFeedback>
-
+        <TouchableWithoutFeedback onPress={() => { navigation.navigate('RegisterRoute', {}) }}>
         <View
           style={{ flexDirection: 'row', justifyContent: 'center', margin: 48 }}>
           <Text style={styles.whiteText}>Não tem uma conta?</Text>
@@ -296,6 +296,7 @@ export function LoginPage({
             Sign Up
           </Text>
         </View>
+        </TouchableWithoutFeedback>
       </ScrollView>
     </View>
   );

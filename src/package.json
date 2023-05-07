@@ -10,8 +10,11 @@
     "test": "jest"
   },
   "dependencies": {
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "@react-native-async-storage/async-storage": "^1.18.1",
     "@react-native-community/checkbox": "^0.5.15",
     "@react-native-google-signin/google-signin": "^9.0.2",
+    "@react-native-picker/picker": "^2.4.10",
     "@react-navigation/bottom-tabs": "^6.5.7",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
@@ -19,12 +22,17 @@
     "firebase": "^9.19.1",
     "react": "18.2.0",
     "react-native": "0.71.4",
+    "react-native-emoji": "^1.8.0",
     "react-native-encrypted-storage": "^4.0.3",
     "react-native-fbsdk-next": "^7.2.0",
-    "react-native-safe-area-context": "^4.5.0",
+    "react-native-paper": "^5.6.0",
+    "react-native-paper-dates": "^0.15.1",
+    "react-native-safe-area-context": "^4.5.1",
     "react-native-screens": "^3.20.0",
     "react-native-svg": "^13.8.0",
-    "react-native-svg-transformer": "^1.0.0"
+    "react-native-svg-transformer": "^1.0.0",
+    "react-native-vector-icons": "^9.2.0",
+    "unorm": "^1.6.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

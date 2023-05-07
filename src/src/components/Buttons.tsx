@@ -2,6 +2,7 @@ import React from 'react';
 
 import { StyleSheet, GestureResponderEvent, Pressable, Text, Button, View } from 'react-native';
 
+
 import {
   BackgroundColor,
   PrimaryColor,
@@ -12,6 +13,8 @@ import {
 } from '../constants/colors';
 
 import { IcGoogleSvg, IcFacebookSvg, IcBackArrow } from '../constants/icons';
+
+
 
 /***
  * PrimaryButton props
@@ -121,6 +124,18 @@ export function ReturnButton({ onPress }: ReturnButtonProps) {
 }
 
 /***
+ * Delete Button
+ */
+
+export function DeleteButton({ title, disabled = false, onPress }: PrimaryButtonProps) {
+  return (
+    <Pressable android_ripple={{ color: BackgroundColor }} style={[style.buttonStyle, { backgroundColor: disabled ? PrimaryColorDark : 'red' }]} disabled={disabled} onPress={onPress}>
+      <Text style={[style.textStyle, { color: disabled ? TextInputColorDark : WhiteColor }]}>{title}</Text>
+    </Pressable>
+  );
+}
+
+/***
  * style
  */
 
@@ -151,9 +166,9 @@ const style = StyleSheet.create({
     alignItems: 'center',
     padding: 10,
   },
-  returnButton : {
+  returnButton: {
     flexDirection: 'row',
-    alignItems:'center',
+    alignItems: 'center',
 
   },
   textReturn: {
