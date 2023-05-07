@@ -39,7 +39,7 @@ export const ErrorProvider = ({ children }: any) => {
         setTimeout(() => {
           setErrorMessage(undefined);
         }, 300);
-      }, 2000);
+      }, 7000);
     }
   }, []);
 
