@@ -4,4 +4,5 @@ export type AppParamsList = {
   Test: {};
   ClientProfile: {};
   ProfessionalProfile: {};
+  RegisterRoute: {};
 };

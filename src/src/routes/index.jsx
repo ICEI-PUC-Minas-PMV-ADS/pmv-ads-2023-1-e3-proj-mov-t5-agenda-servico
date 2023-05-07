@@ -10,8 +10,8 @@ export function Route() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="RegisterRoute" component={RegisterRoute} options={{ headerShown: false }} />
         <Stack.Screen name="LoginRoute" component={LoginRoute} options={{ headerShown: false }} />
+        <Stack.Screen name="RegisterRoute" component={RegisterRoute} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   )

@@ -288,7 +288,7 @@ export function LoginPage({
             Entrar como empresa!
           </Text>
         </TouchableWithoutFeedback>
-
+        <TouchableWithoutFeedback onPress={() => { navigation.navigate('RegisterRoute', {}) }}>
         <View
           style={{ flexDirection: 'row', justifyContent: 'center', margin: 48 }}>
           <Text style={styles.whiteText}>Não tem uma conta?</Text>
@@ -296,6 +296,7 @@ export function LoginPage({
             Sign Up
           </Text>
         </View>
+        </TouchableWithoutFeedback>
       </ScrollView>
     </View>
   );
