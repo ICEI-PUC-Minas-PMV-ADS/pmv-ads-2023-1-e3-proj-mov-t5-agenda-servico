@@ -41,3 +41,20 @@ E por fim iremos realizar o teste login pela conta no facebook, primeiramente o 
 Apos confirmar a senha, o usuário será redirecionado para a tela principal de testes:
 
 ![Tela 1.4 - Resultado login](img/login_tests_3.jpg)
+
+### RF-009 - Exibir o perfil do usuário e alterar informações.
+
+O teste consiste em verificar se o sistema vai recuperar as informações do usuário no banco de dados e disponibiliza-las na interface de forma satisfatoria.
+
+- O usuário deve estar logado para realização do teste.
+- O usuário deve clicar no link de redirecionamento para acessar a página de perfil.
+- As informações exceto o e-mail poderão ser alteradas através da página de perfil clicando no botão de salvar informações. 
+
+O sistema deve apresentar as informações de perfil de forma clara para o usuário cliente:
+
+![Tela de Perfil do Cliente ](img/perfil-cliente.png)
+
+O sistema deve apresentar as informações de perfil do usuário profissional:
+
+![Tela de Perfil do Profissional ](img/perfil-profissional.png)
+

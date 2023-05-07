@@ -7,7 +7,7 @@ import {
   Text,
   Animated,
 } from 'react-native';
-import { FirebaseProvider } from './contexts/firebase_context';
+
 import { BackgroundColor } from './constants/colors';
 import { ErrorConsumer, ErrorProvider } from './contexts/error_context';
 import { AppContext, AppProvider } from './contexts/app_context';
@@ -20,28 +20,28 @@ import { Route } from "./routes";
 function App(): JSX.Element {
   return (
     <AppProvider>
-      <FirebaseProvider>
-        <ErrorProvider>
-          <View style={styles.rootContainer}>
-            <SafeAreaView style={styles.safeContainer}>
-              <StatusBar
-                barStyle={'light-content'}
-                backgroundColor={BackgroundColor}
-              />
-              <View style={styles.pageContainer}>
-                <Route />
+
+      <ErrorProvider>
+        <View style={styles.rootContainer}>
+          <SafeAreaView style={styles.safeContainer}>
+            <StatusBar
+              barStyle={'light-content'}
+              backgroundColor={BackgroundColor}
+            />
+            <View style={styles.pageContainer}>
+              <Route />
+            </View>
+          </SafeAreaView>
+          <ErrorConsumer>
+            {context => <Animated.View style={[styles.errorContainer, { display: context.errorMessage ? 'flex' : 'none', opacity: context.containerAnim }]}>
+              <View style={styles.errorPanel}>
+                <Text style={styles.errorMessage}>{context.errorMessage}</Text>
               </View>
-            </SafeAreaView>
-            <ErrorConsumer>
-              {context => <Animated.View style={[styles.errorContainer, { display: context.errorMessage ? 'flex' : 'none', opacity: context.containerAnim }]}>
-                <View style={styles.errorPanel}>
-                  <Text style={styles.errorMessage}>{context.errorMessage}</Text>
-                </View>
-              </Animated.View>}
-            </ErrorConsumer>
-          </View>
-        </ErrorProvider>
-      </FirebaseProvider>
+            </Animated.View>}
+          </ErrorConsumer>
+        </View>
+      </ErrorProvider>
+
     </AppProvider>
   );
 }

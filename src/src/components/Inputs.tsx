@@ -1,5 +1,11 @@
-import { useCallback, useState } from 'react';
-import { StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from 'react-native';
+import { useCallback, useEffect, useState } from 'react';
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import {
   TextInputBackgroundColor,
   TextInputColor,
@@ -13,11 +19,13 @@ import {
  */
 
 interface InputTextProps {
-  placeholder?: string,
-  label?: string,
-  value?: string,
-  secureTextEntry?: boolean,
-  onChange?: (value: string) => void,
+  placeholder?: string;
+  label?: string;
+  value?: string;
+  readonly?: boolean;
+  secureTextEntry?: boolean;
+  margin?: number;
+  onChange?: (value: string) => void;
 }
 
 /***
@@ -28,25 +36,33 @@ export function InputText({
   placeholder,
   label,
   value,
+  readonly = false,
   secureTextEntry = false,
-  onChange
+  margin = 12,
+  onChange,
 }: InputTextProps) {
-  const [textValue, onChangeTextValue] = useState(value);
+  const [textValue, setTextValue] = useState("");
+  useEffect(() => {
+    if (value !== undefined)
+      setTextValue(value);
+  }, [value])
 
   return (
-    <View style={styles.container}>
+    <View style={{ margin: margin }}>
       {label !== undefined && <Text style={styles.textLabel}>{label}</Text>}
       <View style={styles.textInputContainer}>
         <TextInput
           style={styles.textInput}
           placeholder={placeholder}
+          editable={!readonly}
           placeholderTextColor={TextInputHintColor}
           underlineColorAndroid="transparent"
           secureTextEntry={secureTextEntry}
           value={textValue}
-          onChangeText={(value) => {
-            onChangeTextValue(value)
-            onChange?.(value)
+
+          onChangeText={value => {
+            setTextValue(value);
+            onChange?.(value);
           }}
         />
       </View>
@@ -59,10 +75,10 @@ export function InputText({
  */
 
 interface InputPhoneTextProps {
-  placeholder?: string,
-  label?: string,
-  value?: string,
-  onChange?: (value: string) => void,
+  placeholder?: string;
+  label?: string;
+  value?: string;
+  onChange?: (value: string) => void;
 }
 
 /***
@@ -73,29 +89,39 @@ export function InputPhoneText({
   placeholder,
   label,
   value,
-  onChange
+  onChange,
 }: InputPhoneTextProps) {
-  const [textPhone, onChangeTextPhone] = useState(value);
+  const [textPhone, setTextPhone] = useState(value);
+
+  useEffect(() => {
+    if (value !== undefined)
+      setTextPhone(value);
+  }, [value])
 
   return (
     <View style={styles.container}>
-      {label !== undefined ? <Text style={styles.textLabel}>{label}</Text> : <></>}
+      {label !== undefined ? (
+        <Text style={styles.textLabel}>{label}</Text>
+      ) : (
+        <></>
+      )}
       <View style={styles.textInputContainer}>
         <TextInput
           style={styles.textInputDDD}
           underlineColorAndroid="transparent"
-          value='+55'
+          value="+55"
           editable={false}
         />
         <View style={styles.inputPhoneDivider} />
         <TextInput
           style={styles.textInput}
+          keyboardType='number-pad'
           placeholder={placeholder}
           placeholderTextColor={TextInputHintColor}
           underlineColorAndroid="transparent"
           value={textPhone}
-          onChangeText={(value) => {
-            onChangeTextPhone(value);
+          onChangeText={value => {
+            setTextPhone(value);
             onChange?.(value);
           }}
         />
@@ -109,16 +135,16 @@ export function InputPhoneText({
  */
 
 interface InputIconTextProps {
-  placeholder?: string,
-  label?: string,
-  value?: string,
-  iconLocation?: "start" | "end",
-  icon: React.FunctionComponent<React.SVGAttributes<SVGElement>>,
-  secureTextEntry?: boolean,
-  onChange?: (value: string) => void,
-  onClickIcon?: () => void,
+  placeholder?: string;
+  label?: string;
+  value?: string;
+  iconLocation?: 'start' | 'end';
+  icon: React.FunctionComponent<React.SVGAttributes<SVGElement>>;
+  secureTextEntry?: boolean;
+  margin?: number;
+  onChange?: (value: string) => void;
+  onClickIcon?: () => void;
 }
-
 
 /***
  * InputIconText
@@ -129,15 +155,22 @@ export function InputIconText({
   label,
   value,
   icon,
-  iconLocation = "start",
+  iconLocation = 'start',
   secureTextEntry = false,
+  margin = 12,
   onChange,
   onClickIcon,
 }: InputIconTextProps) {
-  const [textValue, onChangeTextValue] = useState(value);
-  
+  const [textValue, setTextValue] = useState(value);
+
+  useEffect(() => {
+    if (value !== null) {
+      setTextValue(value);
+    }
+  }, [value]);
+
   const CustomIconContainer = useCallback(() => {
-    const CustomIcon = icon;    
+    const CustomIcon = icon;
     return (
       <TouchableWithoutFeedback onPress={onClickIcon}>
         <CustomIcon style={styles.textInputIcon} />
@@ -146,10 +179,14 @@ export function InputIconText({
   }, [icon]);
 
   return (
-    <View style={styles.container}>
-      {label !== undefined ? <Text style={styles.textLabel}>{label}</Text> : <></>}
+    <View style={{ margin: margin }}>
+      {label !== undefined ? (
+        <Text style={styles.textLabel}>{label}</Text>
+      ) : (
+        <></>
+      )}
       <View style={styles.textInputContainer}>
-        {iconLocation === "start" && CustomIconContainer()}
+        {iconLocation === 'start' && CustomIconContainer()}
         <TextInput
           style={styles.textInput}
           placeholder={placeholder}
@@ -157,12 +194,12 @@ export function InputIconText({
           underlineColorAndroid="transparent"
           secureTextEntry={secureTextEntry}
           value={textValue}
-          onChangeText={(value) => {
-            onChangeTextValue(value);
+          onChangeText={value => {
+            setTextValue(value);
             onChange?.(value);
           }}
         />
-        {iconLocation === "end" && CustomIconContainer()}
+        {iconLocation === 'end' && CustomIconContainer()}
       </View>
     </View>
   );
@@ -179,7 +216,6 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   textInputContainer: {
-    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: TextInputBackgroundColor,
@@ -199,12 +235,12 @@ const styles = StyleSheet.create({
   },
   textInputIcon: {
     color: TextInputIconColor,
-    marginEnd: 4,
+    marginHorizontal: 8,
   },
   inputPhoneDivider: {
     width: 1,
     height: '70%',
     marginHorizontal: 8,
     backgroundColor: TextInputHintColor,
-  }
+  },
 });

@@ -21,11 +21,11 @@ export {
   IcIndexScheduling,
   IcIndexTwoSquares,
   IcFacebookSvg,
-  IcGoogleSvg,  
+  IcGoogleSvg,
   IcEyeSvg,
   IcEyeOffSvg,
   IcMenuCategory,
   IcMenuConfig,
   IcMenuProfile,
   IcMenuScheduling,
-}
+};

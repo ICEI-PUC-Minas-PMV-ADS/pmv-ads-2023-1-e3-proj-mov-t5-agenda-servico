@@ -1,11 +1,6 @@
 import React from 'react';
 
-import {
-  StyleSheet,
-  GestureResponderEvent,
-  Pressable,
-  Text,
-} from 'react-native';
+import { StyleSheet, GestureResponderEvent, Pressable, Text, Button, View } from 'react-native';
 
 
 import {
@@ -15,13 +10,9 @@ import {
   SecondaryColor,
   TextInputColorDark,
   WhiteColor,
-  Red
 } from '../constants/colors';
 
-import {
-  IcGoogleSvg,
-  IcFacebookSvg
-} from '../constants/icons';
+import { IcGoogleSvg, IcFacebookSvg, IcBackArrow } from '../constants/icons';
 
 
 
@@ -32,17 +23,34 @@ import {
 export interface PrimaryButtonProps {
   title: string;
   disabled?: boolean;
-  onPress?: ((event: GestureResponderEvent) => void);
+  onPress?: (event: GestureResponderEvent) => void;
 }
 
 /***
  * PrimaryButton
  */
 
-export function PrimaryButton({ title, disabled = false, onPress }: PrimaryButtonProps) {
+export function PrimaryButton({
+  title,
+  disabled = false,
+  onPress,
+}: PrimaryButtonProps) {
   return (
-    <Pressable android_ripple={{ color: BackgroundColor }} style={[style.buttonStyle, { backgroundColor: disabled ? PrimaryColorDark : PrimaryColor }]} disabled={disabled} onPress={onPress}>
-      <Text style={[style.textStyle, { color: disabled ? TextInputColorDark : WhiteColor }]}>{title}</Text>
+    <Pressable
+      android_ripple={{ color: BackgroundColor }}
+      style={[
+        style.buttonStyle,
+        { backgroundColor: disabled ? PrimaryColorDark : PrimaryColor },
+      ]}
+      disabled={disabled}
+      onPress={onPress}>
+      <Text
+        style={[
+          style.textStyle,
+          { color: disabled ? TextInputColorDark : WhiteColor },
+        ]}>
+        {title}
+      </Text>
     </Pressable>
   );
 }
@@ -52,7 +60,7 @@ export function PrimaryButton({ title, disabled = false, onPress }: PrimaryButto
  */
 
 export interface GoogleButtonProps {
-  onPress?: ((event: GestureResponderEvent) => void);
+  onPress?: (event: GestureResponderEvent) => void;
 }
 
 /***
@@ -61,7 +69,10 @@ export interface GoogleButtonProps {
 
 export function GoogleButton({ onPress }: GoogleButtonProps) {
   return (
-    <Pressable android_ripple={{ color: BackgroundColor }} style={style.googleButton} onPress={onPress}>
+    <Pressable
+      android_ripple={{ color: BackgroundColor }}
+      style={style.googleButton}
+      onPress={onPress}>
       <IcGoogleSvg />
     </Pressable>
   );
@@ -72,7 +83,7 @@ export function GoogleButton({ onPress }: GoogleButtonProps) {
  */
 
 export interface FacebookButtonProps {
-  onPress?: ((event: GestureResponderEvent) => void);
+  onPress?: (event: GestureResponderEvent) => void;
 }
 
 /***
@@ -81,10 +92,35 @@ export interface FacebookButtonProps {
 
 export function FacebookButton({ onPress }: FacebookButtonProps) {
   return (
-    <Pressable android_ripple={{ color: BackgroundColor }} style={style.facebookButton} onPress={onPress}>
+    <Pressable
+      android_ripple={{ color: BackgroundColor }}
+      style={style.facebookButton}
+      onPress={onPress}>
       <IcFacebookSvg />
     </Pressable>
   );
+}
+
+/**
+ * Return button 
+ */
+export interface ReturnButtonProps {
+  onPress?: (event: GestureResponderEvent) => void;
+
+}
+
+export function ReturnButton({ onPress }: ReturnButtonProps) {
+  return (
+    <Pressable
+      onPress={onPress}
+    >
+      <View style={style.returnButton}>
+        <IcBackArrow />
+        <Text style={style.textReturn}> Voltar</Text>
+      </View>
+    </Pressable>
+  )
+
 }
 
 /***
@@ -93,7 +129,7 @@ export function FacebookButton({ onPress }: FacebookButtonProps) {
 
 export function DeleteButton({ title, disabled = false, onPress }: PrimaryButtonProps) {
   return (
-    <Pressable android_ripple={{ color: BackgroundColor }} style={[style.buttonStyle, { backgroundColor: disabled ? PrimaryColorDark : Red }]} disabled={disabled} onPress={onPress}>
+    <Pressable android_ripple={{ color: BackgroundColor }} style={[style.buttonStyle, { backgroundColor: disabled ? PrimaryColorDark : 'red' }]} disabled={disabled} onPress={onPress}>
       <Text style={[style.textStyle, { color: disabled ? TextInputColorDark : WhiteColor }]}>{title}</Text>
     </Pressable>
   );
@@ -108,7 +144,7 @@ const style = StyleSheet.create({
     borderRadius: 16,
     margin: 16,
     alignItems: 'center',
-    padding: 16
+    padding: 16,
   },
   textStyle: {
     fontSize: 16,
@@ -120,7 +156,7 @@ const style = StyleSheet.create({
     borderRadius: 16,
     margin: 16,
     alignItems: 'center',
-    padding: 10
+    padding: 10,
   },
   facebookButton: {
     flex: 1,
@@ -128,6 +164,18 @@ const style = StyleSheet.create({
     borderRadius: 16,
     margin: 16,
     alignItems: 'center',
-    padding: 10
+    padding: 10,
+  },
+  returnButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+
+  },
+  textReturn: {
+    color: WhiteColor,
+    fontSize: 22,
+    fontFamily: 'Manrope-SemiBold',
+
   }
+
 });
