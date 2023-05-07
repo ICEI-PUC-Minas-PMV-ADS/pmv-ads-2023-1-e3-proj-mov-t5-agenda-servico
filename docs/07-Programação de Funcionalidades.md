@@ -8,7 +8,7 @@ Segue a implementação das telas que registram o usuário. Cada tela tem o obje
 ### Tela "WhatsEmail" (Em desenvolvimento)
 O usuário digita o email que deseja cadastrar. É realizado uma busca no banco de dados para verificar se o email não pertence a alguma conta, se o email ja estiver em uso, o usuário é levado de volta para a tela de login, senão é dado continuidade no processo de registro.
 
-![WhatsEmail](img/registerPages/WhatsEmail.png | width=100) 
+<img src="./img/registerPages/WhatsEmail.png"> 
 
 ### Tela "WhoYou" 
 A partir da tela “WhoYou” cria-se uma bifurcação onde o usuário define seu tipo de conta (empresarial ou cliente).
