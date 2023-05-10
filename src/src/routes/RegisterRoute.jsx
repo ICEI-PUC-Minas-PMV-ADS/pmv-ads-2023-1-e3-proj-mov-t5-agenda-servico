@@ -22,13 +22,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 
 export default function RegisterRoute() {
-
   const Stack = createNativeStackNavigator();
-
   return (
-
-    <Stack.Navigator initialRouteName='Email'>
-
+    <Stack.Navigator>
       <Stack.Screen name='Email' component={WhatsEmail} options={{
         title: 'Qual é o seu e-mail?',
         headerStyle: {

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 
-const ForgotPasswordScreen = () => {
+export const ForgotPasswordScreen = () => {
   const [email, setEmail] = useState('');
 
   const handleResetPassword = () => {
-    
+
     console.log(`Um email de redefinição de senha foi enviado para ${email}.`);
   };
 

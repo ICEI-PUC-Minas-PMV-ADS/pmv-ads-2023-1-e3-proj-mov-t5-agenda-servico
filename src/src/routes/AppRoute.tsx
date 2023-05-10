@@ -7,19 +7,21 @@ import { TestPage } from '../pages/TestPage';
 
 import ClientProfilePage from '../pages/ClientProfilePage';
 import ProfessionalProfilePage from '../pages/ProfessionalProfilePage';
+import ForgotPasswordScreen from '../pages/PassRecover';
 
 const Stack = createNativeStackNavigator<AppParamsList>();
 
-function LoginRoute(): JSX.Element {
+function AppRoute(): JSX.Element {
   return (
-    <Stack.Navigator initialRouteName='Login'>
+    <Stack.Navigator>
       <Stack.Screen name='Login' component={LoginPage} options={{ headerShown: false }} />
       <Stack.Screen name='Home' component={HomePage} options={{ headerShown: false }} />
       <Stack.Screen name="Test" component={TestPage} />
       <Stack.Screen name="ProfessionalProfile" component={ProfessionalProfilePage} />
       <Stack.Screen name="ClientProfile" component={ClientProfilePage} />
+      <Stack.Screen name="ForgotPasswordScreen" component={ForgotPasswordScreen} />
     </Stack.Navigator>
   );
 }
 
-export default LoginRoute;
+export default AppRoute;
