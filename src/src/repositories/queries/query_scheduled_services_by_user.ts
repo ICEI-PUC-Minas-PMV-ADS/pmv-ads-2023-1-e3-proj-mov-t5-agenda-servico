@@ -3,7 +3,6 @@ import { Service } from "../../models/service";
 import { User } from "../../models/user";
 import { ScheduledServicesRepository } from "../scheduled_services";
 import { ServiceRepository } from "../service_repository";
-import { UserRepository } from "../user_repository";
 
 export class QueryScheduledServicesByUser {
   private user: User;
@@ -18,7 +17,6 @@ export class QueryScheduledServicesByUser {
   async query(callback: (data: ScheduledServices[]) => void) {
     callback(await new Promise<ScheduledServices[]>((accepted, rejected) => {
       this.scheduledServicesRepository.getAll((scheduledServices) => {
-        scheduledServices = scheduledServices?.filter((scheduledService) => scheduledService.status === "pendente");
         if (scheduledServices) {
           if (this.isClientUser()) {
             accepted(this.filterScheduledServicesToUse(scheduledServices));

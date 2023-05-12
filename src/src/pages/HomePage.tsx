@@ -14,6 +14,7 @@ import { ScheduledServices } from '../models/scheduled_services';
 import { ScheduledServiceList } from '../components/ScheduledServiceList';
 import { ScheduledServicesRepository } from '../repositories/scheduled_services';
 import { QueryValidateTimeOfScheduleServices } from '../repositories/queries/query_validate_time_of_schedule_services';
+import { QueryTest } from '../repositories/queries/query_test';
 
 /***
  * HomePage
@@ -78,7 +79,7 @@ function HomePageContent({ selectedTab, setSelectedTab }: HomePageContentProps) 
           });
       });
     }
-  }, [setData, setLoading, appContext]);
+  }, [setData, setLoading, appContext.user]);
 
   return (
     <ScrollView style={style.container}>

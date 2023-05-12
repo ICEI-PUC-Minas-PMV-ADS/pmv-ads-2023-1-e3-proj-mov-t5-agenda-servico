@@ -19,8 +19,10 @@ export class QueryValidateTimeOfScheduleServices {
 
   private async validateTimeOfScheduledService(scheduledServices: ScheduledServices) {
     if (scheduledServices.data) {
-      if (scheduledServices.data.getTime() >= Date.now()) {
+      if (scheduledServices.data.getTime() <= Date.now()) {
         this.updateOutOfTimeScheduledService(scheduledServices);
+      } else {
+        this.updatedScheduledServices.push(scheduledServices);
       }
     }
   }
