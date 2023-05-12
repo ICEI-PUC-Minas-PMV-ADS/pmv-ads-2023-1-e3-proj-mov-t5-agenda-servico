@@ -103,7 +103,7 @@ function HomePageContent({ selectedTab, setSelectedTab }: HomePageContentProps) 
 
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         {loading
-          ? <View style={style.loadingContainer}><ActivityIndicator /></View>
+          ? <View style={style.emptyContainer}><View style={style.loadingContainer}><ActivityIndicator /></View></View>
           : (data.length > 0
             ? <ScheduledServiceList data={data} />
             : <View style={style.emptyContainer}><Image source={require('../../assets/images/Empty.png')} /></View>)
