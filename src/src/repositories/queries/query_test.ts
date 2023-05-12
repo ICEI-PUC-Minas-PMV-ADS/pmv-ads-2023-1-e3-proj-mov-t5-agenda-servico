@@ -9,6 +9,7 @@ export class QueryTest {
 
   query() {
     const portifolio = new Portifolio();
+    portifolio.fotos = ['Foto1', 'Foto2'];
     this.portifolioRepository.create(portifolio, (DBPortifolio) => {
       if (DBPortifolio) {
         // Success
