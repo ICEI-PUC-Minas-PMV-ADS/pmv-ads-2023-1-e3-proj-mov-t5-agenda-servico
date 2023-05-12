@@ -22,9 +22,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 
 export default function RegisterRoute() {
-
   const Stack = createNativeStackNavigator();
-
   return (
 
     <Stack.Navigator initialRouteName='CEP'>

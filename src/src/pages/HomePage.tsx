@@ -3,7 +3,7 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { View, Text, StyleSheet, TouchableWithoutFeedback, Image, ActivityIndicator, ScrollView } from 'react-native';
-import { AppParamsList } from '../ParamList';
+import { AppParamsList } from '../routes/ParamList';
 import { KEY_USERDATA } from '../constants/app';
 import { useAppContext } from '../contexts/app_context';
 import { BackgroundColor, WhiteColor } from '../constants/colors';
@@ -13,6 +13,7 @@ import { IcCategorySearch } from '../constants/icons';
 import { ScheduledServices } from '../models/scheduled_services';
 import { ScheduledServiceList } from '../components/ScheduledServiceList';
 import { ScheduledServicesRepository } from '../repositories/scheduled_services';
+import { QueryValidateTimeOfScheduleServices } from '../repositories/queries/query_validate_time_of_schedule_services';
 
 /***
  * HomePage
@@ -69,11 +70,15 @@ function HomePageContent({ selectedTab, setSelectedTab }: HomePageContentProps) 
     if (appContext?.user) {
       const scheduledServicesRepo = new ScheduledServicesRepository();
       scheduledServicesRepo.filterScheduledServicesByUser(appContext.user, (scheduledServices) => {
-        setData(scheduledServices);
-        setLoading(false);
+        new QueryValidateTimeOfScheduleServices(scheduledServices)
+          .query()
+          .then((scheduledServices) => {
+            setData(scheduledServices);
+            setLoading(false);
+          });
       });
     }
-  }, [setData, setLoading, appContext]);
+  }, [setData, setLoading, appContext.user]);
 
   return (
     <ScrollView style={style.container}>
@@ -103,10 +108,10 @@ function HomePageContent({ selectedTab, setSelectedTab }: HomePageContentProps) 
 
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         {loading
-          ? <View style={style.loadingContainer}><ActivityIndicator /></View>
+          ? <View style={style.emptyContainer}><View style={style.loadingContainer}><ActivityIndicator /></View></View>
           : (data.length > 0
             ? <ScheduledServiceList data={data} />
-            : <Image source={require('../../assets/images/Empty.png')} />)
+            : <View style={style.emptyContainer}><Image source={require('../../assets/images/Empty.png')} /></View>)
         }
       </View>
     </ScrollView>
@@ -118,16 +123,19 @@ function HomePageContent({ selectedTab, setSelectedTab }: HomePageContentProps) 
  */
 
 const style = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: BackgroundColor,
+    padding: 16,
+  },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: BackgroundColor,
   },
-  container: {
-    flex: 1,
-    backgroundColor: BackgroundColor,
-    padding: 16,
+  emptyContainer: {
+    marginVertical: 130,
   },
   title: {
     color: WhiteColor,

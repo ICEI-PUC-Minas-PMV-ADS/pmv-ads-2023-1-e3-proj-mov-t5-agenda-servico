@@ -5,4 +5,5 @@ export type AppParamsList = {
   ClientProfile: {};
   ProfessionalProfile: {};
   RegisterRoute: {};
+  ForgotPasswordScreen: {},
 };

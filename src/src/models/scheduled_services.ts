@@ -6,7 +6,7 @@ export class ScheduledServices extends Model {
   servico_fk?: string;
   descricao?: string;
   data?: Date;
-  status?: string;
+  status?: "pendente" | "cancelado" | "concluido" | "fora do prazo";
   cliente_fk?: string;
   local_fk?: string;
   preco?: Number;

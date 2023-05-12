@@ -9,7 +9,7 @@ import { ProfileImage } from "../components/ProfileImage";
 import { useAppContext } from "../contexts/app_context";
 import { useErrorContext } from "../contexts/error_context";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { AppParamsList } from "../ParamList";
+import { AppParamsList } from "../routes/ParamList";
 
 export interface ProfessionalProfilePageProps {
     userTeste: () => void;

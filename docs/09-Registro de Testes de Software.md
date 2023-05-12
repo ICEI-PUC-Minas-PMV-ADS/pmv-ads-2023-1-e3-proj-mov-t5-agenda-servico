@@ -49,6 +49,8 @@ O teste consiste em verificar se o sistema vai recuperar as informações do usu
 - O usuário deve estar logado para realização do teste.
 - O usuário deve clicar no link de redirecionamento para acessar a página de perfil.
 - As informações exceto o e-mail poderão ser alteradas através da página de perfil clicando no botão de salvar informações. 
+- O usuário poderá trocar sua senha pelo aplicativo
+- O usuário poderá enviar mensagem de suporte
 
 O sistema deve apresentar as informações de perfil de forma clara para o usuário cliente:
 
@@ -57,4 +59,16 @@ O sistema deve apresentar as informações de perfil de forma clara para o usuá
 O sistema deve apresentar as informações de perfil do usuário profissional:
 
 ![Tela de Perfil do Profissional ](img/perfil-profissional.png)
+
+O sistema deve apresentar as função de trocar senha do usuário:
+
+![Tela de Mudar Senha](img/telasenha.png)
+![Tela Senha Alterada](img/mudarsenha.png)
+
+O sistema deve ter local para pedir suporte com o aplicatio:
+
+![Tela de Pedir Suporte](img/telasuporte.png)
+![Tela Pedido Suporte Enviado](img/suporte.png)
+
+
 
