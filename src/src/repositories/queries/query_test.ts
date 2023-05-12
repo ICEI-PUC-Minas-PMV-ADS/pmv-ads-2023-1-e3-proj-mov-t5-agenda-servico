@@ -13,7 +13,7 @@ export class QueryTest {
       if (DBPortifolio) {
         // Success
       } else {
-        // Error
+        // Fail
       }
     });
   }
