@@ -1,10 +1,10 @@
 import React, { useState } from "react"
 import { StyleSheet, Text, View, ScrollView, KeyboardAvoidingView, TouchableWithoutFeedback } from "react-native";
-import { BackgroundColor, WhiteColor } from "../constants/colors";
+import { BackgroundColor, WhiteColor, PrimaryColor, LightGray } from "../constants/colors";
 import { PrimaryButton } from "../components/Buttons";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { OtherInput } from '../components/OtherInput'
-import { HelperText } from 'react-native-paper';
+import { HelperText, Switch } from 'react-native-paper';
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
 
@@ -26,6 +26,17 @@ export function Address() {
   const [error, setError] = React.useState(false);
 
   const [complement, setComplement] = useState('')
+
+  const [isSwitchOn, setIsSwitchOn] = React.useState();
+
+  const nameSwitch = React.useMemo(() => {
+    if (isSwitchOn == true) {
+      return 'Mostrar'
+    }
+    else return 'Esconder'
+  }, [isSwitchOn]);
+
+  const onToggleSwitch = () => { setIsSwitchOn(!isSwitchOn); }
 
   function handleNumberChange(number) {
     const numberRegex = /^[0-9]+$/;
@@ -63,12 +74,12 @@ export function Address() {
 
   return (
     <View style={styles.container}>
-      <KeyboardAvoidingView>
-        <ScrollView>
-          <View>
-            <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-              <Text style={styles.whiteText}> Onde seus clientes podem te encontrar? </Text>
-            </View>
+      <View>
+        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+          <Text style={styles.whiteText}> Onde seus clientes podem te encontrar? </Text>
+        </View>
+        <View style={{ maxHeight: 490 }}>
+          <ScrollView>
             <View style={styles.inputContainer}>
               <TouchableWithoutFeedback onPress={() => { navigation.navigate('CEP', {}) }}>
                 <View>
@@ -80,7 +91,6 @@ export function Address() {
                   </HelperText>
                 </View>
               </TouchableWithoutFeedback>
-
               <View>
                 <OtherInput
                   label="Logradouro"
@@ -89,7 +99,6 @@ export function Address() {
                   editable={false}
                   desativado={true}
                 />
-
                 <HelperText>
                 </HelperText>
               </View>
@@ -116,22 +125,30 @@ export function Address() {
                   Ex: Apt.200, Casa B, Perto da lanchonete.
                 </HelperText>
               </View>
-              <View>
-                <OtherInput
-                  label="Bairro"
-                  value={neighborhood}
-                  onChangeText={text => setNeighborhood(text)}
-                  editable={false}
-                  desativado={true} />
-                <HelperText>
-                </HelperText>
-              </View>
+
+              <TouchableWithoutFeedback onPress={() => {
+                onToggleSwitch()
+              }}>
+                <View style={styles.checkItemContainer}>
+                  <View style={{ flex: 1 }}>
+                    <Text style={styles.whiteText}>Visibilidade do endereço</Text>
+                    <Text style={styles.description}>Determina se os clientes podem ver seu endereço em seu perfil</Text>
+                  </View>
+                  <View style={{ flexDirection: 'column', alignItems: 'center', marginLeft: 100 }}>
+                    <Switch value={isSwitchOn} onValueChange={onToggleSwitch} color={PrimaryColor} />
+                    <Text style={{
+                      color: LightGray,
+                      fontFamily: 'Manrope-Bold',
+                      fontSize: 12
+                    }}>{nameSwitch}</Text>
+                  </View>
+                </View>
+
+              </TouchableWithoutFeedback>
             </View>
-          </View>
-
-        </ScrollView>
-
-      </KeyboardAvoidingView>
+          </ScrollView>
+        </View>
+      </View>
       <View style={styles.buttonContainer}>
         <View style={{ alignItems: 'center' }}>
           <HelperText type="error" visible={error}>
@@ -166,10 +183,26 @@ const styles = StyleSheet.create({
   },
 
   inputContainer: {
-    padding: 16
+    paddingTop: 16,
+    paddingLeft: 16,
+    paddingRight: 16
 
   },
   buttonContainer: {
-    marginBottom: 10
-  }
+
+  },
+  description: {
+    color: LightGray,
+    fontFamily: 'Manrope-Bold',
+    fontSize: 12,
+  },
+  checkItemContainer: {
+    flexDirection: "row",
+    borderBottomWidth: 1,
+    borderBottomColor: WhiteColor,
+    padding: 15,
+    alignItems: 'center',
+
+  },
+
 })

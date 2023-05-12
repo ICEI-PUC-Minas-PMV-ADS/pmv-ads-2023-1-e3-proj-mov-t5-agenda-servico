@@ -27,7 +27,7 @@ export default function RegisterRoute() {
 
   return (
 
-    <Stack.Navigator initialRouteName='Email'>
+    <Stack.Navigator initialRouteName='CEP'>
 
       <Stack.Screen name='Email' component={WhatsEmail} options={{
         title: 'Qual é o seu e-mail?',
