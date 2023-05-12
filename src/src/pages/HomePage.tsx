@@ -13,6 +13,7 @@ import { IcCategorySearch } from '../constants/icons';
 import { ScheduledServices } from '../models/scheduled_services';
 import { ScheduledServiceList } from '../components/ScheduledServiceList';
 import { ScheduledServicesRepository } from '../repositories/scheduled_services';
+import { QueryValidateTimeOfScheduleServices } from '../repositories/queries/query_validate_time_of_schedule_services';
 
 /***
  * HomePage
@@ -69,8 +70,12 @@ function HomePageContent({ selectedTab, setSelectedTab }: HomePageContentProps) 
     if (appContext?.user) {
       const scheduledServicesRepo = new ScheduledServicesRepository();
       scheduledServicesRepo.filterScheduledServicesByUser(appContext.user, (scheduledServices) => {
-        setData(scheduledServices);
-        setLoading(false);
+        new QueryValidateTimeOfScheduleServices(scheduledServices)
+          .query()
+          .then((scheduledServices) => {
+            setData(scheduledServices);
+            setLoading(false);
+          });
       });
     }
   }, [setData, setLoading, appContext]);

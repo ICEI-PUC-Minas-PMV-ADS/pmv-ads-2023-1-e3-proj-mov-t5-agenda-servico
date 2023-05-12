@@ -6,13 +6,11 @@ import { ServiceRepository } from "../service_repository";
 import { UserRepository } from "../user_repository";
 
 export class QueryScheduledServicesByUser {
-  user: User;
-  userRepository: UserRepository;
-  serviceRepository: ServiceRepository;
-  scheduledServicesRepository: ScheduledServicesRepository;
+  private user: User;
+  private serviceRepository: ServiceRepository;
+  private scheduledServicesRepository: ScheduledServicesRepository;
   constructor(user: User) {
     this.user = user;
-    this.userRepository = new UserRepository();
     this.serviceRepository = new ServiceRepository();
     this.scheduledServicesRepository = new ScheduledServicesRepository();
   }
