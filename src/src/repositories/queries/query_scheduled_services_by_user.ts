@@ -20,6 +20,7 @@ export class QueryScheduledServicesByUser {
   async query(callback: (data: ScheduledServices[]) => void) {
     callback(await new Promise<ScheduledServices[]>((accepted, rejected) => {
       this.scheduledServicesRepository.getAll((scheduledServices) => {
+        scheduledServices = scheduledServices?.filter((scheduledService) => scheduledService.status === "pendente");
         if (scheduledServices) {
           if (this.isClientUser()) {
             accepted(this.filterScheduledServicesToUse(scheduledServices));
