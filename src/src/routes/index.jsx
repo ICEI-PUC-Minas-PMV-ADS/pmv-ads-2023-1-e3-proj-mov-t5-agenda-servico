@@ -14,7 +14,6 @@ export function Route() {
       <Stack.Navigator initialRouteName='AppRoute'>
         <Stack.Screen name="AppRoute" component={AppRoute} options={{ headerShown: false }} />
         <Stack.Screen name="RegisterRoute" component={RegisterRoute} options={{ headerShown: false }} />
-        <Stack.Screen name="LoginRoute" component={LoginRoute} options={{ headerShown: false }} />
 
       </Stack.Navigator>
     </NavigationContainer>

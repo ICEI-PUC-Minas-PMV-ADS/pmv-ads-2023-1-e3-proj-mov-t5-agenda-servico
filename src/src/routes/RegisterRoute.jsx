@@ -25,7 +25,7 @@ export default function RegisterRoute() {
   const Stack = createNativeStackNavigator();
   return (
 
-    <Stack.Navigator initialRouteName='CEP'>
+    <Stack.Navigator initialRouteName='Email'>
 
       <Stack.Screen name='Email' component={WhatsEmail} options={{
         title: 'Qual é o seu e-mail?',
