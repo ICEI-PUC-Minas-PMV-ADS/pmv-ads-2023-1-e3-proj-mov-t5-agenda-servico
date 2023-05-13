@@ -15,4 +15,11 @@ export class User extends Model {
   nome_fantasia?: string;
   descricao?: string;
   cnpj?: string;
+  lista_de_horarios?: Horario[];
+}
+
+export class Horario {
+  inicio?: number;
+  final?: number;
+  intervalos?: number[] = [];
 }
