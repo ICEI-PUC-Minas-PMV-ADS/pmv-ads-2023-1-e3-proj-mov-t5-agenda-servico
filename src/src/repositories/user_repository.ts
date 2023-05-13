@@ -20,6 +20,7 @@ export class UserRepository extends Repository<User> {
     return {
       ...model,
       created_at: model?.created_at?.getTime(),
+      lista_de_horarios: JSON.stringify(model.lista_de_horarios),
     };
   }
 
@@ -39,6 +40,7 @@ export class UserRepository extends Repository<User> {
     user.nome_fantasia = json.nome_fantasia;
     user.descricao = json.descricao;
     user.cnpj = json.cnpj;
+    user.lista_de_horarios = JSON.parse(json.lista_de_horarios);
     return user;
   }
 }
