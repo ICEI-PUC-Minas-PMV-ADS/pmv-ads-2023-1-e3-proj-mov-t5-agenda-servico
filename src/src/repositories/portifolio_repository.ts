@@ -1,5 +1,5 @@
-import {Portifolio} from '../models/portifolio';
-import {Repository} from './repository';
+import { Portifolio } from '../models/portifolio';
+import { Repository } from './repository';
 
 export class PortifolioRepository extends Repository<Portifolio> {
   constructor() {
@@ -7,7 +7,7 @@ export class PortifolioRepository extends Repository<Portifolio> {
   }
 
   protected serialize(model: Portifolio): any {
-    return {...model};
+    return { ...model };
   }
 
   protected deserialize(model: any): Portifolio {

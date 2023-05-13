@@ -6,6 +6,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { OtherInput } from '../components/OtherInput'
 import { HelperText } from 'react-native-paper';
 import AsyncStorage from "@react-native-async-storage/async-storage"
+import { UserRepository } from './../repositories/user_repository';
 
 
 

@@ -42,6 +42,10 @@ export class QueryTest {
 
     // Gera hash da senha.
     const hashPassword = hash('123');
+
+    // Busca email.
+    userRepository.findUserByEmail('email@email.com', (DBUser) => { });
+
   }
 }
 
