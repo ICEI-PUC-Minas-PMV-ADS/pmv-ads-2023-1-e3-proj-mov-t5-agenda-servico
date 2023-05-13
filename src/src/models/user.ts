@@ -19,7 +19,19 @@ export class User extends Model {
 }
 
 export class Horario {
-  inicio?: number;
-  final?: number;
-  intervalos?: number[] = [];
+  dia?:string;
+  aberto?: boolean;
+  inicio?: Tempo;
+  fim?: Tempo;
+  intervalos?: Intervalo[];
+}
+
+export class Intervalo {
+inicio?: Tempo;
+fim?: Tempo;
+}
+
+export class Tempo {
+  horas?: number;
+  minutos?: number;
 }
