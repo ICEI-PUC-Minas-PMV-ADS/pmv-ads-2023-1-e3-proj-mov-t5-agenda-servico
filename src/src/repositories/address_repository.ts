@@ -1,5 +1,5 @@
-import {Address} from '../models/address';
-import {Repository} from './repository';
+import { Address } from '../models/address';
+import { Repository } from './repository';
 
 export class AddressRepository extends Repository<Address> {
   constructor() {
@@ -7,7 +7,7 @@ export class AddressRepository extends Repository<Address> {
   }
 
   protected serialize(model: Address): any {
-    return {...model};
+    return { ...model };
   }
 
   protected deserialize(model: any): Address {

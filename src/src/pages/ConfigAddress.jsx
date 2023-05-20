@@ -30,6 +30,33 @@ export function Address() {
 
   const [isSwitchOn, setIsSwitchOn] = React.useState();
 
+  const [where, setWhere] = useState('')
+  const [home, setHome] = useState('')
+  const [description, setDescription] = useState('')
+
+
+
+  React.useEffect(() => {
+    const loadType = async () => {
+      const value = await AsyncStorage.getItem('wherework');
+      const convertedValue = JSON.parse(value)
+      setWhere(convertedValue)
+    };
+    loadType()
+  }, []);
+
+
+  React.useEffect(() => {
+    if (where.homeservice == true && where.establishment == false) {
+      setHome(true)
+      setDescription('Mostre aos clientes locais que você está na área deles e está disponível para reserva.')
+    }
+    else {
+      setHome(false)
+      setDescription('Onde seus clientes podem te encontrar?')
+    }
+  }, [where]);
+
   const nameSwitch = React.useMemo(() => {
     if (isSwitchOn == true) {
       return 'Mostrar'
@@ -63,21 +90,28 @@ export function Address() {
     neighborhood: neighborhood,
     city: endereco.cidade,
     state: endereco.estado,
-    complement: complement
+    complement: complement,
+    visible: isSwitchOn
   }
 
   const saveAdress = () => {
     const newData = JSON.stringify(newAdress)
     AsyncStorage.setItem('adress', newData).then(
-      navigation.navigate('DisplacementFee', {})
+      () => {
+        if (where.homeservice == true) {
+          navigation.navigate('DisplacementFee', {})
+        }
+        else navigation.navigate('Opening', {})
+      }
+
     )
   }
 
   return (
     <View style={styles.container}>
       <View>
-        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-          <Text style={styles.whiteText}> Onde seus clientes podem te encontrar? </Text>
+        <View style={{ alignItems: 'center', justifyContent: 'center', paddingRight: 16, paddingLeft: 16 }}>
+          <Text style={styles.whiteText}> {description} </Text>
         </View>
         <View style={{ maxHeight: 490 }}>
           <ScrollView>
@@ -127,25 +161,29 @@ export function Address() {
                 </HelperText>
               </View>
 
-              <TouchableWithoutFeedback onPress={() => {
-                onToggleSwitch()
-              }}>
-                <View style={styles.checkItemContainer}>
-                  <View style={{ flex: 1 }}>
-                    <Text style={styles.whiteText}>Visibilidade do endereço</Text>
-                    <Text style={styles.description}>Determina se os clientes podem ver seu endereço em seu perfil</Text>
+              {
+                home &&
+                <TouchableWithoutFeedback onPress={() => {
+                  onToggleSwitch()
+                }}>
+                  <View style={styles.checkItemContainer}>
+                    <View style={{ flex: 1 }}>
+                      <Text style={styles.whiteText}>Visibilidade do endereço</Text>
+                      <Text style={styles.description}>Determina se os clientes podem ver seu endereço em seu perfil</Text>
+                    </View>
+                    <View style={{ flexDirection: 'column', alignItems: 'center', marginLeft: 100 }}>
+                      <Switch value={isSwitchOn} onValueChange={onToggleSwitch} color={PrimaryColor} />
+                      <Text style={{
+                        color: LightGray,
+                        fontFamily: 'Manrope-Bold',
+                        fontSize: 12
+                      }}>{nameSwitch}</Text>
+                    </View>
                   </View>
-                  <View style={{ flexDirection: 'column', alignItems: 'center', marginLeft: 100 }}>
-                    <Switch value={isSwitchOn} onValueChange={onToggleSwitch} color={PrimaryColor} />
-                    <Text style={{
-                      color: LightGray,
-                      fontFamily: 'Manrope-Bold',
-                      fontSize: 12
-                    }}>{nameSwitch}</Text>
-                  </View>
-                </View>
+                </TouchableWithoutFeedback>
+              }
 
-              </TouchableWithoutFeedback>
+
             </View>
           </ScrollView>
         </View>
@@ -189,9 +227,7 @@ const styles = StyleSheet.create({
     paddingRight: 16
 
   },
-  buttonContainer: {
 
-  },
   description: {
     color: LightGray,
     fontFamily: 'Manrope-Bold',

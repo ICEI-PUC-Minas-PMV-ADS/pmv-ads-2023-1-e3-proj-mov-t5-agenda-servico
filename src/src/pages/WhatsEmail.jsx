@@ -6,6 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import { OtherInput } from "../components/OtherInput";
 import { HelperText } from 'react-native-paper';
 import AsyncStorage from "@react-native-async-storage/async-storage"
+import { UserRepository } from "../repositories/user_repository";
 
 export function WhatsEmail() {
 
@@ -13,6 +14,7 @@ export function WhatsEmail() {
   const [email, setEmail] = React.useState("");
   const [isValid, setIsValid] = React.useState(true);
   const [error, setError] = React.useState(false);
+  const [mensage, setMensage] = React.useState(null)
 
   //Valida o email
   function handleEmailChange(email) {
@@ -22,11 +24,28 @@ export function WhatsEmail() {
     setError(false)
   }
 
-  const saveEmail = () => {
+  const mensageError = (type) => {
+    if (type === 'exist') {
+      setMensage("Email já cadastrado, por favor digite um novo email ou retorne e faça login")
+    }
+    else {
+      setMensage("Por favor, digite um email valido")
+    }
+  }
 
-    AsyncStorage.setItem('email', email).then(
-      navigation.navigate('Who', {})
-    )
+  const saveEmail = () => {
+    const userRepository = new UserRepository();
+    userRepository.findUserByEmail(email, (user) => {
+      if (user) {
+        setError(true)
+        mensageError('exist')
+      }
+      else {
+        AsyncStorage.setItem('email', email).then(
+          navigation.navigate('Who', {})
+        )
+      }
+    })
   }
 
   return (
@@ -48,15 +67,17 @@ export function WhatsEmail() {
       <View style={styles.buttonContainer}>
         <View style={{ alignItems: 'center' }}>
           <HelperText type="error" visible={error}>
-            Por favor, insira um email válido.
+            {mensage}
           </HelperText>
         </View>
         <PrimaryButton title={'Confirmar'} onPress={() => {
           if (isValid && email != "") {
-
             saveEmail()
           }
-          else setError(true)
+          else {
+            mensageError()
+            setError(true)
+          }
 
         }} />
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>

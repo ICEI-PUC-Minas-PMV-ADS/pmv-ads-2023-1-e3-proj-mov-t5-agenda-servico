@@ -83,18 +83,15 @@ export function Services() {
             />
           </View>
           <View style={styles.listContainer}>
+            <FlatList
+              data={services}
+              renderItem={({ item, index }) =>
+                <TouchableOpacity onPress={() => navigateToDetails(index)}>
+                  <Item title={item.name} duration={item.duration} price={item.price} />
+                </TouchableOpacity>
+              }
 
-            <ScrollView>
-              <FlatList
-                data={services}
-                renderItem={({ item, index }) =>
-                  <TouchableOpacity onPress={() => navigateToDetails(index)}>
-                    <Item title={item.name} duration={item.duration} price={item.price} />
-                  </TouchableOpacity>
-                }
-                keyExtractor={item => item.id}
-              />
-            </ScrollView>
+            />
           </View>
         </View>
       </View>

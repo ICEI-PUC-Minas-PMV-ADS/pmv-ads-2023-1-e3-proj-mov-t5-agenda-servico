@@ -38,17 +38,21 @@ export function Day() {
   React.useEffect(() => {
     if (item) {
       setIsSwitchOn(item.open)
-      setOpening(item.opening)
-      setClosure(item.closure)
+      setOpening(`${addZeroes(item.opening.hours, 2)}:${addZeroes(item.opening.minutes, 2)}`)
+      setClosure(`${addZeroes(item.closure.hours, 2)}:${addZeroes(item.closure.minutes, 2)}`)
+      setOpeningHours(item.opening.hours);
+      setOpeningMinutes(item.opening.minutes);
+      setClosureHours(item.closure.hours);
+      setClosureMinutes(item.closure.minutes);
       setDay(item.day)
     }
   }, [item]);
 
-  const Item = ({ start, end }) => {
+  const Item = ({ startHours, startMinutes, endHours, endMinutes }) => {
     return (
       <View style={styles.listItem}>
         <List.Item
-          title={() => <Text style={styles.whiteText}>{start} - {end}</Text>}
+          title={() => <Text style={styles.whiteText}>{addZeroes(startHours, 2)}:{addZeroes(startMinutes, 2)}  -  {addZeroes(endHours, 2)}:{addZeroes(endMinutes, 2)}</Text>}
           right={() => arrowIcon}
         />
       </View>
@@ -96,6 +100,10 @@ export function Day() {
 
   const [opening, setOpening] = React.useState()
   const [closure, setClosure] = React.useState()
+  const [closureHours, setClosureHours] = React.useState()
+  const [closureMinutes, setClosureMinutes] = React.useState()
+  const [openingHours, setOpeningHours] = React.useState()
+  const [openingMinutes, setOpeningMinutes] = React.useState()
   const [visibleOpening, setVisibleOpening] = React.useState(false)
   const [visibleClosure, setVisibleClosure] = React.useState(false)
 
@@ -108,6 +116,9 @@ export function Day() {
       const time = `${addZeroes(hours, 2)}:${addZeroes(minutes, 2)}`
       setVisibleOpening(false);
       setOpening(time);
+      setOpeningHours(hours);
+      setOpeningMinutes(minutes);
+      console.log(hours)
     },
     [setVisibleOpening]
   );
@@ -121,36 +132,34 @@ export function Day() {
       const time = `${addZeroes(hours, 2)}:${addZeroes(minutes, 2)}`
       setVisibleClosure(false);
       setClosure(time);
+      setClosureHours(hours);
+      setClosureMinutes(minutes);
     },
     [setVisibleClosure]
   );
 
   const newItemData = {
-    id: item.id,
     day: item.day,
     open: isSwitchOn,
-    opening: opening,
-    closure: closure,
+    opening: {
+      hours: openingHours,
+      minutes: openingMinutes
+    },
+    closure: {
+      hours: closureHours,
+      minutes: closureMinutes
+    },
     breaks: item.breaks
   }
 
-  const onUpdate = (id) => {
-    const updateData = (copy) => {
-      const newData = JSON.stringify(copy)
-      AsyncStorage.setItem('opening', newData).then(
-        navigation.navigate('Opening', {})
-      )
-    }
+  const onUpdate = () => {
 
-    dataOpening.map((item, index) => {
-      if (item.id === id) {
-        const copy = [...dataOpening]
-        copy[index] = newItemData
-        updateData(copy)
-      }
-    })
-
-
+    const copy = [...dataOpening]
+    copy[dayIndex] = newItemData
+    const newData = JSON.stringify(copy)
+    AsyncStorage.setItem('opening', newData).then(
+      navigation.navigate('Opening', {})
+    )
 
 
   };
@@ -180,8 +189,8 @@ export function Day() {
                   visible={visibleOpening}
                   onDismiss={onDismissOpening}
                   onConfirm={onConfirmOpening}
-                  hours={9}
-                  minutes={0}
+                  hours={openingHours}
+                  minutes={openingMinutes}
                 />
               </View>
               <Text style={styles.whiteText}>-</Text>
@@ -192,8 +201,8 @@ export function Day() {
                   visible={visibleClosure}
                   onDismiss={onDismissClosure}
                   onConfirm={onConfirmClosure}
-                  hours={18}
-                  minutes={0}
+                  hours={closureHours}
+                  minutes={closureMinutes}
                 />
               </View>
             </View>
@@ -211,7 +220,7 @@ export function Day() {
                   data={item.breaks}
                   renderItem={({ item, index }) =>
                     <TouchableOpacity onPress={() => navigateToInterval(index)}>
-                      <Item start={item.start} end={item.end} />
+                      <Item startHours={item.start.hours} startMinutes={item.start.minutes} endHours={item.end.hours} endMinutes={item.end.minutes} />
                     </TouchableOpacity>
                   }
                   keyExtractor={item => item.id}

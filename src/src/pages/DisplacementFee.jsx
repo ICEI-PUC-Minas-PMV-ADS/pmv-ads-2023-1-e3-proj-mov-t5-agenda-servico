@@ -122,8 +122,9 @@ export function DisplacementFee() {
             inputLabel='Tipo de preço'
             options={types}
             selectedValue={type}
-            onChange={(itemValue, itemIndex) => {
+            onChange={(itemValue, key) => {
               setType(itemValue)
+              console.log(key)
               setError(false)
             }
             }

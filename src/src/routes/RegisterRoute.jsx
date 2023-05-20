@@ -4,7 +4,6 @@ import { WhatsEmail } from '../pages/WhatsEmail';
 import { WhoYou } from '../pages/WhoYou'
 import { AboutYou } from '../pages/AboutYou';
 import { Password } from '../pages/ConfigPassword';
-import { Category } from '../pages/ConfigCategory';
 import { WhereWork } from '../pages/WhereWork';
 import { Cep } from '../pages/ConfigCEP';
 import { Address } from '../pages/ConfigAddress';
@@ -25,7 +24,7 @@ export default function RegisterRoute() {
   const Stack = createNativeStackNavigator();
   return (
 
-    <Stack.Navigator initialRouteName='Email'>
+    <Stack.Navigator initialRouteName='Services'>
 
       <Stack.Screen name='Email' component={WhatsEmail} options={{
         title: 'Qual é o seu e-mail?',
@@ -51,13 +50,6 @@ export default function RegisterRoute() {
       }} />
       <Stack.Screen name='Password' component={Password} options={{
         title: 'Configuração de senha',
-        headerStyle: {
-          backgroundColor: BackgroundColor
-        },
-        headerTintColor: WhiteColor
-      }} />
-      <Stack.Screen name='Category' component={Category} options={{
-        title: 'Que tipo de negócio você tem?',
         headerStyle: {
           backgroundColor: BackgroundColor
         },

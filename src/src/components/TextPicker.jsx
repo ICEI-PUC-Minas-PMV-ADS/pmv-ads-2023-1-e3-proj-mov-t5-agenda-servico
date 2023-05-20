@@ -7,7 +7,7 @@ import { WhiteColor } from '../constants/colors';
 
 
 
-export function TextPicker({ inputLabel, options, selectedValue, onChange }) {
+export function TextPicker({ inputLabel, options, selectedValue, onChange, type }) {
   const pickerRef = useRef(null);
   const handleTextInputPress = () => {
     pickerRef.current.focus();
@@ -26,9 +26,15 @@ export function TextPicker({ inputLabel, options, selectedValue, onChange }) {
         selectedValue={selectedValue}
         onValueChange={onChange}
       >
-        {options.map((option, index) => (
-          <Picker.Item key={index} label={option.label} value={option.value} />
-        ))}
+        {type == 'fee' &&
+          options.map((option, index) => (
+            <Picker.Item key={option.id} label={option.label} value={option.value} />
+          ))}
+
+        {type == 'categorys' &&
+          options.map((option, index) => (
+            <Picker.Item key={option.id} label={option.titulo} value={option.titulo} />
+          ))}
       </Picker>
     </View>
 
