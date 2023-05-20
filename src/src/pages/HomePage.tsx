@@ -14,16 +14,19 @@ import { ScheduledServices } from '../models/scheduled_services';
 import { ScheduledServiceList } from '../components/ScheduledServiceList';
 import { ScheduledServicesRepository } from '../repositories/scheduled_services';
 import { QueryValidateTimeOfScheduleServices } from '../repositories/queries/query_validate_time_of_schedule_services';
+import { BottomNavigation } from '../components/bottom_navigation';
+import { useNavigationState } from '@react-navigation/native';
 
 /***
- * HomePage
+ * HomePageImpl
  */
 
-export function HomePage({
+function HomePageImpl({
   navigation,
 }: NativeStackScreenProps<AppParamsList, 'Home'>) {
   const [selectedTab, setSelectedTab] = React.useState(0);
   const [loadingUserData, setLoadingUserData] = React.useState(true);
+
   const appContext = useAppContext();
 
   React.useLayoutEffect(() => {
@@ -161,3 +164,16 @@ const style = StyleSheet.create({
     color: 'white',
   }
 });
+
+/***
+ * HomePage
+ */
+
+export function HomePage(props: any) {
+  const routeName = useNavigationState(state => state?.routes?.[state?.index]?.name);
+  return (
+    <BottomNavigation routeName={routeName} navigation={props.navigation}>
+      <HomePageImpl {...props} />
+    </BottomNavigation>
+  );
+}

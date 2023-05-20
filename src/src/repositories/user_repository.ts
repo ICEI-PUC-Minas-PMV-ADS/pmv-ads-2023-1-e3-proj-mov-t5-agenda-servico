@@ -40,7 +40,10 @@ export class UserRepository extends Repository<User> {
     user.nome_fantasia = json.nome_fantasia;
     user.descricao = json.descricao;
     user.cnpj = json.cnpj;
-    user.lista_de_horarios = JSON.parse(json.lista_de_horarios);
+
+    if (json.lista_de_horarios) {
+      user.lista_de_horarios = JSON.parse(json.lista_de_horarios);
+    }
     return user;
   }
 }

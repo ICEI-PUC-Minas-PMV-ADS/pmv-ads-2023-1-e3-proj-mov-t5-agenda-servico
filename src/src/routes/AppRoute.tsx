@@ -4,10 +4,12 @@ import { AppParamsList } from './ParamList';
 import { LoginPage } from '../pages/LoginPage';
 import { HomePage } from '../pages/HomePage';
 import { TestPage } from '../pages/TestPage';
+import { SupportPage } from '../pages/SupportPage';
 
 import ClientProfilePage from '../pages/ClientProfilePage';
 import ProfessionalProfilePage from '../pages/ProfessionalProfilePage';
 import ForgotPasswordScreen from '../pages/PassRecover';
+
 
 const Stack = createNativeStackNavigator<AppParamsList>();
 
@@ -17,8 +19,9 @@ function AppRoute(): JSX.Element {
       <Stack.Screen name='Login' component={LoginPage} options={{ headerShown: false }} />
       <Stack.Screen name='Home' component={HomePage} options={{ headerShown: false }} />
       <Stack.Screen name="Test" component={TestPage} />
-      <Stack.Screen name="ProfessionalProfile" component={ProfessionalProfilePage} />
-      <Stack.Screen name="ClientProfile" component={ClientProfilePage} />
+      <Stack.Screen name="ProfessionalProfile" component={ProfessionalProfilePage} options={{ headerShown: false }} />
+      <Stack.Screen name="ClientProfile" component={ClientProfilePage} options={{ headerShown: false }} />
+      <Stack.Screen name="Support" component={SupportPage} options={{ headerShown: false }} />
       <Stack.Screen name="ForgotPasswordScreen" component={ForgotPasswordScreen} />
     </Stack.Navigator>
   );

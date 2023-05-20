@@ -289,13 +289,13 @@ export function LoginPage({
           </Text>
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback onPress={() => { navigation.navigate('RegisterRoute', {}) }}>
-        <View
-          style={{ flexDirection: 'row', justifyContent: 'center', margin: 48 }}>
-          <Text style={styles.whiteText}>Não tem uma conta?</Text>
-          <Text style={[styles.touchableText, { marginHorizontal: 4 }]}>
-            Sign Up
-          </Text>
-        </View>
+          <View
+            style={{ flexDirection: 'row', justifyContent: 'center', margin: 48 }}>
+            <Text style={styles.whiteText}>Não tem uma conta?</Text>
+            <Text style={[styles.touchableText, { marginHorizontal: 4 }]}>
+              Sign Up
+            </Text>
+          </View>
         </TouchableWithoutFeedback>
       </ScrollView>
     </View>
