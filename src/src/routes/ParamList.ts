@@ -7,4 +7,5 @@ export type AppParamsList = {
   RegisterRoute: {};
   ForgotPasswordScreen: {},
   Support: {},
+  ChangePassword: {},
 };

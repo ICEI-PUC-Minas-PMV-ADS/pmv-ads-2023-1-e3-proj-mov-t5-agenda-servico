@@ -1,4 +1,5 @@
 import IcBackArrow from '../../assets/svg/ic_back_arrow.svg';
+import IcFrontArrow from '../../assets/svg/ic_front_arrow.svg';
 import IcCategorySearch from '../../assets/svg/ic_category_search.svg';
 import IcFabPlus from '../../assets/svg/ic_fab_plus.svg';
 import IcIndexHeart from '../../assets/svg/ic_index_heart.svg';
@@ -15,6 +16,7 @@ import IcMenuScheduling from '../../assets/svg/ic_menu_scheduling.svg';
 
 export {
   IcBackArrow,
+  IcFrontArrow,
   IcCategorySearch,
   IcFabPlus,
   IcIndexHeart,
