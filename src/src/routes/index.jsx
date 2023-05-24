@@ -1,12 +1,20 @@
 import React from "react";
 
-import AppRoute from "./AppRoute";
 import RegisterRoute from "./RegisterRoute";
 
-import { NavigationContainer } from '@react-navigation/native';
+import AppRoute from "./AppRoute";
+
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+/***
+ * Stack
+ */
+
 const Stack = createNativeStackNavigator();
+
+/***
+ * Route
+ */
 
 export function Route() {
   return (

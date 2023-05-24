@@ -1,6 +1,6 @@
 import { NOT_INITIALIZED_ERROR } from '@react-navigation/core/lib/typescript/src/createNavigationContainerRef';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -8,23 +8,23 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {PrimaryButton} from '../components/Buttons';
-import {BackgroundColor} from '../constants/colors';
-import {IcBackArrow, IcFrontArrow} from '../constants/icons';
+import { PrimaryButton } from '../components/Buttons';
+import { BackgroundColor } from '../constants/colors';
+import { IcBackArrow, IcFrontArrow } from '../constants/icons';
+import { AppParamsList } from '../routes/ParamList';
 
 export function ConfigPage({
   navigation,
-}: NativeStackScreenProps<AppParamsList, 'Config'>) {
+}: NativeStackScreenProps<AppParamsList, 'Support'>) {
   const [isEnabled, setIsEnabled] = useState(false);
-
   return (
-    <View style={{flex: 1, backgroundColor: 'blue'}}>
-      <View style={{flex: 1}}>
+    <View style={{ flex: 1, backgroundColor: 'blue' }}>
+      <View style={{ flex: 1 }}>
         <ScrollView
           style={styles.scrollContainer}
           contentInsetAdjustmentBehavior="automatic">
           <View style={styles.container}>
-            <View style={{marginTop: 20, marginBottom: 15}}>
+            <View style={{ marginTop: 20, marginBottom: 15 }}>
               <View
                 style={{
                   flexDirection: 'row',
@@ -33,23 +33,23 @@ export function ConfigPage({
                 }}>
                 <TouchableOpacity
                   onPress={() => {
-                    navigation.replace('Login', {});
+                    navigation.pop();
                   }}
                   style={{
                     flexDirection: 'row',
                     alignItems: 'center',
                     marginBottom: 5,
                   }}>
-                  <View style={{marginLeft: 12}}>
+                  <View style={{ marginLeft: 12 }}>
                     <IcBackArrow />
                   </View>
-                  <View style={{marginLeft: 10}}>
-                    <Text style={{color: '#FDFDFD', fontSize: 18}}>Voltar</Text>
+                  <View style={{ marginLeft: 10 }}>
+                    <Text style={{ color: '#FDFDFD', fontSize: 18 }}>Voltar</Text>
                   </View>
                 </TouchableOpacity>
               </View>
             </View>
-            <View style={{flex: 1}}>
+            <View style={{ flex: 1 }}>
               <Text
                 style={{
                   color: '#FDFDFD',
@@ -62,21 +62,21 @@ export function ConfigPage({
               </Text>
             </View>
 
-            <View style={{alignItems: 'center', width: '100%'}}>
-              <View style={{width: '85%', marginTop: 20}}>
+            <View style={{ alignItems: 'center', width: '100%' }}>
+              <View style={{ width: '85%', marginTop: 20 }}>
                 <View>
                   <TouchableOpacity
                     style={styles.settingsButton}
                     onPress={() => {
-                      navigation.replace('ChangePassword', {});
+                      navigation.navigate('ChangePassword', {});
                     }}>
-                    <Text style={{color: '#FFFFFF'}}>Mudar senha</Text>
+                    <Text style={{ color: '#FFFFFF' }}>Mudar senha</Text>
                     <IcFrontArrow />
                   </TouchableOpacity>
                 </View>
                 <View>
                   <TouchableOpacity style={styles.settingsButton}>
-                    <Text style={{color: '#FFFFFF'}}>Atualizar App</Text>
+                    <Text style={{ color: '#FFFFFF' }}>Atualizar App</Text>
                     <IcFrontArrow />
                   </TouchableOpacity>
                 </View>
@@ -86,16 +86,16 @@ export function ConfigPage({
                     onPress={() => {
                       navigation.replace('Support', {});
                     }}>
-                    <Text style={{color: '#FFFFFF'}}>Suporte</Text>
+                    <Text style={{ color: '#FFFFFF' }}>Suporte</Text>
                     <IcFrontArrow />
                   </TouchableOpacity>
                 </View>
               </View>
             </View>
 
-            <View style={{alignItems: 'center', width: '100%'}}>
-              <View style={{width: '80%'}}>
-                <PrimaryButton title="Versão PRO" onPress={() => {}} />
+            <View style={{ alignItems: 'center', width: '100%' }}>
+              <View style={{ width: '80%' }}>
+                <PrimaryButton title="Versão PRO" onPress={() => { }} />
               </View>
             </View>
             <View
@@ -104,11 +104,11 @@ export function ConfigPage({
                 alignItems: 'center',
                 justifyContent: 'center',
               }}>
-              <View style={{marginRight: 10}}>
-                <Text style={{color: '#999999'}}>Termos de uso</Text>
+              <View style={{ marginRight: 10 }}>
+                <Text style={{ color: '#999999' }}>Termos de uso</Text>
               </View>
-              <View style={{marginLeft: 10}}>
-                <Text style={{color: '#999999'}}>Política de privacidade</Text>
+              <View style={{ marginLeft: 10 }}>
+                <Text style={{ color: '#999999' }}>Política de privacidade</Text>
               </View>
             </View>
           </View>
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     backgroundColor: BackgroundColor,
   },
 
-  compontStyle: {color: 'white', backgroundColor: 'red'},
+  compontStyle: { color: 'white', backgroundColor: 'red' },
 
   settingsButton: {
     flexDirection: 'row',

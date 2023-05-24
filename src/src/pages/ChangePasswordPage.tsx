@@ -1,5 +1,4 @@
-import {NOT_INITIALIZED_ERROR} from '@react-navigation/core/lib/typescript/src/createNavigationContainerRef';
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -7,15 +6,18 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {isEnabled} from 'react-native/Libraries/Performance/Systrace';
 
-import {InputIconText} from '../components/Inputs';
-import {Alert} from 'react-native';
-import {BackgroundColor, SecondaryColor} from '../constants/colors';
-import {IcBackArrow} from '../constants/icons';
-import {IcEyeOffSvg, IcEyeSvg} from '../constants/icons';
+import { InputIconText } from '../components/Inputs';
+import { Alert } from 'react-native';
+import { BackgroundColor, SecondaryColor } from '../constants/colors';
+import { IcBackArrow } from '../constants/icons';
+import { IcEyeOffSvg, IcEyeSvg } from '../constants/icons';
 import { UserRepository } from '../repositories/user_repository';
 import { hash } from '../utils/crypto';
+import { useAppContext } from '../contexts/app_context';
+import { useErrorContext } from '../contexts/error_context';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { AppParamsList } from '../routes/ParamList';
 
 export function ChangePasswordPage({
   navigation,
@@ -38,13 +40,13 @@ export function ChangePasswordPage({
     return <></>;
   }
   return (
-    <View style={{flex: 1, backgroundColor: 'blue'}}>
-      <View style={{flex: 1}}>
+    <View style={{ flex: 1, backgroundColor: 'blue' }}>
+      <View style={{ flex: 1 }}>
         <ScrollView
           style={styles.scrollContainer}
           contentInsetAdjustmentBehavior="automatic">
           <View style={styles.container}>
-            <View style={{marginTop: 20}}>
+            <View style={{ marginTop: 20 }}>
               <View
                 style={{
                   flexDirection: 'row',
@@ -53,23 +55,23 @@ export function ChangePasswordPage({
                 }}>
                 <TouchableOpacity
                   onPress={() => {
-                    navigation.replace('Config', {});
+                    navigation.pop();
                   }}
                   style={{
                     flexDirection: 'row',
                     alignItems: 'center',
                     marginBottom: 5,
                   }}>
-                  <View style={{marginLeft: 12}}>
+                  <View style={{ marginLeft: 12 }}>
                     <IcBackArrow />
                   </View>
-                  <View style={{marginLeft: 10}}>
-                    <Text style={{color: '#FDFDFD', fontSize: 18}}>Voltar</Text>
+                  <View style={{ marginLeft: 10 }}>
+                    <Text style={{ color: '#FDFDFD', fontSize: 18 }}>Voltar</Text>
                   </View>
                 </TouchableOpacity>
               </View>
             </View>
-            <View style={{alignItems: 'center', width: '100%'}}>
+            <View style={{ alignItems: 'center', width: '100%' }}>
               <Text
                 style={{
                   color: '#FDFDFD',
@@ -79,8 +81,8 @@ export function ChangePasswordPage({
                 Alterar senha
               </Text>
             </View>
-            <View style={{padding: 10}}>
-            <View>
+            <View style={{ padding: 10 }}>
+              <View>
                 <InputIconText
                   label="Senha Atual"
                   placeholder="senha aqui..."
@@ -117,44 +119,38 @@ export function ChangePasswordPage({
               </View>
             </View>
 
-            <View style={{justifyContent: 'center', width: '100%'}}>
-              <View style={{alignItems: 'center'}}>
+            <View style={{ justifyContent: 'center', width: '100%' }}>
+              <View style={{ alignItems: 'center' }}>
                 <TouchableOpacity
                   style={styles.button}
                   onPress={() => {
-                    //
-                    userRepo.get(appContext.user.id, (user) => {
-                      if (user === undefined) {
-                        //
-                        errorContext.dispatchError('Informações do usuario nao foram localizadas!');
-                      } else {
-                        //
-                        if (user.hash === hash(currentPassword)) {
-                          if (password === confirmPassword) {
-                            //
-                            user.hash = hash(password);
-
-                            //
-                            userRepo.update(user, () => {
-                              navigation.replace('Config', {});
-                              Alert.alert(
-                                'Senha alterada',
-                                'Sua senha foi alterada com sucesso!',
-                                [{text: 'Ok'}],
-                              );
-                            });
-                          } else {
-                            //
-                            errorContext.dispatchError('A confirmação da senha esta diferente!');
-                          }
+                    if (appContext.user?.id) {
+                      userRepo.get(appContext.user.id, (user) => {
+                        if (user === undefined) {
+                          errorContext.dispatchError('Informações do usuario nao foram localizadas!');
                         } else {
-                          //
-                          errorContext.dispatchError('Senha atual invalida!');
+                          if (user.hash === hash(currentPassword)) {
+                            if (password === confirmPassword) {
+                              user.hash = hash(password);
+                              userRepo.update(user, () => {
+                                navigation.replace('Support', {});
+                                Alert.alert(
+                                  'Senha alterada',
+                                  'Sua senha foi alterada com sucesso!',
+                                  [{ text: 'Ok' }],
+                                );
+                              });
+                            } else {
+                              errorContext.dispatchError('A confirmação da senha esta diferente!');
+                            }
+                          } else {
+                            errorContext.dispatchError('Senha atual invalida!');
+                          }
                         }
-                      }
-                    });
+                      });
+                    }
                   }}>
-                  <Text style={{color: '#FDFDFD'}}>Salvar senha</Text>
+                  <Text style={{ color: '#FDFDFD' }}>Salvar senha</Text>
                 </TouchableOpacity>
               </View>
             </View>

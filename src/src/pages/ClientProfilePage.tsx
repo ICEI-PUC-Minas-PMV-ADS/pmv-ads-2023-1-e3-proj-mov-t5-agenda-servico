@@ -15,7 +15,7 @@ export interface ClientProfilePageProps {
     userTeste: () => void;
 }
 
-export default function ClientProfilePage({navigation}: NativeStackScreenProps<AppParamsList, 'ClientProfile'>) {
+export default function ClientProfilePage({ navigation }: NativeStackScreenProps<AppParamsList, 'ClientProfile'>) {
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
     const [email, setEmail] = useState('');
@@ -23,19 +23,19 @@ export default function ClientProfilePage({navigation}: NativeStackScreenProps<A
     const userRep = new UserRepository();
     const userContext = useAppContext();
 
-    if(userContext.user === undefined){
-        navigation.navigate({name:'Login', params:{}})
+    if (userContext.user === undefined) {
+        navigation.navigate({ name: 'Login', params: {} })
     }
 
-    useEffect( () => {
+    useEffect(() => {
         setName(userContext.user?.nome ?? "")
         setPhone(userContext.user?.telefone ?? "");
         setEmail(userContext.user?.email ?? "");;
-    },[ ])
-    
+    }, [])
 
-    const changeInfoAccount = React.useCallback (( ) => {
-        let newUser = {...userContext.user};
+
+    const changeInfoAccount = React.useCallback(() => {
+        let newUser = { ...userContext.user };
         if (newUser !== undefined) {
             newUser.nome = name;
             newUser.telefone = phone;
@@ -45,15 +45,15 @@ export default function ClientProfilePage({navigation}: NativeStackScreenProps<A
                     useErrorContext().dispatchError("Falha ao atualizar o Usuário!!!!!")
             })
         }
-    },[name, phone, email])
+    }, [name, phone, email])
 
-    
+
 
     return (
         <View style={styles.body}>
             <ScrollView>
-                <ReturnButton 
-                    onPress={ () => { navigation.pop() }}
+                <ReturnButton
+                    onPress={() => { navigation.pop() }}
                 />
                 <Text style={styles.title}> Perfil </Text>
                 <ProfileImage
@@ -83,9 +83,9 @@ export default function ClientProfilePage({navigation}: NativeStackScreenProps<A
                 />
 
                 <PrimaryButton
-                    title="Salvar Informações" 
-                    onPress={ () => changeInfoAccount() }
-                    />
+                    title="Salvar Informações"
+                    onPress={() => changeInfoAccount()}
+                />
 
             </ScrollView>
         </View>
@@ -94,6 +94,7 @@ export default function ClientProfilePage({navigation}: NativeStackScreenProps<A
 
 const styles = StyleSheet.create({
     body: {
+        flex: 1,
         backgroundColor: BackgroundColor,
     },
     title: {
