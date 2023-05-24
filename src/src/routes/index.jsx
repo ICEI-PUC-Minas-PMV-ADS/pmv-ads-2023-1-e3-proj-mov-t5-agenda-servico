@@ -6,6 +6,7 @@ import AppRoute from "./AppRoute";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+
 /***
  * Stack
  */
@@ -18,13 +19,11 @@ const Stack = createNativeStackNavigator();
 
 export function Route() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName='AppRoute'>
-        <Stack.Screen name="AppRoute" component={AppRoute} options={{ headerShown: false }} />
-        <Stack.Screen name="RegisterRoute" component={RegisterRoute} options={{ headerShown: false }} />
+    <Stack.Navigator initialRouteName='AppRoute'>
+      <Stack.Screen name="AppRoute" component={AppRoute} options={{ headerShown: false }} />
+      <Stack.Screen name="RegisterRoute" component={RegisterRoute} options={{ headerShown: false }} />
+    </Stack.Navigator>
 
-      </Stack.Navigator>
-    </NavigationContainer>
   )
 }
 

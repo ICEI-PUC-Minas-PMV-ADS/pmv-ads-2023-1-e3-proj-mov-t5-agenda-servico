@@ -100,7 +100,7 @@ export default function RegisterRoute() {
       }} />
 
       <Stack.Screen name='DisplacementFee' component={DisplacementFee} options={{
-        title: 'Qual é a sua taxa de deslocamento?',
+        title: 'Diga sua taxa de deslocamento',
         headerStyle: {
           backgroundColor: BackgroundColor
         },
