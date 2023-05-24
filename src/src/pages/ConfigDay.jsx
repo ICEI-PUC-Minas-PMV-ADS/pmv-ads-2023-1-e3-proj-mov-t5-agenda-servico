@@ -223,7 +223,7 @@ export function Day() {
                       <Item startHours={item.start.hours} startMinutes={item.start.minutes} endHours={item.end.hours} endMinutes={item.end.minutes} />
                     </TouchableOpacity>
                   }
-                  keyExtractor={item => item.id}
+
                 />
               </View>
             </View>

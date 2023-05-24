@@ -85,7 +85,7 @@ export function Interval() {
 
 
   navigation.setOptions({
-    headerTitle: `Intervalo • ${nameDay}`,
+    title: `Intervalo • ${nameDay}`,
   });
 
   function addZeroes(num, len) {

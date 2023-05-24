@@ -11,4 +11,12 @@ export class Service extends Model {
   categoria?: string;
   avaliacao?: Number;
   regime_de_trabalho?: string;
+  duracao?: Tempo;
 }
+
+export class Tempo {
+  horas?: number;
+  minutos?: number;
+}
+
+

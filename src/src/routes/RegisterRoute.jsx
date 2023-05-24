@@ -24,7 +24,7 @@ export default function RegisterRoute() {
   const Stack = createNativeStackNavigator();
   return (
 
-    <Stack.Navigator initialRouteName='Services'>
+    <Stack.Navigator initialRouteName='Email'>
 
       <Stack.Screen name='Email' component={WhatsEmail} options={{
         title: 'Qual é o seu e-mail?',
@@ -123,13 +123,7 @@ export default function RegisterRoute() {
         headerTintColor: WhiteColor
       }} />
 
-      <Stack.Screen name='teste' component={TestRegister} options={{
-        title: 'Teste',
-        headerStyle: {
-          backgroundColor: BackgroundColor
-        },
-        headerTintColor: WhiteColor
-      }} />
+
     </Stack.Navigator>
 
   );

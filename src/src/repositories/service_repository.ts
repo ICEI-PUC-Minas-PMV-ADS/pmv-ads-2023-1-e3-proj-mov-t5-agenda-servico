@@ -1,5 +1,5 @@
-import {Service} from '../models/service';
-import {Repository} from './repository';
+import { Service } from '../models/service';
+import { Repository } from './repository';
 
 export class ServiceRepository extends Repository<Service> {
   constructor() {
@@ -7,7 +7,11 @@ export class ServiceRepository extends Repository<Service> {
   }
 
   protected serialize(model: Service) {
-    return {...model, duracao_servico: model?.duracao_servico?.getTime()};
+    return {
+      ...model,
+      duracao_servico: model?.duracao_servico?.getTime(),
+      duracao: JSON.stringify(model.duracao),
+    };
   }
 
   protected deserialize(model: any): Service {
@@ -22,6 +26,7 @@ export class ServiceRepository extends Repository<Service> {
     service.categoria = model.categoria;
     service.avaliacao = model.avaliacao;
     service.regime_de_trabalho = model.regime_de_trabalho;
+    service.duracao = model.duracao
     return service;
   }
 }

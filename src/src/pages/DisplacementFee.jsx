@@ -128,6 +128,7 @@ export function DisplacementFee() {
               setError(false)
             }
             }
+            type='fee'
           />
           <HelperText></HelperText>
         </View>
@@ -154,6 +155,7 @@ export function DisplacementFee() {
           selectedValue={distance}
           onChange={(itemValue, itemIndex) =>
             setDistance(itemValue)}
+          type='fee'
         />
         <HelperText></HelperText>
       </View>

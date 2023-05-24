@@ -127,6 +127,7 @@ export function Opening() {
 }
 
 const styles = StyleSheet.create({
+  
   container: {
     flex: 1,
     backgroundColor: BackgroundColor,

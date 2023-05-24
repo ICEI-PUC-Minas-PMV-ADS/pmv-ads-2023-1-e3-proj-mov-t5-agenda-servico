@@ -28,7 +28,7 @@ export function Address() {
 
   const [complement, setComplement] = useState('')
 
-  const [isSwitchOn, setIsSwitchOn] = React.useState();
+  const [isSwitchOn, setIsSwitchOn] = React.useState(false);
 
   const [where, setWhere] = useState('')
   const [home, setHome] = useState('')
@@ -101,7 +101,20 @@ export function Address() {
         if (where.homeservice == true) {
           navigation.navigate('DisplacementFee', {})
         }
-        else navigation.navigate('Opening', {})
+        else {
+          const newFee = {
+            distance: '5 km',
+            fee: {
+              type: 'Gratuito',
+              value: 'R$ 0,00'
+            },
+          }
+          const newData = JSON.stringify(newFee)
+          AsyncStorage.setItem('displacementfee', newData).then(
+            navigation.navigate('Opening', {})
+          )
+        }
+
       }
 
     )

@@ -4,7 +4,7 @@ import { BackgroundColor, WhiteColor, LightGray } from "../constants/colors";
 import { PrimaryButton } from "../components/Buttons";
 import { useNavigation } from "@react-navigation/native";
 import { OtherInput } from "../components/OtherInput";
-import { HelperText } from "react-native-paper";
+import { HelperText, ActivityIndicator } from "react-native-paper";
 import Emoji from 'react-native-emoji';
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { hash } from "../utils/crypto";
@@ -17,6 +17,7 @@ export function Password() {
   const [error, setError] = React.useState(false)
   const [email, setEmail] = React.useState('Email')
   const [password, setPassword] = React.useState()
+  const [loading, setLoading] = React.useState(false)
 
   React.useEffect(() => {
     AsyncStorage.getItem('email').then(value => {
@@ -48,10 +49,23 @@ export function Password() {
   }
 
   const savePassword = () => {
-    const hashPassword = hash(password)
-    AsyncStorage.setItem('password', hashPassword).then(
-      navigation.navigate('WhereWork', {})
+    AsyncStorage.setItem('password', password).then(
+      () => {
+        navigation.navigate('WhereWork', {})
+        setLoading(false)
+      }
+
+
     )
+  }
+
+  const loadingButton = () => {
+    if (loading == false) {
+      return 'Continuar'
+    }
+    else {
+      return <ActivityIndicator animating={loading} color={WhiteColor} />
+    }
   }
 
   return (
@@ -106,8 +120,9 @@ export function Password() {
             Por favor, insira uma senha válida.
           </HelperText>
         </View>
-        <PrimaryButton title={'Continuar'} onPress={() => {
+        <PrimaryButton title={loadingButton()} onPress={() => {
           if (validateInput.case && validateInput.length && validateInput.number) {
+            setLoading(true)
             savePassword()
           }
           else {

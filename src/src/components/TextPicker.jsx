@@ -28,12 +28,12 @@ export function TextPicker({ inputLabel, options, selectedValue, onChange, type 
       >
         {type == 'fee' &&
           options.map((option, index) => (
-            <Picker.Item key={option.id} label={option.label} value={option.value} />
+            <Picker.Item  label={option.label} value={option.value} />
           ))}
 
         {type == 'categorys' &&
           options.map((option, index) => (
-            <Picker.Item key={option.id} label={option.titulo} value={option.titulo} />
+            <Picker.Item  label={option.titulo} value={option.titulo} />
           ))}
       </Picker>
     </View>

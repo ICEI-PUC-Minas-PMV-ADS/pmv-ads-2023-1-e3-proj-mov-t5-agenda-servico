@@ -7,6 +7,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import baseServices from "../example/services";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage"
+import { TestRegister } from "./newRegisterTest";
+import { ActivityIndicator } from 'react-native-paper';
 
 const convertedBaseSevices = JSON.stringify(baseServices)
 
@@ -16,16 +18,22 @@ export function Services() {
   const navigation = useNavigation();
   const isFocused = useIsFocused();
   const [services, setServices] = React.useState('')
+  const [loading, setLoading] = React.useState(true)
 
   const getData = () => {
     AsyncStorage.getItem('services').then(value => {
       if (value !== null) {
         setServices(JSON.parse(value))
+        setLoading(false)
       }
+
       else {
         AsyncStorage.setItem('services', convertedBaseSevices).then(
-          AsyncStorage.getItem('opening').then(
-            value => setServices(JSON.parse(value))
+          AsyncStorage.getItem('services').then(
+            value => {
+              setServices(JSON.parse(value))
+              setLoading(false)
+            }
           )
 
         )
@@ -39,27 +47,28 @@ export function Services() {
 
 
   const Item = ({ title, duration, price }) => {
+    if (loading == false) {
+      return (
+        <View style={styles.listItem}>
+          <List.Item
+            title={() => <View style={styles.titleContainer}>
+              <View>
+                <Text style={styles.whiteText}>{title}</Text>
+                <Text style={styles.description}>{duration.hours}h {duration.minutes}min</Text>
+              </View>
 
-    return (
-      <View style={styles.listItem}>
-        <List.Item
-          title={() => <View style={styles.titleContainer}>
-            <View>
-              <Text style={styles.whiteText}>{title}</Text>
-              <Text style={styles.description}>{duration.hours}h {duration.minutes}min</Text>
+              <View style={styles.priceContainer}>
+                <Text style={styles.whiteText}>R${price}</Text>
+                {arrowIcon}
+              </View>
+
+
             </View>
-
-            <View style={styles.priceContainer}>
-              <Text style={styles.whiteText}>R${price}</Text>
-              {arrowIcon}
-            </View>
-
-
-          </View>
-          }
-        />
-      </View>
-    )
+            }
+          />
+        </View>
+      )
+    }
   }
 
   const navigateToDetails = (index) => {
@@ -69,41 +78,63 @@ export function Services() {
 
 
   return (
-    <View style={styles.container}>
-      <View>
-        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-          <Text style={styles.whiteText}> Adicione pelo menos um serviço agora. Posteriormente, você pode adicionar mais, editar detalhes e agrupar serviços em categorias. </Text>
-        </View>
-        <View style={{ marginTop: 15 }}>
-          <View style={styles.listAdd}>
-            <List.Item
-              title={() => <Text style={styles.whiteText}>Adicionar serviço</Text>}
-              onPress={() => { navigation.navigate('ServiceDetails', {}) }}
-              left={() => plusIcon}
-            />
-          </View>
-          <View style={styles.listContainer}>
-            <FlatList
-              data={services}
-              renderItem={({ item, index }) =>
-                <TouchableOpacity onPress={() => navigateToDetails(index)}>
-                  <Item title={item.name} duration={item.duration} price={item.price} />
-                </TouchableOpacity>
-              }
 
-            />
+    <View style={styles.loadingContainer}>
+      {
+        loading &&
+        <ActivityIndicator animating={loading} color={PrimaryColor} />
+      }
+      {
+        loading == false &&
+        <View style={styles.container}>
+          <View>
+            <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+              <Text style={styles.whiteText}> Adicione pelo menos um serviço agora. Posteriormente, você pode adicionar mais, editar detalhes e agrupar serviços em categorias. </Text>
+            </View>
+            <View style={{ marginTop: 15 }}>
+              <View style={styles.listAdd}>
+                <List.Item
+                  title={() => <Text style={styles.whiteText}>Adicionar serviço</Text>}
+                  onPress={() => { navigation.navigate('ServiceDetails', {}) }}
+                  left={() => plusIcon}
+                />
+              </View>
+              <View style={styles.listContainer}>
+                {loading == false &&
+                  <FlatList
+                    data={services}
+                    renderItem={({ item, index }) =>
+                      <TouchableOpacity onPress={() => navigateToDetails(index)}>
+                        <Item title={item.name} duration={item.duration} price={item.price} />
+                      </TouchableOpacity>
+                    }
+
+                  />}
+
+              </View>
+            </View>
+          </View>
+          <View style={styles.buttonContainer}>
+            <PrimaryButton title={'Continuar'} onPress={() => {
+              TestRegister(navigation);
+
+            }} />
           </View>
         </View>
-      </View>
-      <View style={styles.buttonContainer}>
-        <PrimaryButton title={'Continuar'} onPress={() => { navigation.navigate('teste', {}) }} />
-      </View>
+      }
+
     </View>
 
   )
 }
 
 const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    backgroundColor: BackgroundColor,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   container: {
     flex: 1,
     backgroundColor: BackgroundColor,
