@@ -10,7 +10,7 @@ import {
 
 import { BackgroundColor } from './constants/colors';
 import { ErrorConsumer, ErrorProvider } from './contexts/error_context';
-import { AppProvider } from './contexts/app_context';
+import { AppConsumer, AppProvider } from './contexts/app_context';
 import { Route } from "./routes";
 import { NavigationContainer } from '@react-navigation/native';
 
@@ -25,6 +25,7 @@ function App(): JSX.Element {
                 barStyle={'light-content'}
                 backgroundColor={BackgroundColor}
               />
+
               <View style={styles.pageContainer}>
                 <Route />
               </View>
