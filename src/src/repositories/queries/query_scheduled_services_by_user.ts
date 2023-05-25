@@ -39,22 +39,23 @@ export class QueryScheduledServicesByUser {
   }
 
   private async filterScheduledServicesToProvider(scheduledServices: ScheduledServices[]): Promise<ScheduledServices[]> {
-    return await scheduledServices.filter(async (scheduledService) => {
-      const service = await new Promise<Service>((accepted, rejected) => {
+    const result = await Promise.all(scheduledServices.map(async (scheduledService) => {
+      const service = await new Promise<Service | undefined>((accepted, rejected) => {
         if (scheduledService?.servico_fk) {
           this.serviceRepository.get(scheduledService?.servico_fk, (service) => {
-            if (service) {
-              accepted(service);
-            } else {
-              rejected("QueryScheduledServicesByUser.filterSupplierScheduledServices: Service not found!");
-            }
+            accepted(service);
           });
         } else {
           rejected("QueryScheduledServicesByUser.filterSupplierScheduledServices: Invalid servico_fk!");
         }
       });
+      return { scheduledService, service };
+    }));
 
-      return service.prestador_servico_fk === this.user.id;
-    });
+    const filteredResults = result
+      .filter(({ service }) => service?.prestador_servico_fk === this.user.id)
+      .map(({ scheduledService }) => scheduledService);
+
+    return filteredResults;
   }
 }
