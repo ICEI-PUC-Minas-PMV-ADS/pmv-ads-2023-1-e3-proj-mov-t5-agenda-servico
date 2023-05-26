@@ -5,7 +5,7 @@ const baseServices = [
       hours: 0,
       minutes: 30
     },
-    price: '30,00',
+    price: 'R$ 30,00',
     homeservice: false,
     category: '-NVtV1AFvLHhA39ObqJe'
   },
@@ -15,7 +15,7 @@ const baseServices = [
       hours: 1,
       minutes: 0
     },
-    price: '30,00',
+    price: 'R$ 30,00',
     homeservice: false,
     category: '-NVtVCY9FXAutQPmmjQx'
   },
@@ -25,7 +25,7 @@ const baseServices = [
       hours: 0,
       minutes: 10
     },
-    price: '10,00',
+    price: 'R$ 10,00',
     homeservice: false,
     category: '-NVtVsGW1H4SqdpcQhEe'
   },

@@ -124,7 +124,6 @@ export function DisplacementFee() {
             selectedValue={type}
             onChange={(itemValue, key) => {
               setType(itemValue)
-              console.log(key)
               setError(false)
             }
             }

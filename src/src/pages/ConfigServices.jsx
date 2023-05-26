@@ -1,6 +1,6 @@
 import React from "react"
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, ScrollView } from "react-native";
-import { List } from 'react-native-paper';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity } from "react-native";
+import { HelperText, List } from 'react-native-paper';
 import { BackgroundColor, WhiteColor, LightGray, PrimaryColor, BackgroundInput } from "../constants/colors";
 import { PrimaryButton } from "../components/Buttons";
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -19,6 +19,7 @@ export function Services() {
   const isFocused = useIsFocused();
   const [services, setServices] = React.useState('')
   const [loading, setLoading] = React.useState(true)
+  const [error, setError] = React.useState(false)
 
   const getData = () => {
     AsyncStorage.getItem('services').then(value => {
@@ -58,7 +59,7 @@ export function Services() {
               </View>
 
               <View style={styles.priceContainer}>
-                <Text style={styles.whiteText}>R${price}</Text>
+                <Text style={styles.whiteText}>{price}</Text>
                 {arrowIcon}
               </View>
 
@@ -95,7 +96,10 @@ export function Services() {
               <View style={styles.listAdd}>
                 <List.Item
                   title={() => <Text style={styles.whiteText}>Adicionar serviço</Text>}
-                  onPress={() => { navigation.navigate('ServiceDetails', {}) }}
+                  onPress={() => {
+                    setError(false)
+                    navigation.navigate('ServiceDetails', {})
+                  }}
                   left={() => plusIcon}
                 />
               </View>
@@ -115,8 +119,21 @@ export function Services() {
             </View>
           </View>
           <View style={styles.buttonContainer}>
+            <View style={{ alignItems: 'center' }}>
+              <HelperText type="error" visible={error}>
+                {
+                  error == true &&
+                  <Text>Por favor, adicione pelo menos um serviço</Text>
+                }
+              </HelperText>
+            </View>
             <PrimaryButton title={'Continuar'} onPress={() => {
-              TestRegister(navigation);
+              if (services.length == 0) {
+                setError(true)
+              }
+              else {
+                TestRegister(navigation);
+              }
 
             }} />
           </View>
@@ -149,7 +166,7 @@ const styles = StyleSheet.create({
   },
 
   buttonContainer: {
-    marginBottom: 10
+
   },
   listItem: {
     borderBottomWidth: 1,

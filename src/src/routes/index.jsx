@@ -19,7 +19,7 @@ const Stack = createNativeStackNavigator();
 
 export function Route() {
   return (
-    <Stack.Navigator initialRouteName='AppRoute'>
+    <Stack.Navigator initialRouteName='RegisterRoute'>
       <Stack.Screen name="AppRoute" component={AppRoute} options={{ headerShown: false }} />
       <Stack.Screen name="RegisterRoute" component={RegisterRoute} options={{ headerShown: false }} />
     </Stack.Navigator>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, TouchableWithoutFeedback } from "react-native";
+import { StyleSheet, Text, View, TouchableWithoutFeedback, KeyboardAvoidingView, ScrollView } from "react-native";
 import { BackgroundColor, WhiteColor, LightGray, PrimaryColor } from "../constants/colors";
 import { PrimaryButton } from "../components/Buttons";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -19,10 +19,13 @@ export function ServiceDetails() {
   const [loading, setLoading] = React.useState(true)
 
   const [name, setName] = useState('')
+  const [errorName, SetErrorName] = useState(false)
   const [description, setDescription] = useState('')
   const [price, setPrice] = useState('')
+  const [errorPrice, SetErrorPrice] = useState(false)
   const [residence, setResidence] = useState(false);
   const [time, setTime] = useState('')
+  const [errorTime, setErrorTime] = useState(false);
   const [hours, setHours] = useState('')
   const [minutes, setMinutes] = useState('')
   const [where, setWhere] = useState('')
@@ -32,6 +35,7 @@ export function ServiceDetails() {
   const serviceIndex = route.params.serviceIndex
   const [service, setService] = useState('')
   const [type, setType] = useState('Selecione uma categoria');
+  const [errorType, SetErrorType] = useState(false)
   const [types, setTypes] = useState([]);
   const [idType, setIdType] = useState('')
 
@@ -109,6 +113,7 @@ export function ServiceDetails() {
         repository.getAll((categorys) => {
           setTypes(categorys)
           setType(categorys[0].titulo)
+          setIdType(categorys[0].id)
           setLoading(false)
         })
       }
@@ -146,6 +151,41 @@ export function ServiceDetails() {
 
   }
 
+  const handleNameChange = (text) => {
+    if (text == "") {
+      setName(text)
+      SetErrorName(true);
+    }
+    else {
+      setName(text);
+      SetErrorName(false);
+    }
+
+
+  };
+
+  const handlePriceChange = (text) => {
+    // remove tudo que não for número
+    const onlyNumbers = text.replace(/[^\d]/g, "");
+
+    // transforma a string de números em um valor monetário formatado em reais
+    const formattedValue = (Number(onlyNumbers) / 100).toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    });
+
+    // atualiza o estado do valor formatado
+    if (Number(onlyNumbers) === 0) {
+      setPrice("")
+      SetErrorPrice(true);
+    } else {
+      // atualiza o estado do valor formatado
+      setPrice(formattedValue);
+      SetErrorPrice(false);
+    }
+
+
+  };
 
   const hoursConvert = (hours) => {
     if (hours == 0) {
@@ -228,92 +268,140 @@ export function ServiceDetails() {
       {
         loading == false &&
         <View style={styles.container}>
-          <View>
-            <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-              <Text style={styles.whiteText}> Adicione as informações básicas para este serviço agora. Você poderá adicionar uma descrição e ajustar as cofigurações avançadas para este serviço posteriormente. </Text>
-            </View>
-            <View style={{ marginTop: 15 }}>
-              <View>
-                <TextPicker
-                  inputLabel='Tipo de serviço'
-                  options={types}
-                  selectedValue={type}
-                  onChange={(itemValue, itemPosition) => {
-                    setType(itemValue)
-                    setIdType(types[itemPosition].id)
-                  }
-                  }
-                  type='categorys'
-                />
-                <HelperText></HelperText>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            keyboardVerticalOffset={85}>
+            <ScrollView>
+              <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                <Text style={styles.whiteText}> Adicione as informações básicas para este serviço agora. Você poderá adicionar uma descrição e ajustar as cofigurações avançadas para este serviço posteriormente. </Text>
               </View>
-              <View>
-                <OtherInput
-                  label="Nome do serviço"
-                  value={name}
-                  onChangeText={text => setName(text)}
-                />
-                <HelperText></HelperText>
-              </View>
-              <View>
-                <OtherInput
-                  label="Descrição"
-                  value={description}
-                  onChangeText={text => setDescription(text)}
-                />
-                <HelperText></HelperText>
-              </View>
-              <View>
-                <TimeTextPicker
-                  inputLabel='Duração'
-                  time={time}
-                  setTime={setTime}
-                  onTimeChange={(newTime) => {
-                    setHours(newTime.hours)
-                    setMinutes(newTime.minutes)
-                  }}
-                />
-                <HelperText></HelperText>
-              </View>
-              <View>
-                <OtherInput
-                  label="Preço"
-                  value={price}
-                  onChangeText={text => setPrice(text)}
-                  keyboardType='numeric'
-                />
-                <HelperText></HelperText>
-              </View>
+              <View style={{ marginTop: 15 }}>
 
-              {home &&
                 <View>
-                  <TouchableWithoutFeedback onPress={() => {
-                    setResidence(!residence);
-                  }}>
-                    <View style={styles.checkItemContainer}>
-                      <View style={styles.checkbox}>
-                        <Checkbox
-                          color={WhiteColor}
-                          status={residence ? 'checked' : 'unchecked'}
-                        />
-                        <Text style={styles.whiteText}>   Atendimento em Domicílio</Text>
-                      </View>
-                    </View>
-                  </TouchableWithoutFeedback>
+                  <TextPicker
+                    inputLabel='Tipo de serviço'
+                    options={types}
+                    selectedValue={type}
+                    onChange={(itemValue, itemPosition) => {
+                      setType(itemValue)
+                      setIdType(types[itemPosition].id)
+                      SetErrorType(false)
+                    }
+                    }
+                    type='categorys'
+                    inputError={errorType}
+                  />
+                  <HelperText type="error" visible={errorType}>
+                    {
+                      errorType == true &&
+                      <Text>Por favor, selecione uma categoria para o serviço</Text>
+                    }
+                  </HelperText>
                 </View>
-              }
+                <View>
+                  <OtherInput
+                    label="Nome do serviço"
+                    value={name}
+                    onChangeText={handleNameChange}
+                    maxLength={50}
+                    error={errorName}
+                  />
+                  <HelperText type="error" visible={errorName}>
+                    {
+                      errorName == true &&
+                      <Text>Por favor, digite um nome para o serviço</Text>
+                    }
+                  </HelperText>
+                </View>
 
-            </View>
-          </View>
+                <View>
+                  <OtherInput
+                    label="Descrição (opcional)"
+                    value={description}
+                    onChangeText={text => setDescription(text)}
+                    maxLength={150}
+                  />
+                  <HelperText></HelperText>
+                </View>
+                <View style={{ flexDirection: 'row' }}>
+                  <View style={{ flex: 1, marginRight: 5 }}>
+                    <TimeTextPicker
+                      inputLabel='Duração'
+                      time={time}
+                      setTime={setTime}
+                      onTimeChange={(newTime) => {
+                        setHours(newTime.hours)
+                        setMinutes(newTime.minutes)
+                        setErrorTime(false)
+                      }}
+                      inputError={errorTime}
+                    />
+                    <HelperText type="error" visible={errorTime}>
+                      {
+                        errorTime == true &&
+                        <Text>Por favor, selecione uma duração para o serviço</Text>
+                      }
+                    </HelperText>
+                  </View>
+                  <View style={{ flex: 1, marginLeft: 5 }}>
+                    <OtherInput
+                      label="Preço"
+                      value={price}
+                      onChangeText={handlePriceChange}
+                      keyboardType='numeric'
+                      error={errorPrice}
+                    />
+
+                    <HelperText type="error" visible={errorPrice}>
+                      {
+                        errorPrice == true &&
+                        <Text>Por favor, digite um valor diferente de R$0,00</Text>
+                      }
+                    </HelperText>
+
+                  </View>
+                </View>
+
+                {home &&
+                  <View>
+                    <TouchableWithoutFeedback onPress={() => {
+                      setResidence(!residence);
+                    }}>
+                      <View style={styles.checkItemContainer}>
+                        <View style={styles.checkbox}>
+                          <Checkbox
+                            color={WhiteColor}
+                            status={residence ? 'checked' : 'unchecked'}
+                          />
+                          <Text style={styles.whiteText}>   Atendimento em Domicílio</Text>
+                        </View>
+                      </View>
+                    </TouchableWithoutFeedback>
+                  </View>
+                }
+
+              </View>
+            </ScrollView>
+          </KeyboardAvoidingView>
 
           <View style={styles.buttonContainer}>
             <>{buttonDelete()}</>
             <View style={{ flex: 2 }}>
               <PrimaryButton title={'Salvar'} onPress={() => {
-                if (serviceIndex != undefined)
-                  onUpdate()
-                else
-                  createService()
+                if (type == undefined || errorType == true) {
+                  return SetErrorType(true)
+                }
+                else if (name == undefined || errorName == true) {
+                  return SetErrorName(true)
+                }
+                else if (time == undefined || errorTime == true) {
+                  return setErrorTime(true)
+                }
+                else if (price == undefined || errorPrice == true) {
+                  return SetErrorPrice(true)
+                }
+                else if (serviceIndex != undefined) { onUpdate() }
+                else { createService() }
               }} />
             </View>
           </View>
@@ -372,9 +460,8 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     borderBottomWidth: 1,
     borderBottomColor: LightGray,
-    marginTop: 20,
     paddingBottom: 8,
-    paddingTop: 8
+
   },
 
 })

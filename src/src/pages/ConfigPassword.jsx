@@ -7,7 +7,6 @@ import { OtherInput } from "../components/OtherInput";
 import { HelperText, ActivityIndicator } from "react-native-paper";
 import Emoji from 'react-native-emoji';
 import AsyncStorage from "@react-native-async-storage/async-storage"
-import { hash } from "../utils/crypto";
 
 const imageCheck = <Emoji name="white_check_mark" style={{ fontSize: 18 }} />
 const imageClose = <Emoji name="x" style={{ fontSize: 18 }} />

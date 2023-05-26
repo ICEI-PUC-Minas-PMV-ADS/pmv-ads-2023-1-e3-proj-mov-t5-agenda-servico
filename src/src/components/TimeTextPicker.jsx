@@ -8,9 +8,9 @@ import { TimePickerModal } from 'react-native-paper-dates';
 
 
 
-export function TimeTextPicker({ inputLabel, onTimeChange, time, setTime }) {
+export function TimeTextPicker({ inputLabel, onTimeChange, time, setTime, inputError }) {
   const [visible, setVisible] = React.useState(false)
-  
+
   const hoursConvert = (hours) => {
     if (hours == 0) {
       return ('')
@@ -53,8 +53,9 @@ export function TimeTextPicker({ inputLabel, onTimeChange, time, setTime }) {
           <OtherInput
             label={inputLabel}
             value={time}
-            right={<TextInput.Icon icon="chevron-down" color={WhiteColor} />}
+            right={<TextInput.Icon icon="chevron-down" color={WhiteColor} onPress={() => setVisible(true)} />}
             editable={false}
+            error={inputError}
           />
         </View>
       </TouchableWithoutFeedback>

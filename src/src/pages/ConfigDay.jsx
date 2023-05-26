@@ -8,7 +8,28 @@ import { List, Switch } from 'react-native-paper';
 import { TimePicker } from '../components/TimePicker'
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
+const DayHeader = ({ isSwitchOn, onToggleSwitch, day }) => {
+  const navigation = useNavigation();
+  const nameSwitch = isSwitchOn ? 'Aberto' : 'Fechado';
 
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: day,
+      headerRight: () => (
+        <View style={{ marginRight: 5, flexDirection: 'column', alignItems: 'center' }}>
+          <Switch value={isSwitchOn} onValueChange={onToggleSwitch} color={PrimaryColor} />
+          <Text style={{
+            color: LightGray,
+            fontFamily: 'Manrope-Bold',
+            fontSize: 12
+          }}>{nameSwitch}</Text>
+        </View>
+      ),
+    });
+  }, [navigation, isSwitchOn, onToggleSwitch, day]);
+
+  return null;
+};
 
 export function Day() {
   //declarando variaveis necessarias
@@ -60,31 +81,7 @@ export function Day() {
   }
 
 
-
-  navigation.setOptions({
-    headerTitle: day,
-    headerRight: () => (
-      <View style={{ marginRight: 5, flexDirection: 'column', alignItems: 'center' }}>
-        <Switch value={isSwitchOn} onValueChange={onToggleSwitch} color={PrimaryColor} />
-        <Text style={{
-          color: LightGray,
-          fontFamily: 'Manrope-Bold',
-          fontSize: 12
-        }}>{nameSwitch}</Text>
-      </View>
-    ),
-  });
-
-
-
   const [isSwitchOn, setIsSwitchOn] = React.useState();
-
-  const nameSwitch = React.useMemo(() => {
-    if (isSwitchOn == true) {
-      return 'Aberto'
-    }
-    else return 'Fechado'
-  }, [isSwitchOn]);
 
   const onToggleSwitch = () => { setIsSwitchOn(!isSwitchOn); }
 
@@ -174,6 +171,7 @@ export function Day() {
 
 
     <View style={styles.container}>
+      <DayHeader isSwitchOn={isSwitchOn} onToggleSwitch={onToggleSwitch} day={day} />
       <View>
         {
           isSwitchOn &&

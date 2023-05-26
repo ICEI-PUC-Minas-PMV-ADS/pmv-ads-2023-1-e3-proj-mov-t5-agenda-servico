@@ -7,6 +7,17 @@ import { TimePicker } from '../components/TimePicker'
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+const DayHeader = ({ day }) => {
+  const navigation = useNavigation();
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: `Intervalo • ${day}`
+    });
+  }, [navigation, day]);
+
+  return null;
+};
 
 export function Interval() {
 
@@ -83,11 +94,6 @@ export function Interval() {
   }
 
 
-
-  navigation.setOptions({
-    title: `Intervalo • ${nameDay}`,
-  });
-
   function addZeroes(num, len) {
     var numberWithZeroes = String(num);
     var counter = numberWithZeroes.length;
@@ -97,7 +103,6 @@ export function Interval() {
     }
     return numberWithZeroes;
   }
-
 
 
   const onDismissOpening = React.useCallback(() => {
@@ -180,7 +185,7 @@ export function Interval() {
   return (
 
     <View style={styles.container}>
-
+      <DayHeader day={nameDay} />
       <View style={{ alignItems: 'center', justifyContent: 'center' }}>
         <Text style={styles.whiteText}> Defina seu intervalo aqui. </Text>
       </View>
