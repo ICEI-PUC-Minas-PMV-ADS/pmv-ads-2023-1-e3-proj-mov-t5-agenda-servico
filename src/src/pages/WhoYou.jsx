@@ -4,6 +4,7 @@ import { BackgroundColor, PrimaryColor, WhiteColor } from "../constants/colors";
 import { PrimaryButton } from "../components/Buttons";
 import { useNavigation } from "@react-navigation/native";
 import { Text } from 'react-native-paper';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export function WhoYou() {
 
@@ -17,8 +18,17 @@ export function WhoYou() {
 
       <View style={styles.buttonContainer}>
         <Text style={styles.textSub}>Quem é você?</Text>
-        <PrimaryButton title={'Sou um cliente'} onPress={() => { }} />
-        <PrimaryButton title={'Sou um profissional'} onPress={() => { navigation.navigate('About') }} />
+        <PrimaryButton title={'Sou um cliente'} onPress={() => {
+          AsyncStorage.setItem('type', 'cliente').then(
+            navigation.navigate('About', { type: 'cliente' })
+          )
+        }} />
+
+        <PrimaryButton title={'Sou um profissional'} onPress={() => {
+          AsyncStorage.setItem('type', 'prestador').then(
+            navigation.navigate('About', { type: 'prestador' })
+          )
+        }} />
       </View>
     </View>
   )

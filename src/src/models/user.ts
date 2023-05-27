@@ -16,10 +16,36 @@ export class User extends Model {
   descricao?: string;
   cnpj?: string;
   lista_de_horarios?: Horario[];
+  taxa_de_deslocamento?: Taxa;
+  onde_trabalha?: Onde;
+  endereco_visivel?: boolean;
 }
 
 export class Horario {
-  inicio?: number;
-  final?: number;
-  intervalos?: number[] = [];
+  dia?: string;
+  aberto?: boolean;
+  inicio?: Tempo;
+  fim?: Tempo;
+  intervalos?: Intervalo[];
+}
+
+export class Intervalo {
+  inicio?: Tempo;
+  fim?: Tempo;
+}
+
+export class Tempo {
+  horas?: number;
+  minutos?: number;
+}
+
+export class Taxa {
+  distancia?: '5 km' | '10 km' | '15 km' | '20 km' | '25 km' | '30 km' | '35 km' | '40 km' | '45 km' | '50 km';
+  tipo_taxa?: 'Gratuito' | 'Fixo' | 'Começa em';
+  valor_taxa?: string
+}
+
+export class Onde {
+  estabelecimento?: boolean;
+  casa_cliente?: boolean;
 }

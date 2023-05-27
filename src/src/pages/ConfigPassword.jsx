@@ -2,9 +2,9 @@ import React from "react"
 import { StyleSheet, Text, View } from "react-native";
 import { BackgroundColor, WhiteColor, LightGray } from "../constants/colors";
 import { PrimaryButton } from "../components/Buttons";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { OtherInput } from "../components/OtherInput";
-import { HelperText } from "react-native-paper";
+import { HelperText, ActivityIndicator } from "react-native-paper";
 import Emoji from 'react-native-emoji';
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
@@ -13,9 +13,12 @@ const imageClose = <Emoji name="x" style={{ fontSize: 18 }} />
 
 export function Password() {
   const navigation = useNavigation();
+  const route = useRoute()
+  const type = route.params.type
   const [error, setError] = React.useState(false)
   const [email, setEmail] = React.useState('Email')
   const [password, setPassword] = React.useState()
+  const [loading, setLoading] = React.useState(false)
 
   React.useEffect(() => {
     AsyncStorage.getItem('email').then(value => {
@@ -47,10 +50,28 @@ export function Password() {
   }
 
   const savePassword = () => {
-
     AsyncStorage.setItem('password', password).then(
-      navigation.navigate('Category', {})
+      () => {
+        if (type == 'cliente') {
+          navigation.navigate('Register', {})
+          setLoading(false)
+        }
+        else if (type == 'prestador')
+          navigation.navigate('WhereWork', {})
+        setLoading(false)
+      }
+
+
     )
+  }
+
+  const loadingButton = () => {
+    if (loading == false) {
+      return 'Continuar'
+    }
+    else {
+      return <ActivityIndicator animating={loading} color={WhiteColor} />
+    }
   }
 
   return (
@@ -105,8 +126,9 @@ export function Password() {
             Por favor, insira uma senha válida.
           </HelperText>
         </View>
-        <PrimaryButton title={'Continuar'} onPress={() => {
+        <PrimaryButton title={loadingButton()} onPress={() => {
           if (validateInput.case && validateInput.length && validateInput.number) {
+            setLoading(true)
             savePassword()
           }
           else {

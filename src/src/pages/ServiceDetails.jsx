@@ -1,32 +1,46 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, TouchableWithoutFeedback } from "react-native";
-import { BackgroundColor, WhiteColor, LightGray, BackgroundInput } from "../constants/colors";
+import { StyleSheet, Text, View, TouchableWithoutFeedback, KeyboardAvoidingView, ScrollView } from "react-native";
+import { BackgroundColor, WhiteColor, LightGray, PrimaryColor } from "../constants/colors";
 import { PrimaryButton } from "../components/Buttons";
-import { useNavigation, useRoute, useIsFocused } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { TextPicker } from "../components/TextPicker";
 import { TimeTextPicker } from "../components/TimeTextPicker";
 import { OtherInput } from "../components/OtherInput";
-import { Checkbox } from 'react-native-paper';
+import { Checkbox, HelperText, ActivityIndicator } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { DeleteButton } from "../components/Buttons";
 import AsyncStorage from "@react-native-async-storage/async-storage"
+import { CategoryRepository } from "../repositories/category_repository";
 
 export function ServiceDetails() {
   const deleteIcon = <Icon name="trash" size={20} />;
   const navigation = useNavigation();
   const route = useRoute()
-  const isFocused = useIsFocused()
+  const [loading, setLoading] = React.useState(true)
+
   const [name, setName] = useState('')
+  const [errorName, SetErrorName] = useState(false)
+  const [description, setDescription] = useState('')
   const [price, setPrice] = useState('')
-  const [startAt, setStartAt] = useState(false);
+  const [errorPrice, SetErrorPrice] = useState(false)
   const [residence, setResidence] = useState(false);
   const [time, setTime] = useState('')
+  const [errorTime, setErrorTime] = useState(false);
   const [hours, setHours] = useState('')
   const [minutes, setMinutes] = useState('')
-  const [id, setId] = useState('')
+  const [where, setWhere] = useState('')
+  const [home, setHome] = React.useState(true);
+
 
   const [services, setServices] = useState('')
   const serviceIndex = route.params.serviceIndex
   const [service, setService] = useState('')
+  const [type, setType] = useState('Selecione uma categoria');
+  const [errorType, SetErrorType] = useState(false)
+  const [types, setTypes] = useState([]);
+  const [idType, setIdType] = useState('')
+
+
 
   if (serviceIndex != undefined) {
     React.useEffect(() => {
@@ -35,24 +49,54 @@ export function ServiceDetails() {
         const convertedValue = JSON.parse(value)
         setServices(convertedValue)
         setService(convertedValue[serviceIndex])
+      };
 
+      const loadType = async () => {
+        const value = await AsyncStorage.getItem('wherework');
+        const convertedValue = JSON.parse(value)
+        setWhere(convertedValue)
       };
 
       loadServices();
+      loadType();
     }, []);
 
     React.useEffect(() => {
       if (service) {
         setName(service.name)
         setPrice(service.price)
-        setStartAt(service.startin)
+        setDescription(service.description)
         setResidence(service.homeservice)
         setHours(service.duration.hours)
         setMinutes(service.duration.minutes)
-        setId(service.id)
         setTime(`${hoursConvert(service.duration.hours)} ${minutesConvert(service.duration.minutes)}`)
+        setIdType(service.category)
+
+
+
+        const repository = new CategoryRepository();
+        repository.getAll((categorys) => {
+          setTypes(categorys)
+          setType(categorys.find(type => type.id == service.category).titulo)
+          setLoading(false)
+        })
+
       }
     }, [service]);
+
+    React.useEffect(() => {
+      if (where.establishment == false && where.homeservice == true) {
+        setHome(false)
+        setResidence(true)
+      }
+      if (where.homeservice == true && where.establishment == true) {
+        setHome(true)
+      }
+      if (where.homeservice == false && where.establishment == true) {
+        setHome(false)
+        setResidence(false)
+      }
+    }, [where]);
   }
   else {
     React.useEffect(() => {
@@ -62,36 +106,95 @@ export function ServiceDetails() {
         setServices(convertedValue)
       };
 
+      const loadType = async () => {
+        const value = await AsyncStorage.getItem('wherework');
+        const convertedValue = JSON.parse(value)
+        setWhere(convertedValue)
+
+
+      };
+      const loadCategorys = () => {
+        const repository = new CategoryRepository();
+        repository.getAll((categorys) => {
+          setTypes(categorys)
+          setType(categorys[0].titulo)
+          setIdType(categorys[0].id)
+          setLoading(false)
+        })
+      }
+
+      loadCategorys();
       loadServices();
+      loadType()
     }, []);
 
 
     React.useEffect(() => {
       if (services) {
-
         setName()
         setPrice()
-        setStartAt()
         setResidence()
         setTime()
+        setDescription()
 
-        const maiorId = services.reduce((maior, objeto) => {
-          const id = parseInt(objeto.id);
-          if (id > parseInt(maior.id)) {
-            return objeto;
-          }
-          return maior;
-        });
-
-        const novoId = (parseInt(maiorId.id) + 1).toString();
-
-        setId(novoId)
 
       }
     }, [services]);
 
+    React.useEffect(() => {
+      if (where.establishment == false && where.homeservice == true) {
+        setHome(false)
+        setResidence(true)
+      }
+      if (where.homeservice == true && where.establishment == true) {
+        setHome(true)
+      }
+      if (where.homeservice == false && where.establishment == true) {
+        setHome(false)
+        setResidence(false)
+      }
+    }, [where]);
+
+
+
+
   }
 
+  const handleNameChange = (text) => {
+    if (text == "") {
+      setName(text)
+      SetErrorName(true);
+    }
+    else {
+      setName(text);
+      SetErrorName(false);
+    }
+
+
+  };
+
+  const handlePriceChange = (text) => {
+    // remove tudo que não for número
+    const onlyNumbers = text.replace(/[^\d]/g, "");
+
+    // transforma a string de números em um valor monetário formatado em reais
+    const formattedValue = (Number(onlyNumbers) / 100).toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    });
+
+    // atualiza o estado do valor formatado
+    if (Number(onlyNumbers) === 0) {
+      setPrice("")
+      SetErrorPrice(true);
+    } else {
+      // atualiza o estado do valor formatado
+      setPrice(formattedValue);
+      SetErrorPrice(false);
+    }
+
+
+  };
 
   const hoursConvert = (hours) => {
     if (hours == 0) {
@@ -114,15 +217,15 @@ export function ServiceDetails() {
 
 
   const newService = {
-    id: id,
     name: name,
     duration: {
       hours: hours,
       minutes: minutes
     },
     price: price,
-    startin: startAt,
+    description: description,
     homeservice: residence,
+    category: idType
   }
 
   const onUpdate = () => {
@@ -164,89 +267,168 @@ export function ServiceDetails() {
 
   return (
 
-    <View style={styles.container}>
-      <View>
-        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-          <Text style={styles.whiteText}> Adicione as informações básicas para este serviço agora. Você poderá adicionar uma descrição e ajustar as cofigurações avançadas para este serviço posteriormente. </Text>
+    <View style={{ flex: 1 }}>
+      {
+        loading &&
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator animating={loading} color={PrimaryColor} />
         </View>
-        <View>
-          <View style={{ marginTop: 20 }}>
-            <OtherInput
-              label="Nome do serviço"
-              value={name}
-              onChangeText={text => setName(text)}
-            />
-          </View>
-          <View style={{ marginTop: 20 }}>
-            <TimeTextPicker
-              inputLabel='Duração'
-              time={time}
-              setTime={setTime}
-              onTimeChange={(newTime) => {
-                setHours(newTime.hours)
-                setMinutes(newTime.minutes)
-              }}
-            />
-          </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <View style={{ flex: 1, marginTop: 20 }}>
-              <OtherInput
-                label="Preço"
-                value={price}
-                onChangeText={text => setPrice(text)}
-                keyboardType='numeric'
-              />
-            </View>
-            <View style={{ flex: 1, marginTop: 20 }}>
-              <TouchableWithoutFeedback onPress={() => {
-                setStartAt(!startAt);
-              }}>
-                <View style={styles.checkbox}>
-                  <Checkbox
-                    color={WhiteColor}
-                    status={startAt ? 'checked' : 'unchecked'}
-                  />
-                  <Text style={styles.whiteText}>Começa em</Text>
-                </View>
-              </TouchableWithoutFeedback>
-            </View>
-          </View>
-          <View>
-            <TouchableWithoutFeedback onPress={() => {
-              setResidence(!residence);
-            }}>
-              <View style={styles.checkItemContainer}>
-                <View style={styles.checkbox}>
-                  <Checkbox
-                    color={WhiteColor}
-                    status={residence ? 'checked' : 'unchecked'}
-                  />
-                  <Text style={styles.whiteText}>   Atendimento em Domicílio</Text>
-                </View>
+      }
+      {
+        loading == false &&
+        <View style={styles.container}>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            keyboardVerticalOffset={85}>
+            <ScrollView>
+              <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                <Text style={styles.whiteText}> Adicione as informações básicas para este serviço agora. Você poderá adicionar uma descrição e ajustar as cofigurações avançadas para este serviço posteriormente. </Text>
               </View>
-            </TouchableWithoutFeedback>
+              <View style={{ marginTop: 15 }}>
+
+                <View>
+                  <TextPicker
+                    inputLabel='Tipo de serviço'
+                    options={types}
+                    selectedValue={type}
+                    onChange={(itemValue, itemPosition) => {
+                      setType(itemValue)
+                      setIdType(types[itemPosition].id)
+                      SetErrorType(false)
+                    }
+                    }
+                    type='categorys'
+                    inputError={errorType}
+                  />
+                  <HelperText type="error" visible={errorType}>
+                    {
+                      errorType == true &&
+                      <Text>Por favor, selecione uma categoria para o serviço</Text>
+                    }
+                  </HelperText>
+                </View>
+                <View>
+                  <OtherInput
+                    label="Nome do serviço"
+                    value={name}
+                    onChangeText={handleNameChange}
+                    maxLength={50}
+                    error={errorName}
+                  />
+                  <HelperText type="error" visible={errorName}>
+                    {
+                      errorName == true &&
+                      <Text>Por favor, digite um nome para o serviço</Text>
+                    }
+                  </HelperText>
+                </View>
+
+                <View>
+                  <OtherInput
+                    label="Descrição (opcional)"
+                    value={description}
+                    onChangeText={text => setDescription(text)}
+                    maxLength={150}
+                  />
+                  <HelperText></HelperText>
+                </View>
+                <View style={{ flexDirection: 'row' }}>
+                  <View style={{ flex: 1, marginRight: 5 }}>
+                    <TimeTextPicker
+                      inputLabel='Duração'
+                      time={time}
+                      setTime={setTime}
+                      onTimeChange={(newTime) => {
+                        setHours(newTime.hours)
+                        setMinutes(newTime.minutes)
+                        setErrorTime(false)
+                      }}
+                      inputError={errorTime}
+                      initialHours={hours}
+                      initialMinutes={minutes}
+                    />
+                    <HelperText type="error" visible={errorTime}>
+                      {
+                        errorTime == true &&
+                        <Text>Por favor, selecione uma duração para o serviço</Text>
+                      }
+                    </HelperText>
+                  </View>
+                  <View style={{ flex: 1, marginLeft: 5 }}>
+                    <OtherInput
+                      label="Preço"
+                      value={price}
+                      onChangeText={handlePriceChange}
+                      keyboardType='numeric'
+                      error={errorPrice}
+                    />
+
+                    <HelperText type="error" visible={errorPrice}>
+                      {
+                        errorPrice == true &&
+                        <Text>Por favor, digite um valor diferente de R$0,00</Text>
+                      }
+                    </HelperText>
+
+                  </View>
+                </View>
+
+                {home &&
+                  <View>
+                    <TouchableWithoutFeedback onPress={() => {
+                      setResidence(!residence);
+                    }}>
+                      <View style={styles.checkItemContainer}>
+                        <View style={styles.checkbox}>
+                          <Checkbox
+                            color={WhiteColor}
+                            status={residence ? 'checked' : 'unchecked'}
+                          />
+                          <Text style={styles.whiteText}>   Atendimento em Domicílio</Text>
+                        </View>
+                      </View>
+                    </TouchableWithoutFeedback>
+                  </View>
+                }
+
+              </View>
+            </ScrollView>
+          </KeyboardAvoidingView>
+
+          <View style={styles.buttonContainer}>
+            <>{buttonDelete()}</>
+            <View style={{ flex: 2 }}>
+              <PrimaryButton title={'Salvar'} onPress={() => {
+                if (type == undefined || errorType == true) {
+                  return SetErrorType(true)
+                }
+                else if (name == undefined || errorName == true) {
+                  return SetErrorName(true)
+                }
+                else if (time == undefined || errorTime == true) {
+                  return setErrorTime(true)
+                }
+                else if (price == undefined || errorPrice == true) {
+                  return SetErrorPrice(true)
+                }
+                else if (serviceIndex != undefined) { onUpdate() }
+                else { createService() }
+              }} />
+            </View>
           </View>
-        </View>
-      </View>
-
-      <View style={styles.buttonContainer}>
-        <>{buttonDelete()}</>
-        <View style={{ flex: 2 }}>
-          <PrimaryButton title={'Salvar'} onPress={() => {
-            if (serviceIndex != undefined)
-              onUpdate()
-            else
-              createService()
-          }} />
-        </View>
-      </View>
-    </View >
-
-
+        </View >
+      }
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    backgroundColor: BackgroundColor,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   container: {
     flex: 1,
     backgroundColor: BackgroundColor,
@@ -289,9 +471,8 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     borderBottomWidth: 1,
     borderBottomColor: LightGray,
-    marginTop: 20,
     paddingBottom: 8,
-    paddingTop: 8
+
   },
 
 })

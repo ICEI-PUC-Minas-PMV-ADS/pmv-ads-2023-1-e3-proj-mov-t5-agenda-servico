@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, FlatList, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image } from "react-native";
 import { BackgroundColor, WhiteColor, LightGray, PrimaryColor } from "../constants/colors";
 import { PrimaryButton } from "../components/Buttons";
 import { useNavigation, useRoute, useIsFocused } from "@react-navigation/native";
@@ -9,6 +9,33 @@ import { TimePicker } from '../components/TimePicker'
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
 
+const DayHeader = ({ isSwitchOn, onToggleSwitch, day }) => {
+  const navigation = useNavigation();
+  const nameSwitch = isSwitchOn ? 'Aberto' : 'Fechado';
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: day,
+      headerRight: () => (
+        <View style={{ marginRight: 5, flexDirection: 'column', alignItems: 'center' }}>
+          <Switch value={isSwitchOn} onValueChange={onToggleSwitch} color={PrimaryColor} />
+          <Text style={{
+            color: LightGray,
+            fontFamily: 'Manrope-Bold',
+            fontSize: 12
+          }}>{nameSwitch}</Text>
+        </View>
+      ),
+      headerLeft: () => (
+        <TouchableOpacity onPress={() => navigation.navigate('Opening', {})}>
+          <Image source={require('../../assets/images/seta-pequena-esquerda.png')} style={{ width: 25, height: 25, marginRight: 25 }} />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation, isSwitchOn, onToggleSwitch, day]);
+
+  return null;
+};
 
 export function Day() {
   //declarando variaveis necessarias
@@ -38,17 +65,21 @@ export function Day() {
   React.useEffect(() => {
     if (item) {
       setIsSwitchOn(item.open)
-      setOpening(item.opening)
-      setClosure(item.closure)
+      setOpening(`${addZeroes(item.opening.hours, 2)}:${addZeroes(item.opening.minutes, 2)}`)
+      setClosure(`${addZeroes(item.closure.hours, 2)}:${addZeroes(item.closure.minutes, 2)}`)
+      setOpeningHours(item.opening.hours);
+      setOpeningMinutes(item.opening.minutes);
+      setClosureHours(item.closure.hours);
+      setClosureMinutes(item.closure.minutes);
       setDay(item.day)
     }
   }, [item]);
 
-  const Item = ({ start, end }) => {
+  const Item = ({ startHours, startMinutes, endHours, endMinutes }) => {
     return (
       <View style={styles.listItem}>
         <List.Item
-          title={() => <Text style={styles.whiteText}>{start} - {end}</Text>}
+          title={() => <Text style={styles.whiteText}>{addZeroes(startHours, 2)}:{addZeroes(startMinutes, 2)}  -  {addZeroes(endHours, 2)}:{addZeroes(endMinutes, 2)}</Text>}
           right={() => arrowIcon}
         />
       </View>
@@ -56,31 +87,7 @@ export function Day() {
   }
 
 
-
-  navigation.setOptions({
-    headerTitle: day,
-    headerRight: () => (
-      <View style={{ marginRight: 5, flexDirection: 'column', alignItems: 'center' }}>
-        <Switch value={isSwitchOn} onValueChange={onToggleSwitch} color={PrimaryColor} />
-        <Text style={{
-          color: LightGray,
-          fontFamily: 'Manrope-Bold',
-          fontSize: 12
-        }}>{nameSwitch}</Text>
-      </View>
-    ),
-  });
-
-
-
   const [isSwitchOn, setIsSwitchOn] = React.useState();
-
-  const nameSwitch = React.useMemo(() => {
-    if (isSwitchOn == true) {
-      return 'Aberto'
-    }
-    else return 'Fechado'
-  }, [isSwitchOn]);
 
   const onToggleSwitch = () => { setIsSwitchOn(!isSwitchOn); }
 
@@ -96,6 +103,10 @@ export function Day() {
 
   const [opening, setOpening] = React.useState()
   const [closure, setClosure] = React.useState()
+  const [closureHours, setClosureHours] = React.useState()
+  const [closureMinutes, setClosureMinutes] = React.useState()
+  const [openingHours, setOpeningHours] = React.useState()
+  const [openingMinutes, setOpeningMinutes] = React.useState()
   const [visibleOpening, setVisibleOpening] = React.useState(false)
   const [visibleClosure, setVisibleClosure] = React.useState(false)
 
@@ -108,6 +119,9 @@ export function Day() {
       const time = `${addZeroes(hours, 2)}:${addZeroes(minutes, 2)}`
       setVisibleOpening(false);
       setOpening(time);
+      setOpeningHours(hours);
+      setOpeningMinutes(minutes);
+      console.log(hours)
     },
     [setVisibleOpening]
   );
@@ -121,36 +135,34 @@ export function Day() {
       const time = `${addZeroes(hours, 2)}:${addZeroes(minutes, 2)}`
       setVisibleClosure(false);
       setClosure(time);
+      setClosureHours(hours);
+      setClosureMinutes(minutes);
     },
     [setVisibleClosure]
   );
 
   const newItemData = {
-    id: item.id,
     day: item.day,
     open: isSwitchOn,
-    opening: opening,
-    closure: closure,
+    opening: {
+      hours: openingHours,
+      minutes: openingMinutes
+    },
+    closure: {
+      hours: closureHours,
+      minutes: closureMinutes
+    },
     breaks: item.breaks
   }
 
-  const onUpdate = (id) => {
-    const updateData = (copy) => {
-      const newData = JSON.stringify(copy)
-      AsyncStorage.setItem('opening', newData).then(
-        navigation.navigate('Opening', {})
-      )
-    }
+  const onUpdate = () => {
 
-    dataOpening.map((item, index) => {
-      if (item.id === id) {
-        const copy = [...dataOpening]
-        copy[index] = newItemData
-        updateData(copy)
-      }
-    })
-
-
+    const copy = [...dataOpening]
+    copy[dayIndex] = newItemData
+    const newData = JSON.stringify(copy)
+    AsyncStorage.setItem('opening', newData).then(
+      navigation.navigate('Opening', {})
+    )
 
 
   };
@@ -165,6 +177,7 @@ export function Day() {
 
 
     <View style={styles.container}>
+      <DayHeader isSwitchOn={isSwitchOn} onToggleSwitch={onToggleSwitch} day={day} />
       <View>
         {
           isSwitchOn &&
@@ -180,8 +193,8 @@ export function Day() {
                   visible={visibleOpening}
                   onDismiss={onDismissOpening}
                   onConfirm={onConfirmOpening}
-                  hours={9}
-                  minutes={0}
+                  hours={openingHours}
+                  minutes={openingMinutes}
                 />
               </View>
               <Text style={styles.whiteText}>-</Text>
@@ -192,8 +205,8 @@ export function Day() {
                   visible={visibleClosure}
                   onDismiss={onDismissClosure}
                   onConfirm={onConfirmClosure}
-                  hours={18}
-                  minutes={0}
+                  hours={closureHours}
+                  minutes={closureMinutes}
                 />
               </View>
             </View>
@@ -203,18 +216,24 @@ export function Day() {
                 <View style={styles.listItem}>
                   <List.Item
                     title={() => <Text style={styles.whiteText}>Adicionar intervalo</Text>}
-                    onPress={() => { navigation.navigate('Interval', { ...route.params }) }}
+                    onPress={() => {
+                      onUpdate()
+                      navigation.navigate('Interval', { ...route.params })
+                    }}
                     left={() => plusIcon}
                   />
                 </View>
                 <FlatList
                   data={item.breaks}
                   renderItem={({ item, index }) =>
-                    <TouchableOpacity onPress={() => navigateToInterval(index)}>
-                      <Item start={item.start} end={item.end} />
+                    <TouchableOpacity onPress={() => {
+                      onUpdate()
+                      navigateToInterval(index)
+                    }}>
+                      <Item startHours={item.start.hours} startMinutes={item.start.minutes} endHours={item.end.hours} endMinutes={item.end.minutes} />
                     </TouchableOpacity>
                   }
-                  keyExtractor={item => item.id}
+
                 />
               </View>
             </View>
@@ -223,7 +242,7 @@ export function Day() {
       </View>
       <View style={styles.buttonContainer}>
         <PrimaryButton title={'Salvar'} onPress={() => {
-          onUpdate(item.id)
+          onUpdate()
         }} />
       </View>
 

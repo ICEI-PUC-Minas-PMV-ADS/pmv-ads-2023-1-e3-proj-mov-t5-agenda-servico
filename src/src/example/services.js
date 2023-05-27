@@ -1,36 +1,33 @@
 const baseServices = [
   {
-    id: '1',
     name: 'Barba',
     duration: {
-      hours: '0',
-      minutes: '30'
+      hours: 0,
+      minutes: 30
     },
-    price: '30,00',
-    startin: false,
+    price: 'R$ 30,00',
     homeservice: false,
+    category: '-NVtV1AFvLHhA39ObqJe'
   },
   {
-    id: '2',
     name: 'Cabelo',
     duration: {
-      hours: '1',
-      minutes: '0'
+      hours: 1,
+      minutes: 0
     },
-    price: '30,00',
-    startin: false,
+    price: 'R$ 30,00',
     homeservice: false,
+    category: '-NVtVCY9FXAutQPmmjQx'
   },
   {
-    id: '3',
     name: 'Sobrancelha',
     duration: {
-      hours: '0',
-      minutes: '10'
+      hours: 0,
+      minutes: 10
     },
-    price: '10,00',
-    startin: false,
+    price: 'R$ 10,00',
     homeservice: false,
+    category: '-NVtVsGW1H4SqdpcQhEe'
   },
 
 

@@ -1,3 +1,4 @@
+/* PÁGINA FORA DE USO
 import React from "react";
 import { StyleSheet, Text, View, FlatList, TouchableOpacity } from "react-native";
 import { List } from 'react-native-paper';
@@ -68,3 +69,4 @@ const styles = StyleSheet.create({
   }
 
 });
+*/

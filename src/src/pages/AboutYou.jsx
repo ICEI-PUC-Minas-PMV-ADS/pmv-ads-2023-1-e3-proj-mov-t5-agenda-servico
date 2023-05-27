@@ -15,6 +15,7 @@ export function AboutYou() {
   const navigation = useNavigation();
   const route = useRoute();
   const [about, setAbout] = React.useState();
+  const type = route.params.type
 
   const [error, setError] = React.useState(false);
 
@@ -39,9 +40,16 @@ export function AboutYou() {
 
   React.useEffect(() => {
     if (about) {
-      setCompany(about.company)
-      setName(about.name)
-      setPhoneNumber(about.phone)
+      if (type == 'prestador') {
+        setCompany(about.company)
+        setName(about.name)
+        setPhoneNumber(about.phone)
+      }
+      else {
+        setCompany("")
+        setName(about.name)
+        setPhoneNumber(about.phone)
+      }
     }
   }, [about]);
 
@@ -80,13 +88,25 @@ export function AboutYou() {
   }
 
   function allChecked() {
-    if (company === "" || name === "" || phoneNumber === "" || !isValidCompany || !isValidName || !isValidNumber) {
-      setError(true);
-      return false
-    } else {
-      setError(false)
-      return true
+    if (type == 'prestador') {
+      if (company === "" || name === "" || phoneNumber === "" || !isValidCompany || !isValidName || !isValidNumber) {
+        setError(true);
+        return false
+      } else {
+        setError(false)
+        return true
+      }
     }
+    else {
+      if (name === "" || phoneNumber === "" || !isValidName || !isValidNumber) {
+        setError(true);
+        return false
+      } else {
+        setError(false)
+        return true
+      }
+    }
+
   }
 
   const newAbout = {
@@ -98,7 +118,7 @@ export function AboutYou() {
   const saveAbout = () => {
     const newData = JSON.stringify(newAbout)
     AsyncStorage.setItem('about', newData).then(
-      navigation.navigate('Password', {})
+      navigation.navigate('Password', { ...route.params })
     )
   }
 
@@ -109,18 +129,21 @@ export function AboutYou() {
           <Text style={styles.whiteText}> Conte-nos mais sobre você e sua empresa. </Text>
         </View>
         <View style={styles.inputContainer}>
-          <View>
-            <OtherInput
-              label="Nome da empresa"
-              value={company}
-              onChangeText={handleCompanyChange}
-              error={!isValidCompany}
+          {type == 'prestador' &&
+            <View>
+              <OtherInput
+                label="Nome da empresa"
+                value={company}
+                onChangeText={handleCompanyChange}
+                error={!isValidCompany}
 
-            />
-            <HelperText type="error" visible={!isValidCompany}>
-              Por favor, digite um nome de empresa valido
-            </HelperText>
-          </View>
+              />
+              <HelperText type="error" visible={!isValidCompany}>
+                Por favor, digite um nome de empresa valido
+              </HelperText>
+            </View>
+          }
+
           <View>
             <OtherInput
               label="Nome e sobrenome"

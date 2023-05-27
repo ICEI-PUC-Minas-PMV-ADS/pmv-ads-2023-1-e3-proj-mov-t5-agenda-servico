@@ -4,7 +4,6 @@ import { WhatsEmail } from '../pages/WhatsEmail';
 import { WhoYou } from '../pages/WhoYou'
 import { AboutYou } from '../pages/AboutYou';
 import { Password } from '../pages/ConfigPassword';
-import { Category } from '../pages/ConfigCategory';
 import { WhereWork } from '../pages/WhereWork';
 import { Cep } from '../pages/ConfigCEP';
 import { Address } from '../pages/ConfigAddress';
@@ -14,7 +13,8 @@ import { Interval } from '../pages/ConfigInterval';
 import { DisplacementFee } from '../pages/DisplacementFee';
 import { Services } from '../pages/ConfigServices';
 import { ServiceDetails } from '../pages/ServiceDetails';
-import { TestRegister } from '../pages/newRegisterTest';
+import { Register } from '../pages/Register';
+import { HomePage } from '../pages/HomePage';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 
@@ -24,7 +24,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 export default function RegisterRoute() {
   const Stack = createNativeStackNavigator();
   return (
-    <Stack.Navigator>
+
+    <Stack.Navigator initialRouteName='Email'>
+
       <Stack.Screen name='Email' component={WhatsEmail} options={{
         title: 'Qual é o seu e-mail?',
         headerStyle: {
@@ -49,13 +51,6 @@ export default function RegisterRoute() {
       }} />
       <Stack.Screen name='Password' component={Password} options={{
         title: 'Configuração de senha',
-        headerStyle: {
-          backgroundColor: BackgroundColor
-        },
-        headerTintColor: WhiteColor
-      }} />
-      <Stack.Screen name='Category' component={Category} options={{
-        title: 'Que tipo de negócio você tem?',
         headerStyle: {
           backgroundColor: BackgroundColor
         },
@@ -106,7 +101,7 @@ export default function RegisterRoute() {
       }} />
 
       <Stack.Screen name='DisplacementFee' component={DisplacementFee} options={{
-        title: 'Qual é a sua taxa de deslocamento?',
+        title: 'Diga sua taxa de deslocamento',
         headerStyle: {
           backgroundColor: BackgroundColor
         },
@@ -129,13 +124,10 @@ export default function RegisterRoute() {
         headerTintColor: WhiteColor
       }} />
 
-      <Stack.Screen name='teste' component={TestRegister} options={{
-        title: 'Teste',
-        headerStyle: {
-          backgroundColor: BackgroundColor
-        },
-        headerTintColor: WhiteColor
-      }} />
+      <Stack.Screen name='Register' component={Register} options={{ headerShown: false }} />
+
+      <Stack.Screen name='Home' component={HomePage} options={{ headerShown: false }} />
+
     </Stack.Navigator>
 
   );

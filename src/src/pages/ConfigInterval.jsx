@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import { BackgroundColor, WhiteColor, LightGray } from "../constants/colors";
 import { PrimaryButton, DeleteButton } from "../components/Buttons";
 import { useNavigation, useRoute, useIsFocused } from "@react-navigation/native";
@@ -7,6 +7,22 @@ import { TimePicker } from '../components/TimePicker'
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+const DayHeader = ({ day, nav }) => {
+  const navigation = useNavigation();
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: `Intervalo • ${day}`,
+      headerLeft: () => (
+        <TouchableOpacity onPress={nav}>
+          <Image source={require('../../assets/images/seta-pequena-esquerda.png')} style={{ width: 25, height: 25, marginRight: 25 }} />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation, day]);
+
+  return null;
+};
 
 export function Interval() {
 
@@ -21,6 +37,14 @@ export function Interval() {
   const [nameDay, setNameDay] = React.useState('Day');
   const [interval, setInterval] = React.useState('');
   const deleteIcon = <Icon name="trash" size={20} />;
+  const [start, setStart] = React.useState(``)
+  const [startHours, setStartHours] = React.useState(``)
+  const [startMinutes, setStartMinutes] = React.useState(``)
+  const [end, setEnd] = React.useState(``)
+  const [endHours, setEndHours] = React.useState(``)
+  const [endMinutes, setEndMinutes] = React.useState(``)
+  const [visibleOpening, setVisibleOpening] = React.useState(false)
+  const [visibleClosure, setVisibleClosure] = React.useState(false)
 
   if (intervalIndex) {
     React.useEffect(() => {
@@ -33,12 +57,16 @@ export function Interval() {
       };
 
       carregarItem();
-    }, [isFocused]);
+    }, []);
 
     React.useEffect(() => {
       if (interval) {
-        setStart(interval.start)
-        setEnd(interval.end)
+        setStart(`${addZeroes(interval.start.hours, 2)}:${addZeroes(interval.start.minutes, 2)}`)
+        setEnd(`${addZeroes(interval.end.hours, 2)}:${addZeroes(interval.end.minutes, 2)}`)
+        setStartHours(interval.start.hours)
+        setStartMinutes(interval.start.minutes)
+        setEndHours(interval.end.hours)
+        setEndMinutes(interval.end.minutes)
         setNameDay(day.day)
       }
     }, [interval]);
@@ -54,23 +82,22 @@ export function Interval() {
       };
 
       carregarItem();
-    }, [isFocused]);
+    }, []);
 
     React.useEffect(() => {
       if (day) {
-        setStart('09:00')
-        setEnd('18:00')
+        setStart('12:00')
+        setEnd('13:00')
+        setStartHours(12)
+        setStartMinutes(0)
+        setEndHours(13)
+        setEndMinutes(0)
         setNameDay(day.day)
       }
     }, [day]);
 
   }
 
-
-
-  navigation.setOptions({
-    headerTitle: `Intervalo • ${nameDay}`,
-  });
 
   function addZeroes(num, len) {
     var numberWithZeroes = String(num);
@@ -82,10 +109,6 @@ export function Interval() {
     return numberWithZeroes;
   }
 
-  const [start, setStart] = React.useState(``)
-  const [end, setEnd] = React.useState(``)
-  const [visibleOpening, setVisibleOpening] = React.useState(false)
-  const [visibleClosure, setVisibleClosure] = React.useState(false)
 
   const onDismissOpening = React.useCallback(() => {
     setVisibleOpening(false)
@@ -96,6 +119,8 @@ export function Interval() {
       const time = `${addZeroes(hours, 2)}:${addZeroes(minutes, 2)}`
       setVisibleOpening(false);
       setStart(time);
+      setStartHours(hours)
+      setStartMinutes(minutes)
     },
     [setVisibleOpening]
   );
@@ -109,22 +134,33 @@ export function Interval() {
       const time = `${addZeroes(hours, 2)}:${addZeroes(minutes, 2)}`
       setVisibleClosure(false);
       setEnd(time);
+      setEndHours(hours)
+      setEndMinutes(minutes)
     },
     [setVisibleClosure]
   );
 
   const newInterval = {
-    id: interval.id,
-    start: start,
-    end: end
+    start: {
+      hours: startHours,
+      minutes: startMinutes
+    },
+    end: {
+      hours: endHours,
+      minutes: endMinutes
+    }
   }
+  const goToDay = () => {
+    navigation.navigate('Day', { dayIndex: dayIndex })
+  };
+
 
   const onUpdate = () => {
     const copy = [...dataOpening]
     copy[dayIndex].breaks[intervalIndex] = newInterval
     const newData = JSON.stringify(copy)
     AsyncStorage.setItem('opening', newData).then(
-      navigation.navigate('Day', { dayIndex: dayIndex })
+      goToDay()
     )
   };
 
@@ -133,7 +169,7 @@ export function Interval() {
     copy[dayIndex].breaks.push(newInterval)
     const newData = JSON.stringify(copy)
     AsyncStorage.setItem('opening', newData).then(
-      navigation.navigate('Day', { dayIndex: dayIndex })
+      goToDay()
     )
   }
 
@@ -158,7 +194,7 @@ export function Interval() {
   return (
 
     <View style={styles.container}>
-
+      <DayHeader day={nameDay} nav={goToDay} />
       <View style={{ alignItems: 'center', justifyContent: 'center' }}>
         <Text style={styles.whiteText}> Defina seu intervalo aqui. </Text>
       </View>
@@ -170,8 +206,8 @@ export function Interval() {
             visible={visibleOpening}
             onDismiss={onDismissOpening}
             onConfirm={onConfirmOpening}
-            hours={9}
-            minutes={0}
+            hours={startHours}
+            minutes={startMinutes}
           />
         </View>
         <Text style={styles.whiteText}>-</Text>
@@ -182,8 +218,8 @@ export function Interval() {
             visible={visibleClosure}
             onDismiss={onDismissClosure}
             onConfirm={onConfirmClosure}
-            hours={18}
-            minutes={0}
+            hours={endHours}
+            minutes={endMinutes}
           />
         </View>
       </View>
@@ -192,10 +228,13 @@ export function Interval() {
         <>{buttonDelete()}</>
         <View style={{ flex: 2 }}>
           <PrimaryButton title={'Salvar'} onPress={() => {
-            if (intervalIndex)
+            if (intervalIndex != undefined) {
               onUpdate()
-            else
+            }
+            else {
               createInterval()
+            }
+
           }} />
         </View>
       </View>

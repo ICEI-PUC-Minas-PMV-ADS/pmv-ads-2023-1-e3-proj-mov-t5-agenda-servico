@@ -122,11 +122,12 @@ export function DisplacementFee() {
             inputLabel='Tipo de preço'
             options={types}
             selectedValue={type}
-            onChange={(itemValue, itemIndex) => {
+            onChange={(itemValue, key) => {
               setType(itemValue)
               setError(false)
             }
             }
+            type='fee'
           />
           <HelperText></HelperText>
         </View>
@@ -153,6 +154,7 @@ export function DisplacementFee() {
           selectedValue={distance}
           onChange={(itemValue, itemIndex) =>
             setDistance(itemValue)}
+          type='fee'
         />
         <HelperText></HelperText>
       </View>

@@ -4,20 +4,19 @@ import { List } from 'react-native-paper';
 import { BackgroundColor, WhiteColor, LightGray } from "../constants/colors";
 import { PrimaryButton } from "../components/Buttons";
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { useNavigation, useRoute, useIsFocused } from "@react-navigation/native";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import openingHours from "../example/openingHours";
 
-
-
 export function Opening() {
-  const route = useRoute();
   const arrowIcon = <Icon name="chevron-right" size={15} color={LightGray} />;
   const navigation = useNavigation();
   const isFocused = useIsFocused();
   const HoursOpening = JSON.stringify(openingHours)
   //criação ou recuperação dos dados 
   const [dataOpening, setDataOpening] = React.useState('')
+
+
 
   const getData = () => {
     AsyncStorage.getItem('opening').then(value => {
@@ -40,11 +39,22 @@ export function Opening() {
   }, [isFocused])
 
 
-  const Item = ({ title, opening, closure, open }) => {
+  function addZeroes(num, len) {
+    var numberWithZeroes = String(num);
+    var counter = numberWithZeroes.length;
+    while (counter < len) {
+      numberWithZeroes = "0" + numberWithZeroes;
+      counter++;
+    }
+    return numberWithZeroes;
+  }
+
+
+  const Item = ({ title, openingHours, openingMinutes, closureHours, closureMinutes, open }) => {
     const renderTime = () => {
       if (open === true) {
         return (
-          <Text style={styles.whiteText}>{opening} - {closure}</Text>
+          <Text style={styles.whiteText}>{addZeroes(openingHours, 2)}:{addZeroes(openingMinutes, 2)}  -  {addZeroes(closureHours, 2)}:{addZeroes(closureMinutes, 2)} </Text>
         )
       }
       else {
@@ -96,8 +106,8 @@ export function Opening() {
             data={dataOpening}
 
             renderItem={({ item, index }) =>
-              <TouchableOpacity onPress={() => navigateToDay(item,index)}>
-                <Item title={item.day} opening={item.opening} closure={item.closure} open={item.open} />
+              <TouchableOpacity onPress={() => navigateToDay(item, index)}>
+                <Item title={item.day} openingHours={item.opening.hours} openingMinutes={item.opening.minutes} closureHours={item.closure.hours} closureMinutes={item.closure.minutes} open={item.open} />
               </TouchableOpacity>
             }
 
@@ -107,7 +117,9 @@ export function Opening() {
         </View>
       </View>
       <View style={styles.buttonContainer}>
-        <PrimaryButton title={'Continuar'} onPress={() => { navigation.navigate('Services', {}) }} />
+        <PrimaryButton title={'Continuar'} onPress={() => {
+          navigation.navigate('Services', {})
+        }} />
       </View>
     </View>
 
@@ -115,6 +127,7 @@ export function Opening() {
 }
 
 const styles = StyleSheet.create({
+  
   container: {
     flex: 1,
     backgroundColor: BackgroundColor,

@@ -21,6 +21,8 @@ export class UserRepository extends Repository<User> {
       ...model,
       created_at: model?.created_at?.getTime(),
       lista_de_horarios: JSON.stringify(model.lista_de_horarios),
+      taxa_de_deslocamento: JSON.stringify(model.taxa_de_deslocamento),
+      onde_trabalha: JSON.stringify(model.onde_trabalha),
     };
   }
 
@@ -40,10 +42,10 @@ export class UserRepository extends Repository<User> {
     user.nome_fantasia = json.nome_fantasia;
     user.descricao = json.descricao;
     user.cnpj = json.cnpj;
-
-    if (json.lista_de_horarios) {
-      user.lista_de_horarios = JSON.parse(json.lista_de_horarios);
-    }
+    user.lista_de_horarios = json.lista_de_horarios
+    user.taxa_de_deslocamento = json.taxa_de_deslocamento
+    user.onde_trabalha = json.onde_trabalha
+    user.endereco_visivel = json.endereco_visivel;
     return user;
   }
 }

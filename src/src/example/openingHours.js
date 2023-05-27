@@ -1,93 +1,158 @@
 const openingHours = [
   {
-    id: '1',
     day: 'Domingo',
     open: false,
-    opening: '',
-    closure: '',
+    opening: {
+      hours: 9,
+      minutes: 0
+    },
+    closure: {
+      hours: 18,
+      minutes: 0
+    },
     breaks: []
   },
   {
-    id: '2',
     day: 'Segunda-Feira',
     open: true,
-    opening: '09:00',
-    closure: '18:00',
+    opening: {
+      hours: 9,
+      minutes: 0
+    },
+    closure: {
+      hours: 18,
+      minutes: 0
+    },
     breaks: [
       {
-        id: '1',
-        start: '12:00',
-        end: '13:00'
+        start: {
+          hours: 12,
+          minutes: 0
+        },
+        end: {
+          hours: 13,
+          minutes: 0
+        },
       },
     ]
   },
   {
-    id: '3',
     day: 'Terça-Feira',
     open: true,
-    opening: '09:00',
-    closure: '18:00',
+    opening: {
+      hours: 9,
+      minutes: 0
+    },
+    closure: {
+      hours: 18,
+      minutes: 0
+    },
     breaks: [
       {
-        id: '1',
-        start: '12:00',
-        end: '13:00'
+        start: {
+          hours: 12,
+          minutes: 0
+        },
+        end: {
+          hours: 13,
+          minutes: 0
+        },
       },
     ]
   },
   {
-    id: '4',
     day: 'Quarta-Feira',
     open: true,
-    opening: '09:00',
-    closure: '18:00',
+    opening: {
+      hours: 9,
+      minutes: 0
+    },
+    closure: {
+      hours: 18,
+      minutes: 0
+    },
     breaks: [
       {
-        id: '1',
-        start: '12:00',
-        end: '13:00'
+        start: {
+          hours: 12,
+          minutes: 0
+        },
+        end: {
+          hours: 13,
+          minutes: 0
+        },
       },
     ]
   },
   {
-    id: '5',
     day: 'Quinta-Feira',
     open: true,
-    opening: '09:00',
-    closure: '18:00',
+    opening: {
+      hours: 9,
+      minutes: 0
+    },
+    closure: {
+      hours: 18,
+      minutes: 0
+    },
     breaks: [
       {
-        id: '1',
-        start: '12:00',
-        end: '13:00'
+        start: {
+          hours: 12,
+          minutes: 0
+        },
+        end: {
+          hours: 13,
+          minutes: 0
+        },
       },
     ]
   },
   {
-    id: '6',
     day: 'Sexta-Feira',
     open: true,
-    opening: '09:00',
-    closure: '18:00',
+    opening: {
+      hours: 9,
+      minutes: 0
+    },
+    closure: {
+      hours: 18,
+      minutes: 0
+    },
     breaks: [
       {
-        id: '1',
-        start: '12:00',
-        end: '13:00'
+        start: {
+          hours: 12,
+          minutes: 0
+        },
+        end: {
+          hours: 13,
+          minutes: 0
+        },
       },
     ]
   },
   {
-    id: '7',
     day: 'Sábado',
     open: true,
-    opening: '09:00',
-    closure: '18:00',
+    opening: {
+      hours: 9,
+      minutes: 0
+    },
+    closure: {
+      hours: 18,
+      minutes: 0
+    },
     breaks: [
       {
-        id: '1',
-        start: '12:00',
-        end: '13:00'
+        start: {
+          hours: 12,
+          minutes: 0
+        },
+        end: {
+          hours: 13,
+          minutes: 0
+        },
       },
     ]
   },

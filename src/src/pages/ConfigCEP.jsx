@@ -28,7 +28,7 @@ export function Cep() {
     <View style={styles.container}>
       <View>
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-          <Text style={styles.whiteText}> Onde seus clientes podem te encontrar? </Text>
+          <Text style={styles.whiteText}> Digite o seu CEP </Text>
         </View>
         <View style={styles.inputContainer}>
           <OtherInput
@@ -51,7 +51,7 @@ export function Cep() {
           </HelperText>
         </View>
         <PrimaryButton title={'Continuar'} onPress={() => {
-          if (isValidCep) {
+          if (isValidCep && cep != "") {
             const formatedCep = cep.replace(/\D/g, '')
             fetch(`https://viacep.com.br/ws/${formatedCep}/json/`).then(res => res.json()).then(data => {
               const endereco = {
@@ -69,6 +69,8 @@ export function Cep() {
               }
             });
           }
+
+          else setIsValidCep(false)
 
 
         }} />

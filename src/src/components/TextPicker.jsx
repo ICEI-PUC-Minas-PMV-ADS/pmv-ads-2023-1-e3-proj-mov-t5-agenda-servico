@@ -7,7 +7,7 @@ import { WhiteColor } from '../constants/colors';
 
 
 
-export function TextPicker({ inputLabel, options, selectedValue, onChange }) {
+export function TextPicker({ inputLabel, options, selectedValue, onChange, type, inputError }) {
   const pickerRef = useRef(null);
   const handleTextInputPress = () => {
     pickerRef.current.focus();
@@ -18,7 +18,8 @@ export function TextPicker({ inputLabel, options, selectedValue, onChange }) {
         label={inputLabel}
         value={selectedValue}
         onFocus={handleTextInputPress}
-        right={<TextInput.Icon icon="chevron-down" color={WhiteColor} />}
+        right={<TextInput.Icon icon="chevron-down" color={WhiteColor} onPress={handleTextInputPress} />}
+        error={inputError}
       />
       <Picker
         ref={pickerRef}
@@ -26,9 +27,15 @@ export function TextPicker({ inputLabel, options, selectedValue, onChange }) {
         selectedValue={selectedValue}
         onValueChange={onChange}
       >
-        {options.map((option, index) => (
-          <Picker.Item key={index} label={option.label} value={option.value} />
-        ))}
+        {type == 'fee' &&
+          options.map((option, index) => (
+            <Picker.Item key={index} label={option.label} value={option.value} />
+          ))}
+
+        {type == 'categorys' &&
+          options.map((option, index) => (
+            <Picker.Item key={index} label={option.titulo} value={option.titulo} />
+          ))}
       </Picker>
     </View>
 
