@@ -2,6 +2,7 @@ import { NOT_INITIALIZED_ERROR } from '@react-navigation/core/lib/typescript/src
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
 import {
+  Alert,
   ScrollView,
   StyleSheet,
   Text,
@@ -12,11 +13,15 @@ import { PrimaryButton } from '../components/Buttons';
 import { BackgroundColor } from '../constants/colors';
 import { IcBackArrow, IcFrontArrow } from '../constants/icons';
 import { AppParamsList } from '../routes/ParamList';
+import EncryptedStorage from 'react-native-encrypted-storage';
+import { KEY_USERDATA } from '../constants/app';
+import { useAppContext } from '../contexts/app_context';
 
 export function ConfigPage({
   navigation,
 }: NativeStackScreenProps<AppParamsList, 'Support'>) {
   const [isEnabled, setIsEnabled] = useState(false);
+  const appContext = useAppContext();
   return (
     <View style={{ flex: 1, backgroundColor: 'blue' }}>
       <View style={{ flex: 1 }}>
@@ -87,6 +92,36 @@ export function ConfigPage({
                       navigation.replace('Support', {});
                     }}>
                     <Text style={{ color: '#FFFFFF' }}>Suporte</Text>
+                    <IcFrontArrow />
+                  </TouchableOpacity>
+                </View>
+                <View>
+                  <TouchableOpacity
+                    style={styles.settingsButton}
+                    onPress={() => {
+                      Alert.alert(
+                        'App',
+                        'Você deseja realmente sair da aplicação?',
+                        [
+                          {
+                            text: "Sim",
+                            onPress: () => {
+                              EncryptedStorage.removeItem(
+                                KEY_USERDATA
+                              ).then(() => {
+                                appContext.setUser(undefined);
+                                navigation.reset({
+                                  index: 0,
+                                  routes: [{ name: 'Login' }]
+                                });
+                              });
+                            }
+                          },
+                          { text: "Não" }
+                        ]
+                      );
+                    }}>
+                    <Text style={{ color: '#FFFFFF' }}>Sair</Text>
                     <IcFrontArrow />
                   </TouchableOpacity>
                 </View>

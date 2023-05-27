@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Image, Text, Pressable } from 'react-native';
 import { WhiteColor } from '../constants/colors';
+import { IcPerson } from '../constants/icons';
 
 
 export interface ProfileImageProps {
@@ -8,44 +9,45 @@ export interface ProfileImageProps {
     image?: string
 }
 
-export function ProfileImage({onPress, image }: ProfileImageProps) {
-    
+export function ProfileImage({ onPress, image }: ProfileImageProps) {
     return (
         <View style={style.body}>
-            <Image 
-                style={style.profileImage}
-                source={{
-                    uri: image,
-                  }}
-            />
+            {image
+                ? <Image
+                    style={style.profileImage}
+                    source={{
+                        uri: image,
+                    }} />
+                : <IcPerson width={125} height={125} fill={WhiteColor} />
+            }
             <Pressable
                 onPress={onPress}
-            > 
+            >
                 <Text style={style.btnProfile}> Mudar Foto </Text>
             </Pressable>
         </View>
-    )
-
+    );
 }
 
 const style = StyleSheet.create({
     body: {
-         alignSelf:'center',
-         paddingBottom: 90,
-
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'center',
+        paddingBottom: 90,
     },
     profileImage: {
         width: 120,
         height: 120,
-        alignSelf:'center',
+        alignSelf: 'center',
         borderRadius: 60,
 
     },
     btnProfile: {
         paddingTop: 15,
         color: WhiteColor,
-        alignSelf:'center',
-        textDecorationLine:'underline', 
+        alignSelf: 'center',
+        textDecorationLine: 'underline',
         fontSize: 16,
     },
 })

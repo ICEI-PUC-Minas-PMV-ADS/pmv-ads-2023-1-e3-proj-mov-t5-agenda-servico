@@ -31,8 +31,7 @@ export default function ClientProfilePage({ navigation }: NativeStackScreenProps
         setName(userContext.user?.nome ?? "")
         setPhone(userContext.user?.telefone ?? "");
         setEmail(userContext.user?.email ?? "");;
-    }, [])
-
+    }, [userContext.user]);
 
     const changeInfoAccount = React.useCallback(() => {
         let newUser = { ...userContext.user };

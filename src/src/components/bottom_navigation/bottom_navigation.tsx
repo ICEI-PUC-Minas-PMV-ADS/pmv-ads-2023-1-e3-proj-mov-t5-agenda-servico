@@ -20,7 +20,6 @@ type BottomNavigationProps = {
 
 export function BottomNavigation(props: BottomNavigationProps) {
   const appContext = useAppContext();
-
   return (
     <>
       {props.children}

@@ -13,6 +13,7 @@ import IcMenuCategory from '../../assets/svg/ic_menu_category.svg';
 import IcMenuConfig from '../../assets/svg/ic_menu_config.svg';
 import IcMenuProfile from '../../assets/svg/ic_menu_profile.svg';
 import IcMenuScheduling from '../../assets/svg/ic_menu_scheduling.svg';
+import IcPerson from '../../assets/svg/ic_person.svg';
 
 export {
   IcBackArrow,
@@ -30,4 +31,5 @@ export {
   IcMenuConfig,
   IcMenuProfile,
   IcMenuScheduling,
+  IcPerson
 };

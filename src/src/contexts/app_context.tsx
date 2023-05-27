@@ -7,16 +7,15 @@ import { User } from '../models/user';
 
 type AppContextState = {
   user?: User;
-  setUser: (user: User) => void;
+  setUser: (user: User | undefined) => void;
 };
 
 export const AppContext = React.createContext<AppContextState>({
-  setUser: (user: User) => { },
+  setUser: (user: User | undefined) => { },
 });
 
 export const AppProvider = ({ children }: any) => {
   const [user, setUser] = React.useState<User | undefined>();
-
   return (
     <AppContext.Provider value={{
       user,

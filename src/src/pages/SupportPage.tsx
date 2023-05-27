@@ -1,7 +1,6 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   BackgroundColor,
-  BackgroundColorr,
   SecondaryColor,
 } from '../constants/colors';
 import {
@@ -13,7 +12,9 @@ import {
   Alert,
   TextInput,
 } from 'react-native';
-import {IcBackArrow} from '../constants/icons';
+import { IcBackArrow } from '../constants/icons';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { AppParamsList } from '../routes/ParamList';
 
 export function SupportPage({
   navigation,
@@ -21,13 +22,13 @@ export function SupportPage({
   const [motivo, setMotivo] = useState('');
   const [descricao, setDescricao] = useState('');
   return (
-    <View style={{flex: 1, backgroundColor: 'blue'}}>
-      <View style={{flex: 1}}>
+    <View style={{ flex: 1, backgroundColor: 'blue' }}>
+      <View style={{ flex: 1 }}>
         <ScrollView
           style={styles.scrollContainer}
           contentInsetAdjustmentBehavior="automatic">
           <View style={styles.container}>
-            <View style={{marginTop: 20}}>
+            <View style={{ marginTop: 20 }}>
               <View
                 style={{
                   flexDirection: 'row',
@@ -36,24 +37,24 @@ export function SupportPage({
                 }}>
                 <TouchableOpacity
                   onPress={() => {
-                    navigation.replace('Config', {});
+                    navigation.pop();
                   }}
                   style={{
                     flexDirection: 'row',
                     alignItems: 'center',
                     marginBottom: 5,
                   }}>
-                  <View style={{marginLeft: 12}}>
+                  <View style={{ marginLeft: 12 }}>
                     <IcBackArrow />
                   </View>
-                  <View style={{marginLeft: 10}}>
-                    <Text style={{color: '#FDFDFD', fontSize: 18}}>Voltar</Text>
+                  <View style={{ marginLeft: 10 }}>
+                    <Text style={{ color: '#FDFDFD', fontSize: 18 }}>Voltar</Text>
                   </View>
                 </TouchableOpacity>
               </View>
             </View>
 
-            <View style={{flex: 1, alignItems: 'center'}}>
+            <View style={{ flex: 1, alignItems: 'center' }}>
               <Text
                 style={{
                   color: '#FDFDFD',
@@ -86,17 +87,17 @@ export function SupportPage({
               </View>
             </View>
 
-            <View style={{justifyContent: 'center', width: '100%'}}>
-              <View style={{alignItems: 'center'}}>
+            <View style={{ justifyContent: 'center', width: '100%' }}>
+              <View style={{ alignItems: 'center' }}>
                 <TouchableOpacity
                   style={styles.button}
                   onPress={() => {
-                    navigation.replace('Config', {});
+                    navigation.pop();
                     Alert.alert('Solicitação enviada', 'Aguarde até 72h!', [
-                      {text: 'Ok'},
+                      { text: 'Ok' },
                     ]);
                   }}>
-                  <Text style={{color: '#FDFDFD'}}>Enviar</Text>
+                  <Text style={{ color: '#FDFDFD' }}>Enviar</Text>
                 </TouchableOpacity>
               </View>
             </View>
