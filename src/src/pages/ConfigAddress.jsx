@@ -127,78 +127,82 @@ export function Address() {
           <Text style={styles.whiteText}> {description} </Text>
         </View>
         <View style={{ maxHeight: 490 }}>
-          <ScrollView>
-            <View style={styles.inputContainer}>
-              <TouchableWithoutFeedback onPress={() => { navigation.navigate('CEP', {}) }}>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            keyboardVerticalOffset={150}>
+            <ScrollView>
+              <View style={styles.inputContainer}>
+                <TouchableWithoutFeedback onPress={() => { navigation.navigate('CEP', {}) }}>
+                  <View>
+                    <OtherInput
+                      label="CEP"
+                      value={cep}
+                      editable={false} />
+                    <HelperText>
+                    </HelperText>
+                  </View>
+                </TouchableWithoutFeedback>
                 <View>
                   <OtherInput
-                    label="CEP"
-                    value={cep}
-                    editable={false} />
+                    label="Logradouro"
+                    value={street}
+                    onChangeText={text => setStreet(text)}
+                    editable={false}
+                    desativado={true}
+                  />
                   <HelperText>
                   </HelperText>
                 </View>
-              </TouchableWithoutFeedback>
-              <View>
-                <OtherInput
-                  label="Logradouro"
-                  value={street}
-                  onChangeText={text => setStreet(text)}
-                  editable={false}
-                  desativado={true}
-                />
-                <HelperText>
-                </HelperText>
-              </View>
-              <View>
-                <OtherInput
-                  label="Número"
-                  value={number}
-                  onChangeText={handleNumberChange}
-                  keyboardType='numeric'
-                  error={!isValidNumber}
-                />
-                <HelperText type='error' visible={!isValidNumber}>
-                  Por favor, digite um número de residencia valido
-                </HelperText>
-              </View>
+                <View>
+                  <OtherInput
+                    label="Número"
+                    value={number}
+                    onChangeText={handleNumberChange}
+                    keyboardType='numeric'
+                    error={!isValidNumber}
+                  />
+                  <HelperText type='error' visible={!isValidNumber}>
+                    Por favor, digite um número de residencia valido
+                  </HelperText>
+                </View>
 
-              <View>
-                <OtherInput
-                  label="Complemento (opcional)"
-                  value={complement}
-                  onChangeText={text => setComplement(text)}
-                />
-                <HelperText type='info'>
-                  Ex: Apt.200, Casa B, Perto da lanchonete.
-                </HelperText>
-              </View>
+                <View>
+                  <OtherInput
+                    label="Complemento (opcional)"
+                    value={complement}
+                    onChangeText={text => setComplement(text)}
+                  />
+                  <HelperText type='info'>
+                    Ex: Apt.200, Casa B, Perto da lanchonete.
+                  </HelperText>
+                </View>
 
-              {
-                home &&
-                <TouchableWithoutFeedback onPress={() => {
-                  onToggleSwitch()
-                }}>
-                  <View style={styles.checkItemContainer}>
-                    <View style={{ flex: 1 }}>
-                      <Text style={styles.whiteText}>Visibilidade do endereço</Text>
-                      <Text style={styles.description}>Determina se os clientes podem ver seu endereço em seu perfil</Text>
+                {
+                  home &&
+                  <TouchableWithoutFeedback onPress={() => {
+                    onToggleSwitch()
+                  }}>
+                    <View style={styles.checkItemContainer}>
+                      <View style={{ flex: 1 }}>
+                        <Text style={styles.whiteText}>Visibilidade do endereço</Text>
+                        <Text style={styles.description}>Determina se os clientes podem ver seu endereço em seu perfil</Text>
+                      </View>
+                      <View style={{ flexDirection: 'column', alignItems: 'center', marginLeft: 100 }}>
+                        <Switch value={isSwitchOn} onValueChange={onToggleSwitch} color={PrimaryColor} />
+                        <Text style={{
+                          color: LightGray,
+                          fontFamily: 'Manrope-Bold',
+                          fontSize: 12
+                        }}>{nameSwitch}</Text>
+                      </View>
                     </View>
-                    <View style={{ flexDirection: 'column', alignItems: 'center', marginLeft: 100 }}>
-                      <Switch value={isSwitchOn} onValueChange={onToggleSwitch} color={PrimaryColor} />
-                      <Text style={{
-                        color: LightGray,
-                        fontFamily: 'Manrope-Bold',
-                        fontSize: 12
-                      }}>{nameSwitch}</Text>
-                    </View>
-                  </View>
-                </TouchableWithoutFeedback>
-              }
+                  </TouchableWithoutFeedback>
+                }
 
 
-            </View>
-          </ScrollView>
+              </View>
+            </ScrollView>
+          </KeyboardAvoidingView>
         </View>
       </View>
       <View style={styles.buttonContainer}>

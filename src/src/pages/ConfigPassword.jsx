@@ -2,7 +2,7 @@ import React from "react"
 import { StyleSheet, Text, View } from "react-native";
 import { BackgroundColor, WhiteColor, LightGray } from "../constants/colors";
 import { PrimaryButton } from "../components/Buttons";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { OtherInput } from "../components/OtherInput";
 import { HelperText, ActivityIndicator } from "react-native-paper";
 import Emoji from 'react-native-emoji';
@@ -13,6 +13,8 @@ const imageClose = <Emoji name="x" style={{ fontSize: 18 }} />
 
 export function Password() {
   const navigation = useNavigation();
+  const route = useRoute()
+  const type = route.params.type
   const [error, setError] = React.useState(false)
   const [email, setEmail] = React.useState('Email')
   const [password, setPassword] = React.useState()
@@ -50,7 +52,12 @@ export function Password() {
   const savePassword = () => {
     AsyncStorage.setItem('password', password).then(
       () => {
-        navigation.navigate('WhereWork', {})
+        if (type == 'cliente') {
+          navigation.navigate('Register', {})
+          setLoading(false)
+        }
+        else if (type == 'prestador')
+          navigation.navigate('WhereWork', {})
         setLoading(false)
       }
 

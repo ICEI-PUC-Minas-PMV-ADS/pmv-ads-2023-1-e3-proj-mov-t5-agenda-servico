@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import baseServices from "../example/services";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage"
-import { TestRegister } from "./newRegisterTest";
+import { TestRegister } from "./Register";
 import { ActivityIndicator } from 'react-native-paper';
 
 const convertedBaseSevices = JSON.stringify(baseServices)
@@ -132,7 +132,7 @@ export function Services() {
                 setError(true)
               }
               else {
-                TestRegister(navigation);
+                navigation.navigate('Register', {})
               }
 
             }} />

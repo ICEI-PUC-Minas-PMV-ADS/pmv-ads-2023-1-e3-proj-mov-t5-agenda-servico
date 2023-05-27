@@ -31,6 +31,7 @@ export function ServiceDetails() {
   const [where, setWhere] = useState('')
   const [home, setHome] = React.useState(true);
 
+
   const [services, setServices] = useState('')
   const serviceIndex = route.params.serviceIndex
   const [service, setService] = useState('')
@@ -84,10 +85,14 @@ export function ServiceDetails() {
     }, [service]);
 
     React.useEffect(() => {
-      if (where.homeservice == true) {
+      if (where.establishment == false && where.homeservice == true) {
+        setHome(false)
+        setResidence(true)
+      }
+      if (where.homeservice == true && where.establishment == true) {
         setHome(true)
       }
-      else {
+      if (where.homeservice == false && where.establishment == true) {
         setHome(false)
         setResidence(false)
       }
@@ -137,10 +142,14 @@ export function ServiceDetails() {
     }, [services]);
 
     React.useEffect(() => {
-      if (where.homeservice == true) {
+      if (where.establishment == false && where.homeservice == true) {
+        setHome(false)
+        setResidence(true)
+      }
+      if (where.homeservice == true && where.establishment == true) {
         setHome(true)
       }
-      else {
+      if (where.homeservice == false && where.establishment == true) {
         setHome(false)
         setResidence(false)
       }
@@ -335,6 +344,8 @@ export function ServiceDetails() {
                         setErrorTime(false)
                       }}
                       inputError={errorTime}
+                      initialHours={hours}
+                      initialMinutes={minutes}
                     />
                     <HelperText type="error" visible={errorTime}>
                       {

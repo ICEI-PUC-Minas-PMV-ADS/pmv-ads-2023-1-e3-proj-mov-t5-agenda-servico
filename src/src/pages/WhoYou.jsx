@@ -20,13 +20,13 @@ export function WhoYou() {
         <Text style={styles.textSub}>Quem é você?</Text>
         <PrimaryButton title={'Sou um cliente'} onPress={() => {
           AsyncStorage.setItem('type', 'cliente').then(
-            navigation.navigate('About')
+            navigation.navigate('About', { type: 'cliente' })
           )
         }} />
 
         <PrimaryButton title={'Sou um profissional'} onPress={() => {
           AsyncStorage.setItem('type', 'prestador').then(
-            navigation.navigate('About')
+            navigation.navigate('About', { type: 'prestador' })
           )
         }} />
       </View>

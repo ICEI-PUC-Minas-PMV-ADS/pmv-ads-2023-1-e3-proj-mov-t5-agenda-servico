@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import { BackgroundColor, WhiteColor, LightGray } from "../constants/colors";
 import { PrimaryButton, DeleteButton } from "../components/Buttons";
 import { useNavigation, useRoute, useIsFocused } from "@react-navigation/native";
@@ -7,12 +7,17 @@ import { TimePicker } from '../components/TimePicker'
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const DayHeader = ({ day }) => {
+const DayHeader = ({ day, nav }) => {
   const navigation = useNavigation();
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: `Intervalo • ${day}`
+      headerTitle: `Intervalo • ${day}`,
+      headerLeft: () => (
+        <TouchableOpacity onPress={nav}>
+          <Image source={require('../../assets/images/seta-pequena-esquerda.png')} style={{ width: 25, height: 25, marginRight: 25 }} />
+        </TouchableOpacity>
+      ),
     });
   }, [navigation, day]);
 
@@ -145,13 +150,17 @@ export function Interval() {
       minutes: endMinutes
     }
   }
+  const goToDay = () => {
+    navigation.navigate('Day', { dayIndex: dayIndex })
+  };
+
 
   const onUpdate = () => {
     const copy = [...dataOpening]
     copy[dayIndex].breaks[intervalIndex] = newInterval
     const newData = JSON.stringify(copy)
     AsyncStorage.setItem('opening', newData).then(
-      navigation.navigate('Day', { dayIndex: dayIndex })
+      goToDay()
     )
   };
 
@@ -160,7 +169,7 @@ export function Interval() {
     copy[dayIndex].breaks.push(newInterval)
     const newData = JSON.stringify(copy)
     AsyncStorage.setItem('opening', newData).then(
-      navigation.navigate('Day', { dayIndex: dayIndex })
+      goToDay()
     )
   }
 
@@ -185,7 +194,7 @@ export function Interval() {
   return (
 
     <View style={styles.container}>
-      <DayHeader day={nameDay} />
+      <DayHeader day={nameDay} nav={goToDay} />
       <View style={{ alignItems: 'center', justifyContent: 'center' }}>
         <Text style={styles.whiteText}> Defina seu intervalo aqui. </Text>
       </View>

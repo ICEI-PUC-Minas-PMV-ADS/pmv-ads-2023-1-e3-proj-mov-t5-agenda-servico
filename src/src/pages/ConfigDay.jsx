@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, FlatList, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, Image } from "react-native";
 import { BackgroundColor, WhiteColor, LightGray, PrimaryColor } from "../constants/colors";
 import { PrimaryButton } from "../components/Buttons";
 import { useNavigation, useRoute, useIsFocused } from "@react-navigation/native";
@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { List, Switch } from 'react-native-paper';
 import { TimePicker } from '../components/TimePicker'
 import AsyncStorage from "@react-native-async-storage/async-storage"
+
 
 const DayHeader = ({ isSwitchOn, onToggleSwitch, day }) => {
   const navigation = useNavigation();
@@ -24,6 +25,11 @@ const DayHeader = ({ isSwitchOn, onToggleSwitch, day }) => {
             fontSize: 12
           }}>{nameSwitch}</Text>
         </View>
+      ),
+      headerLeft: () => (
+        <TouchableOpacity onPress={() => navigation.navigate('Opening', {})}>
+          <Image source={require('../../assets/images/seta-pequena-esquerda.png')} style={{ width: 25, height: 25, marginRight: 25 }} />
+        </TouchableOpacity>
       ),
     });
   }, [navigation, isSwitchOn, onToggleSwitch, day]);
@@ -210,14 +216,20 @@ export function Day() {
                 <View style={styles.listItem}>
                   <List.Item
                     title={() => <Text style={styles.whiteText}>Adicionar intervalo</Text>}
-                    onPress={() => { navigation.navigate('Interval', { ...route.params }) }}
+                    onPress={() => {
+                      onUpdate()
+                      navigation.navigate('Interval', { ...route.params })
+                    }}
                     left={() => plusIcon}
                   />
                 </View>
                 <FlatList
                   data={item.breaks}
                   renderItem={({ item, index }) =>
-                    <TouchableOpacity onPress={() => navigateToInterval(index)}>
+                    <TouchableOpacity onPress={() => {
+                      onUpdate()
+                      navigateToInterval(index)
+                    }}>
                       <Item startHours={item.start.hours} startMinutes={item.start.minutes} endHours={item.end.hours} endMinutes={item.end.minutes} />
                     </TouchableOpacity>
                   }
@@ -230,7 +242,7 @@ export function Day() {
       </View>
       <View style={styles.buttonContainer}>
         <PrimaryButton title={'Salvar'} onPress={() => {
-          onUpdate(item.id)
+          onUpdate()
         }} />
       </View>
 
