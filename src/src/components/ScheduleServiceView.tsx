@@ -2,10 +2,10 @@ import React from "react";
 
 import { StyleSheet, Text, View } from "react-native";
 import { ScheduledServices } from "../models/scheduled_services";
-import { SecondaryColor, TextInputHintColor, WhiteColor } from "../constants/colors";
+import { SecondaryColor, SecondaryTextInputHintColor, TextInputHintColor, WhiteColor } from "../constants/colors";
 import { Service } from "../models/service";
 import { ServiceRepository } from "../repositories/service_repository";
-import { IcIndexScheduling, IcIndexTwoSquares } from "../constants/icons";
+import { IcIndexTwoSquares } from "../constants/icons";
 
 /***
  * ScheduledServiceViewProps
@@ -31,6 +31,15 @@ export function ScheduledServiceView({ model }: ScheduledServiceViewProps) {
     }
   }, [model]);
 
+  const isPending = model.status === "pendente";
+  const isDone = model.status === "concluido";
+  const isCanceled = model.status === "cancelado";
+  const isOutOfTime = model.status === "fora do prazo";
+
+  const textValueStyle = isPending === true
+    ? { color: WhiteColor }
+    : { color: TextInputHintColor };
+
   const twoDigitNumber = (n: number | undefined) => n?.toLocaleString('en-US', {
     minimumIntegerDigits: 2,
     useGrouping: false
@@ -39,25 +48,29 @@ export function ScheduledServiceView({ model }: ScheduledServiceViewProps) {
   return (
     <View style={style.container}>
       <View>
+
         {/* Titulo e icones */}
+
         <View>
           <View>
             <Text style={style.label}>Titulo</Text>
-            <Text style={style.value}>{service?.titulo}</Text>
+            <Text style={textValueStyle}>{service?.titulo}</Text>
           </View>
 
           <View></View>
         </View>
 
         {/* Descrição */}
+
         <View style={{ marginVertical: 8 }}>
           <View>
             <Text style={style.label}>Descrição</Text>
-            <Text style={style.value}>{model.descricao}</Text>
+            <Text style={textValueStyle}>{model.descricao}</Text>
           </View>
         </View>
 
         {/* Horario e data */}
+
         <View style={{ marginTop: 8, flexDirection: 'row', justifyContent: 'space-between' }}>
           <View style={{ flexDirection: 'row' }}>
             <IcIndexTwoSquares />
@@ -88,6 +101,9 @@ const style = StyleSheet.create({
     padding: 16,
     marginTop: 16,
     borderRadius: 6,
+  },
+  markedLabel: {
+    color: SecondaryTextInputHintColor
   },
   label: {
     color: TextInputHintColor

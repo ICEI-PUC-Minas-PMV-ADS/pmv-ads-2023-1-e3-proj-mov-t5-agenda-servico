@@ -27,6 +27,7 @@ export class Horario {
   inicio?: Tempo;
   fim?: Tempo;
   intervalos?: Intervalo[];
+  horarios_agendados?: Tempo[] = [];
 }
 
 export class Intervalo {

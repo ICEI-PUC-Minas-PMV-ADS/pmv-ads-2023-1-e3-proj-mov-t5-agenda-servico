@@ -69,6 +69,18 @@ function HomePageContent({ selectedTab, setSelectedTab }: HomePageContentProps) 
   const [loading, setLoading] = React.useState(true);
   const appContext = useAppContext();
 
+  /***
+   * Events
+   */
+
+  const onFabClick = () => {
+
+  };
+
+  /***
+   * Effects
+   */
+
   React.useEffect(() => {
     if (appContext?.user) {
       const scheduledServicesRepo = new ScheduledServicesRepository();
@@ -84,40 +96,57 @@ function HomePageContent({ selectedTab, setSelectedTab }: HomePageContentProps) 
   }, [setData, setLoading, appContext.user]);
 
   return (
-    <ScrollView style={style.container}>
-      <Text style={style.title}>Agendamentos</Text>
-
-      {/* TAB */}
-
-      <View style={style.tabContainer}>
-        <TouchableWithoutFeedback onPress={() => setSelectedTab(0)}>
-          <View style={[style.tabItem, selectedTab == 0 && style.tabSelectedItem]}>
-            <Text style={style.tabItemLabel}>Todos</Text>
-          </View>
-        </TouchableWithoutFeedback>
-
-        <TouchableWithoutFeedback onPress={() => setSelectedTab(1)}>
-          <View style={[style.tabItem, selectedTab == 1 && style.tabSelectedItem]}>
-            <Text style={style.tabItemLabel}>Favoritos</Text>
-          </View>
-        </TouchableWithoutFeedback>
-      </View>
-
-      {/* Searchbar */}
-
-      <InputIconText margin={0} icon={IcCategorySearch} placeholder="Pesquise seu agendamento" />
+    <View style={{ width: '100%', height: '100%' }}>
 
       {/* Content */}
 
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        {loading
-          ? <View style={style.emptyContainer}><View style={style.loadingContainer}><ActivityIndicator /></View></View>
-          : (data.length > 0
-            ? <ScheduledServiceList data={data} />
-            : <View style={style.emptyContainer}><Image source={require('../../assets/images/Empty.png')} /></View>)
-        }
+      <View style={style.container}>
+        <ScrollView style={style.scrollContainer}>
+          <Text style={style.title}>Agendamentos</Text>
+
+          {/* TAB */}
+
+          {/*<View style={style.tabContainer}>
+            <TouchableWithoutFeedback onPress={() => setSelectedTab(0)}>
+              <View style={[style.tabItem, selectedTab == 0 && style.tabSelectedItem]}>
+                <Text style={style.tabItemLabel}>Todos</Text>
+              </View>
+            </TouchableWithoutFeedback>
+
+            <TouchableWithoutFeedback onPress={() => setSelectedTab(1)}>
+              <View style={[style.tabItem, selectedTab == 1 && style.tabSelectedItem]}>
+                <Text style={style.tabItemLabel}>Favoritos</Text>
+              </View>
+            </TouchableWithoutFeedback>
+          </View>*/}
+
+          {/* Searchbar */}
+
+          <InputIconText margin={0} icon={IcCategorySearch} placeholder="Pesquise seu agendamento" />
+
+          {/* Content */}
+
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            {loading
+              ? <View style={style.emptyContainer}><View style={style.loadingContainer}><ActivityIndicator /></View></View>
+              : (data.length > 0
+                ? <ScheduledServiceList data={data} />
+                : <View style={style.emptyContainer}><Image source={require('../../assets/images/Empty.png')} /></View>)
+            }
+          </View>
+        </ScrollView>
       </View>
-    </ScrollView>
+
+      {/* FAB */}
+
+      <View style={style.fabContainer}>
+        <TouchableWithoutFeedback onPress={() => { onFabClick() }}>
+          <View style={style.fab}>
+            <Text style={{ fontSize: 24, color: WhiteColor }}>+</Text>
+          </View>
+        </TouchableWithoutFeedback>
+      </View>
+    </View>
   );
 }
 
@@ -127,8 +156,13 @@ function HomePageContent({ selectedTab, setSelectedTab }: HomePageContentProps) 
 
 const style = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: BackgroundColor,
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    backgroundColor: BackgroundColor
+  },
+  scrollContainer: {
+    position: 'relative',
     padding: 16,
   },
   loadingContainer: {
@@ -145,6 +179,7 @@ const style = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     fontFamily: 'Aleo-LightItalic',
+    marginBottom: 16,
   },
   tabContainer: {
     flexDirection: 'row',
@@ -162,6 +197,19 @@ const style = StyleSheet.create({
   },
   tabItemLabel: {
     color: 'white',
+  },
+  fabContainer: {
+    position: 'absolute',
+    right: 30,
+    bottom: 90,
+  },
+  fab: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: PrimaryColor,
+    borderRadius: 25,
+    width: 50,
+    height: 50,
   }
 });
 
