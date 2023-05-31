@@ -3,9 +3,16 @@ export type AppParamsList = {
   Login: {};
   Test: {};
   ClientProfile: {};
+  Profile: {};
   ProfessionalProfile: {};
   RegisterRoute: {};
   ForgotPasswordScreen: {},
   Support: {},
   ChangePassword: {},
+  Services: {},
+  UpdateServices: {},
+  Opening: {},
+  Day: {},
+  Intervalo: {},
+  Where:{}
 };

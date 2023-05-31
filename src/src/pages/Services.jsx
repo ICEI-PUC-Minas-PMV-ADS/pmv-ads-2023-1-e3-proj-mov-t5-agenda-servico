@@ -1,17 +1,16 @@
 import React from "react"
 import { StyleSheet, Text, View, FlatList, TouchableOpacity } from "react-native";
 import { HelperText, List } from 'react-native-paper';
-import { BackgroundColor, WhiteColor, LightGray, PrimaryColor, BackgroundInput } from "../constants/colors";
+import { BackgroundColor, WhiteColor, LightGray, PrimaryColor } from "../constants/colors";
 import { PrimaryButton } from "../components/Buttons";
 import Icon from 'react-native-vector-icons/FontAwesome';
-import baseServices from "../example/services";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage"
 import { ActivityIndicator } from 'react-native-paper';
-
-const convertedBaseSevices = JSON.stringify(baseServices)
+import { useAppContext } from '../contexts/app_context';
+import { ServiceRepository } from "../repositories/service_repository";
 
 export function Services() {
+  const appContext = useAppContext();
   const arrowIcon = <Icon name="chevron-right" size={15} color={LightGray} style={{ marginLeft: 20 }} />;
   const plusIcon = <Icon name="plus" size={20} color={WhiteColor} />
   const navigation = useNavigation();
@@ -21,24 +20,14 @@ export function Services() {
   const [error, setError] = React.useState(false)
 
   const getData = () => {
-    AsyncStorage.getItem('services').then(value => {
-      if (value !== null) {
-        setServices(JSON.parse(value))
+    const serviceRepository = new ServiceRepository()
+    serviceRepository.getAll((
+      allServices => {
+        const services = allServices.filter(service => service.prestador_servico_fk == appContext.user?.id)
+        setServices(services)
         setLoading(false)
       }
-
-      else {
-        AsyncStorage.setItem('services', convertedBaseSevices).then(
-          AsyncStorage.getItem('services').then(
-            value => {
-              setServices(JSON.parse(value))
-              setLoading(false)
-            }
-          )
-
-        )
-      }
-    })
+    ))
   }
 
   React.useEffect(() => {
@@ -54,7 +43,7 @@ export function Services() {
             title={() => <View style={styles.titleContainer}>
               <View>
                 <Text style={styles.whiteText}>{title}</Text>
-                <Text style={styles.description}>{duration.hours}h {duration.minutes}min</Text>
+                <Text style={styles.description}>{duration.horas}h {duration.minutos}min</Text>
               </View>
 
               <View style={styles.priceContainer}>
@@ -72,7 +61,7 @@ export function Services() {
   }
 
   const navigateToDetails = (index) => {
-    navigation.navigate('ServiceDetails', { serviceIndex: index });
+    navigation.navigate('UpdateServices', { services: services, serviceIndex: index });
   }
 
 
@@ -89,7 +78,7 @@ export function Services() {
         <View style={styles.container}>
           <View>
             <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-              <Text style={styles.whiteText}> Adicione pelo menos um serviço agora. Posteriormente, você poderá adicionar mais e editar detalhes. </Text>
+              <Text style={styles.whiteText}> Adicione novos serviços ou edite os que já existem. </Text>
             </View>
             <View style={{ marginTop: 15 }}>
               <View style={styles.listAdd}>
@@ -97,7 +86,7 @@ export function Services() {
                   title={() => <Text style={styles.whiteText}>Adicionar serviço</Text>}
                   onPress={() => {
                     setError(false)
-                    navigation.navigate('ServiceDetails', {})
+                    navigation.navigate('UpdateServices', { services: services })
                   }}
                   left={() => plusIcon}
                 />
@@ -108,7 +97,7 @@ export function Services() {
                     data={services}
                     renderItem={({ item, index }) =>
                       <TouchableOpacity onPress={() => navigateToDetails(index)}>
-                        <Item title={item.name} duration={item.duration} price={item.price} />
+                        <Item title={item.titulo} duration={JSON.parse(item.duracao)} price={item.valor} />
                       </TouchableOpacity>
                     }
 
@@ -138,7 +127,6 @@ export function Services() {
           </View>
         </View>
       }
-
     </View>
 
   )
@@ -148,30 +136,22 @@ const styles = StyleSheet.create({
   loadingContainer: {
     flex: 1,
     backgroundColor: BackgroundColor,
-    justifyContent: 'center',
-    alignItems: 'center'
   },
   container: {
     flex: 1,
     backgroundColor: BackgroundColor,
     padding: 10,
     justifyContent: "space-between"
-
   },
   whiteText: {
     color: WhiteColor,
     fontFamily: 'Manrope-Bold',
     fontSize: 14
   },
-
-  buttonContainer: {
-
-  },
   listItem: {
     borderBottomWidth: 1,
     borderColor: LightGray,
     padding: 10,
-
   },
   listAdd: {
     borderBottomWidth: 1,
@@ -194,7 +174,5 @@ const styles = StyleSheet.create({
   },
   priceContainer: {
     flexDirection: 'row',
-
   }
-
 })

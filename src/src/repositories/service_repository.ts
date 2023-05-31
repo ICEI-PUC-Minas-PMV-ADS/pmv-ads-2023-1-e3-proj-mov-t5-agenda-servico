@@ -9,7 +9,6 @@ export class ServiceRepository extends Repository<Service> {
   protected serialize(model: Service) {
     return {
       ...model,
-      duracao_servico: model?.duracao_servico?.getTime(),
       duracao: JSON.stringify(model.duracao),
     };
   }
@@ -22,7 +21,6 @@ export class ServiceRepository extends Repository<Service> {
     service.descricao = model.descricao;
     service.valor = model.valor;
     service.servico_externo = model.servico_externo;
-    service.duracao_servico = new Date(model.duracao_servico);
     service.categoria = model.categoria;
     service.avaliacao = model.avaliacao;
     service.regime_de_trabalho = model.regime_de_trabalho;

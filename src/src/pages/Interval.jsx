@@ -2,10 +2,11 @@ import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import { BackgroundColor, WhiteColor, LightGray } from "../constants/colors";
 import { PrimaryButton, DeleteButton } from "../components/Buttons";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute, useIsFocused } from "@react-navigation/native";
 import { TimePicker } from '../components/TimePicker'
-import AsyncStorage from "@react-native-async-storage/async-storage"
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useAppContext } from '../contexts/app_context';
+import { UserRepository } from "../repositories/user_repository";
 
 const DayHeader = ({ day, nav }) => {
   const navigation = useNavigation();
@@ -24,7 +25,10 @@ const DayHeader = ({ day, nav }) => {
   return null;
 };
 
-export function Interval() {
+export function Intervalo() {
+  const appContext = useAppContext();
+  const userRepository = new UserRepository()
+  const [user, setUser] = React.useState('');
   const navigation = useNavigation();
   const route = useRoute();
   const dayIndex = route.params.dayIndex
@@ -43,28 +47,30 @@ export function Interval() {
   const [visibleOpening, setVisibleOpening] = React.useState(false)
   const [visibleClosure, setVisibleClosure] = React.useState(false)
 
+
   if (intervalIndex != undefined) {
     React.useEffect(() => {
       const carregarItem = async () => {
-        const value = await AsyncStorage.getItem('opening');
-        const convertedValue = JSON.parse(value)
-        setDay(convertedValue[dayIndex]);
-        setDataOpening(convertedValue)
-        setInterval(convertedValue[dayIndex].breaks[intervalIndex])
+        userRepository.get(appContext.user?.id, user => {
+          const data = JSON.parse(user.lista_de_horarios)
+          setDataOpening(data)
+          setDay(data[dayIndex])
+          setInterval(data[dayIndex].intervalos[intervalIndex])
+          setUser(user)
+        })
       };
-
       carregarItem();
     }, []);
 
     React.useEffect(() => {
       if (interval) {
-        setStart(`${addZeroes(interval.start.hours, 2)}:${addZeroes(interval.start.minutes, 2)}`)
-        setEnd(`${addZeroes(interval.end.hours, 2)}:${addZeroes(interval.end.minutes, 2)}`)
-        setStartHours(interval.start.hours)
-        setStartMinutes(interval.start.minutes)
-        setEndHours(interval.end.hours)
-        setEndMinutes(interval.end.minutes)
-        setNameDay(day.day)
+        setStart(`${addZeroes(interval.inicio.horas, 2)}:${addZeroes(interval.inicio.minutos, 2)}`)
+        setEnd(`${addZeroes(interval.fim.horas, 2)}:${addZeroes(interval.fim.minutos, 2)}`)
+        setStartHours(interval.inicio.horas)
+        setStartMinutes(interval.inicio.minutos)
+        setEndHours(interval.fim.horas)
+        setEndMinutes(interval.fim.minutos)
+        setNameDay(day.dia)
       }
     }, [interval]);
   }
@@ -72,10 +78,12 @@ export function Interval() {
   else {
     React.useEffect(() => {
       const carregarItem = async () => {
-        const value = await AsyncStorage.getItem('opening');
-        const convertedValue = JSON.parse(value)
-        setDay(convertedValue[dayIndex]);
-        setDataOpening(convertedValue)
+        userRepository.get(appContext.user?.id, user => {
+          const data = JSON.parse(user.lista_de_horarios)
+          setDataOpening(data)
+          setDay(data[dayIndex])
+          setUser(user)
+        })
       };
 
       carregarItem();
@@ -89,7 +97,7 @@ export function Interval() {
         setStartMinutes(0)
         setEndHours(13)
         setEndMinutes(0)
-        setNameDay(day.day)
+        setNameDay(day.dia)
       }
     }, [day]);
 
@@ -138,13 +146,13 @@ export function Interval() {
   );
 
   const newInterval = {
-    start: {
-      hours: startHours,
-      minutes: startMinutes
+    inicio: {
+      horas: startHours,
+      minutos: startMinutes
     },
-    end: {
-      hours: endHours,
-      minutes: endMinutes
+    fim: {
+      horas: endHours,
+      minutos: endMinutes
     }
   }
   const goToDay = () => {
@@ -153,21 +161,25 @@ export function Interval() {
 
 
   const onUpdate = () => {
+    const newUser = {...user}
     const copy = [...dataOpening]
-    copy[dayIndex].breaks[intervalIndex] = newInterval
-    const newData = JSON.stringify(copy)
-    AsyncStorage.setItem('opening', newData).then(
+    copy[dayIndex].intervalos[intervalIndex] = newInterval
+    newUser.lista_de_horarios = copy
+
+    userRepository.update(newUser, () => {
       goToDay()
-    )
+    })
   };
 
   const createInterval = () => {
+    const newUser = {...user}
     const copy = [...dataOpening]
-    copy[dayIndex].breaks.push(newInterval)
-    const newData = JSON.stringify(copy)
-    AsyncStorage.setItem('opening', newData).then(
+    copy[dayIndex].intervalos.push(newInterval)
+    newUser.lista_de_horarios = copy
+
+    userRepository.update(newUser, () => {
       goToDay()
-    )
+    })
   }
 
   function buttonDelete() {
@@ -180,12 +192,15 @@ export function Interval() {
   }
 
   const onDelete = () => {
+    const newUser = {...user}
     const copy = [...dataOpening]
-    copy[dayIndex].breaks.splice(intervalIndex, 1)
-    const newData = JSON.stringify(copy)
-    AsyncStorage.setItem('opening', newData).then(
-      navigation.navigate('Day', { dayIndex: dayIndex })
-    )
+    copy[dayIndex].intervalos.splice(intervalIndex, 1)
+    newUser.lista_de_horarios = copy
+
+    userRepository.update(newUser, () => {
+      goToDay()
+    })
+
   };
 
   return (
