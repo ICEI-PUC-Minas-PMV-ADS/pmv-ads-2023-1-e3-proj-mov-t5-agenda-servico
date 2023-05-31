@@ -19,6 +19,13 @@ export class User extends Model {
   taxa_de_deslocamento?: Taxa;
   onde_trabalha?: Onde;
   endereco_visivel?: boolean;
+
+}
+
+export class AvaliableSchedule {
+  horas?: number;
+  minutos?: number;
+  status?: "disponivel" | "indisponivel" | "ocupado"
 }
 
 export class Horario {
@@ -27,7 +34,7 @@ export class Horario {
   inicio?: Tempo;
   fim?: Tempo;
   intervalos?: Intervalo[];
-  horarios_agendados?: Tempo[] = [];
+  horarios_agendados?: AvaliableSchedule[] = [];
 }
 
 export class Intervalo {

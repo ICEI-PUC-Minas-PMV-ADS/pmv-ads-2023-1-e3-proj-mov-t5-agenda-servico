@@ -8,4 +8,6 @@ export type AppParamsList = {
   ForgotPasswordScreen: {},
   Support: {},
   ChangePassword: {},
+  BookingPage: {id: string },
+  
 };
