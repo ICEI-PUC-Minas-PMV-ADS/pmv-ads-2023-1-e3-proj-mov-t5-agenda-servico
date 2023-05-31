@@ -5,6 +5,9 @@ import IcFabPlus from '../../assets/svg/ic_fab_plus.svg';
 import IcIndexHeart from '../../assets/svg/ic_index_heart.svg';
 import IcIndexScheduling from '../../assets/svg/ic_index_scheduling.svg';
 import IcIndexTwoSquares from '../../assets/svg/ic_index_two_squares.svg';
+import IcIndexScheduleServiceViewCancel from '../../assets/svg/ic_index_schedule_service_view_cancel.svg';
+import IcIndexScheduleServiceViewEdit from '../../assets/svg/ic_index_schedule_service_view_edit.svg';
+import IcIndexScheduleServiceViewMessage from '../../assets/svg/ic_index_schedule_service_view_message.svg';
 import IcFacebookSvg from '../../assets/svg/ic_login_facebook.svg';
 import IcGoogleSvg from '../../assets/svg/ic_login_google.svg';
 import IcEyeSvg from '../../assets/svg/ic_login_input_eye.svg';
@@ -23,6 +26,9 @@ export {
   IcIndexHeart,
   IcIndexScheduling,
   IcIndexTwoSquares,
+  IcIndexScheduleServiceViewCancel,
+  IcIndexScheduleServiceViewEdit,
+  IcIndexScheduleServiceViewMessage,
   IcFacebookSvg,
   IcGoogleSvg,
   IcEyeSvg,

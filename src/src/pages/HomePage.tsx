@@ -172,7 +172,7 @@ const style = StyleSheet.create({
     backgroundColor: BackgroundColor,
   },
   emptyContainer: {
-    marginVertical: 130,
+    marginVertical: 200,
   },
   title: {
     color: WhiteColor,

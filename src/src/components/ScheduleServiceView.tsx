@@ -1,11 +1,16 @@
 import React from "react";
 
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
 import { ScheduledServices } from "../models/scheduled_services";
 import { SecondaryColor, SecondaryTextInputHintColor, TextInputHintColor, WhiteColor } from "../constants/colors";
 import { Service } from "../models/service";
 import { ServiceRepository } from "../repositories/service_repository";
-import { IcIndexTwoSquares } from "../constants/icons";
+import {
+  IcIndexScheduleServiceViewCancel,
+  IcIndexScheduleServiceViewEdit,
+  IcIndexScheduleServiceViewMessage,
+  IcIndexTwoSquares
+} from "../constants/icons";
 
 /***
  * ScheduledServiceViewProps
@@ -45,19 +50,49 @@ export function ScheduledServiceView({ model }: ScheduledServiceViewProps) {
     useGrouping: false
   });
 
+  /***
+   * Events
+   */
+
+  const onEditScheduledService = () => { };
+
+  const onCancelScheduledService = () => { };
+
+  const onMessageScheduledService = () => { };
+
   return (
     <View style={style.container}>
       <View>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
-        {/* Titulo e icones */}
+          {/* Titulo */}
 
-        <View>
           <View>
             <Text style={style.label}>Titulo</Text>
             <Text style={textValueStyle}>{service?.titulo}</Text>
           </View>
 
-          <View></View>
+          {/* Actions */}
+
+          {isCanceled === false && <View style={style.actionBar}>
+            {isDone === false && <View style={{ marginHorizontal: 4 }}>
+              <TouchableWithoutFeedback onPress={() => onEditScheduledService()}>
+                <IcIndexScheduleServiceViewEdit />
+              </TouchableWithoutFeedback>
+            </View>}
+
+            {isDone === false && <View style={{ marginHorizontal: 4 }}>
+              <TouchableWithoutFeedback onPress={() => onCancelScheduledService()}>
+                <IcIndexScheduleServiceViewCancel />
+              </TouchableWithoutFeedback>
+            </View>}
+
+            <View style={{ marginHorizontal: 4 }}>
+              <TouchableWithoutFeedback onPress={() => onMessageScheduledService()}>
+                <IcIndexScheduleServiceViewMessage />
+              </TouchableWithoutFeedback>
+            </View>
+          </View>}
         </View>
 
         {/* Descrição */}
@@ -74,14 +109,33 @@ export function ScheduledServiceView({ model }: ScheduledServiceViewProps) {
         <View style={{ marginTop: 8, flexDirection: 'row', justifyContent: 'space-between' }}>
           <View style={{ flexDirection: 'row' }}>
             <IcIndexTwoSquares />
-            <Text style={[style.label, { marginHorizontal: 8 }]}>
-              Horario: {`${model.data?.getHours()}:${twoDigitNumber(model.data?.getMinutes())}`}h
+            <Text style={{
+              marginHorizontal: 8,
+              color: (
+                isOutOfTime || isCanceled
+                  ? 'red'
+                  : (
+                    isDone === true
+                      ? 'green'
+                      : TextInputHintColor
+                  )
+              )
+            }}>
+              {(
+                isCanceled === false
+                  ? (
+                    isDone === false
+                      ? `Horario: ${model.data?.getHours()}:${twoDigitNumber(model.data?.getMinutes())}h`
+                      : 'Concluido'
+                  )
+                  : 'Cancelado'
+              )}
             </Text>
           </View>
 
           <View>
-            <Text style={style.label}>
-              {`${twoDigitNumber(model.data?.getDate())}/${twoDigitNumber(model.data?.getMonth())}/${model.data?.getFullYear()}`}
+            <Text style={{ color: isOutOfTime ? 'red' : TextInputHintColor }}>
+              {isCanceled === false && `${twoDigitNumber(model.data?.getDate())}/${twoDigitNumber(model.data?.getMonth())}/${model.data?.getFullYear()}`}
             </Text>
           </View>
         </View>
@@ -101,6 +155,9 @@ const style = StyleSheet.create({
     padding: 16,
     marginTop: 16,
     borderRadius: 6,
+  },
+  actionBar: {
+    flexDirection: 'row'
   },
   markedLabel: {
     color: SecondaryTextInputHintColor

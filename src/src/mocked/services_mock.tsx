@@ -1,82 +1,77 @@
 import { Address } from "../models/address";
 import { ScheduledServices } from "../models/scheduled_services";
 import { Service } from "../models/service";
+import { User } from "../models/user";
 import { AddressRepository } from "../repositories/address_repository";
 import { ScheduledServicesRepository } from "../repositories/scheduled_services";
 import { ServiceRepository } from "../repositories/service_repository";
+import { UserRepository } from "../repositories/user_repository";
+import { hash } from "../utils/crypto";
 
 export function mockServices() {
-  const servicesRepo = new ServiceRepository();
-  {
-    const service = new Service();
-    service.titulo = 'Manicure';
-    service.categoria = 'Beleza';
-    service.duracao_servico = new Date(0, 0, 0, 1); // 1 Hora
-    service.prestador_servico_fk = '-NTKrt6E9_NTRPXE3ui6'
-    service.regime_de_trabalho = 'interno';
-    service.valor = 10;
-    servicesRepo.create(service, (s) => {
-      if (s?.id) {
-        console.log('service created: ' + s);
-        const addressRepo = new AddressRepository();
-        {
-          const address = new Address();
-          address.uf = 'MG';
-          address.bairro = 'Lagoinha';
-          address.cep = '31240-203';
-          address.complemento = 'casa';
-          address.logradouro = 'Rua Bonita';
-          addressRepo.create(address, (serverAddr) => {
-            if (serverAddr?.id) {
-              console.log('address created: ' + serverAddr);
-              const scheduledServicesRepo = new ScheduledServicesRepository();
-              {
-                const scheduledService = new ScheduledServices();
-                scheduledService.cliente_fk = '-NTUrB7fVwyh1XB826QP';
-                scheduledService.servico_fk = s.id;
-                scheduledService.data = new Date(2023, 2, 25, 13); // 13:00 25/02/2023
-                scheduledService.descricao = 'Descrição de manicure';
-                scheduledService.numero_endereco = 10;
-                scheduledService.local_fk = serverAddr.id;
-                scheduledService.status = 'Aguardando';
-                scheduledServicesRepo.create(scheduledService, (serverScheduledService) => {
-                  console.log('service scheduled: ' + serverScheduledService);
-                });
-              }
+  createAddressOne();
+}
 
-              // CADASTRA SERVIÇO 2
-              {
-                const service = new Service();
-                service.titulo = 'Cortar Cabelo';
-                service.categoria = 'Beleza';
-                service.duracao_servico = new Date(0, 0, 0, 2); // 2 Hora
-                service.prestador_servico_fk = '-NTKrt6E9_NTRPXE3ui6'
-                service.regime_de_trabalho = 'interno';
-                service.valor = 20;
-                servicesRepo.create(service, (s) => {
-                  if (s?.id) {
-                    console.log('service created: ' + s);
-                    const scheduledServicesRepo = new ScheduledServicesRepository();
-                    {
-                      const scheduledService = new ScheduledServices();
-                      scheduledService.cliente_fk = '-NTUrB7fVwyh1XB826QP';
-                      scheduledService.servico_fk = s.id;
-                      scheduledService.data = new Date(2023, 2, 25, 13); // 13:00 25/02/2023
-                      scheduledService.descricao = 'Descrição de manicure';
-                      scheduledService.numero_endereco = 10;
-                      scheduledService.local_fk = serverAddr.id;
-                      scheduledService.status = 'Aguardando';
-                      scheduledServicesRepo.create(scheduledService, (serverScheduledService) => {
-                        console.log('service scheduled: ' + serverScheduledService);
-                      });
-                    }
-                  }
-                });
-              }
-            }
+function createAddressOne() {
+  const address = new Address();
+  address.cep = '01001-000';
+  address.uf = 'SP';
+  address.logradouro = 'Rua Se';
+  address.bairro = 'Se'
+
+  new AddressRepository().create(address, (serverAddress) => {
+    const supplierUser = new User();
+    supplierUser.nome = "Fornecedor Pedro";
+    supplierUser.email = 'pedro_fornecedor@email.com'
+    supplierUser.hash = hash('123');
+    supplierUser.endereco_fk = serverAddress!.id;
+
+    new UserRepository().create(supplierUser, (serverSupplierUser) => {
+      const clientUser = new User();
+      clientUser.nome = "Cliente Tulio";
+      clientUser.email = 'tulio_cliente@email.com'
+      clientUser.hash = hash('123');
+      clientUser.endereco_fk = serverAddress!.id;
+
+      new UserRepository().create(clientUser, (serverClientUser) => {
+        const serviceManicure = new Service();
+        serviceManicure.titulo = "Manicure";
+        serviceManicure.valor = 10;
+        serviceManicure.servico_externo = false;
+        serviceManicure.prestador_servico_fk = serverSupplierUser!.id;
+
+        new ServiceRepository().create(serviceManicure, (serverServiceManicure) => {
+          const scheduleService = new ScheduledServices();
+          scheduleService.cliente_fk = serverClientUser!.id;
+          scheduleService.servico_fk = serverServiceManicure!.id;
+          scheduleService.status = "pendente";
+          scheduleService.data = new Date(2023, 6, 5, 11, 0, 0, 0);
+          scheduleService.numero_endereco = 100;
+
+          new ScheduledServicesRepository().create(scheduleService, (serverScheduleService) => {
+
           });
-        }
-      }
+        });
+
+        const servicePedicure = new Service();
+        servicePedicure.titulo = "Manicure";
+        servicePedicure.valor = 15;
+        servicePedicure.servico_externo = false;
+        servicePedicure.prestador_servico_fk = serverSupplierUser!.id;
+
+        new ServiceRepository().create(servicePedicure, (serverServicePedicure) => {
+          const scheduleService = new ScheduledServices();
+          scheduleService.cliente_fk = serverClientUser!.id;
+          scheduleService.servico_fk = serverServicePedicure!.id;
+          scheduleService.status = "pendente";
+          scheduleService.data = new Date(2023, 6, 5, 12, 0, 0, 0);
+          scheduleService.numero_endereco = 100;
+
+          new ScheduledServicesRepository().create(scheduleService, (serverScheduleService) => {
+
+          });
+        });
+      });
     });
-  }
+  });
 }
