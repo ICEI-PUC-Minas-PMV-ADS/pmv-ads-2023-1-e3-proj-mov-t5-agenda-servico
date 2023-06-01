@@ -5,6 +5,7 @@ export const PrimaryColorDark = '#003079';
 
 export const TextInputColor = '#FFFFFF';
 export const TextInputHintColor = '#999999';
+export const SecondaryTextInputHintColor = '#bbbbbb';
 export const TextInputBackgroundColor = '#232938';
 export const TextInputIconColor = '#D9D9D9';
 

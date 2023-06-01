@@ -8,6 +8,7 @@ export type AppParamsList = {
   RegisterRoute: {};
   ForgotPasswordScreen: {},
   Support: {},
+  Config: {},
   ChangePassword: {},
   Services: {},
   UpdateServices: {},
@@ -15,4 +16,6 @@ export type AppParamsList = {
   Day: {},
   Intervalo: {},
   Where:{}
+  BookingPage: {id: string },
+  
 };

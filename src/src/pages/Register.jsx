@@ -69,6 +69,18 @@ export function Register() {
             newUser.onde_trabalha = newOnde
             newUser.tipo_login = 'app'
             newUser.endereco_visivel = address.visible != undefined ? address.visible : false;
+            newUser.lista_de_horarios.forEach(weekDay => {
+              if (weekDay.aberto === true) {
+                let avaliableHourList = [];
+                for (let day_hours = weekDay.inicio.horas; day_hours < weekDay.fim.horas; day_hours++) {
+                  if (weekDay.intervalos.filter(hour => day_hours >= hour.inicio.horas && day_hours < hour.fim.horas).length > 0) {
+                    continue
+                  }
+                  avaliableHourList.push({ horas: day_hours, minutos: 0, status: "disponivel" })
+                }
+                weekDay.horarios_agendados = avaliableHourList
+              }
+            });
 
 
 

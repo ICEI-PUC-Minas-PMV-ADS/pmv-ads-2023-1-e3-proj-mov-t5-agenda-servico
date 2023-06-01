@@ -6,6 +6,7 @@ import { LoginPage } from '../pages/LoginPage';
 import { HomePage } from '../pages/HomePage';
 import { TestPage } from '../pages/TestPage';
 import { ConfigPage } from '../pages/ConfigPage';
+import { SupportPage } from '../pages/SupportPage';
 import { ChangePasswordPage } from '../pages/ChangePasswordPage';
 import { Profile } from '../pages/Profile';
 import { Services } from '../pages/Services';
@@ -18,6 +19,7 @@ import { WhereWork } from '../pages/UpdateWhere';
 import ClientProfilePage from '../pages/ClientProfilePage';
 import ProfessionalProfilePage from '../pages/ProfessionalProfilePage';
 import ForgotPasswordScreen from '../pages/PassRecover';
+import BookingPage from '../pages/BookingPage';
 
 const Stack = createNativeStackNavigator<AppParamsList>();
 
@@ -30,8 +32,10 @@ function AppRoute(): JSX.Element {
       <Stack.Screen name='Profile' component={Profile} options={{ headerShown: false }} />
       <Stack.Screen name="ProfessionalProfile" component={ProfessionalProfilePage} options={{ headerShown: false }} />
       <Stack.Screen name="ClientProfile" component={ClientProfilePage} options={{ headerShown: false }} />
-      <Stack.Screen name="Support" component={ConfigPage} options={{ headerShown: false }} />
+      <Stack.Screen name="Config" component={ConfigPage} options={{ headerShown: false }} />
+      <Stack.Screen name="Support" component={SupportPage} options={{ headerShown: false }} />
       <Stack.Screen name="ChangePassword" component={ChangePasswordPage} options={{ headerShown: false }} />
+      <Stack.Screen name='BookingPage' component={BookingPage} options={{headerShown: false}} /> 
       <Stack.Screen name="ForgotPasswordScreen" component={ForgotPasswordScreen} />
       <Stack.Screen name='Services' component={Services} options={{
         title: 'Serviços',

@@ -13,6 +13,8 @@ import {
   TextInputIconColor,
   WhiteColor,
 } from '../constants/colors';
+import { SelectList } from 'react-native-dropdown-select-list';
+import { Service } from '../models/service';
 
 /***
  * InputText Props
@@ -128,6 +130,46 @@ export function InputPhoneText({
       </View>
     </View>
   );
+}
+
+/***
+ * Service_type_selector
+ */
+
+interface ServiceTypeSelectorProps{
+  label: string,
+  types: Service[],
+  onChange: (key: string) => void
+}
+
+export function ServiceTypeSelector ({label, types, onChange}: ServiceTypeSelectorProps) {
+  const [selected, setSelected] = useState("");
+  const data = listGenerator(types);
+  function listGenerator (types: Service[]) {   
+    return types.map( (element) => {
+      var x = {value: element.titulo, key: element.id}
+      return x
+    });
+  }
+  return(
+    <View style={styles.container}>
+      {label !== undefined ? (
+        <Text style={styles.textLabel}>{label}</Text>
+      ) : (
+        <></>
+      )}
+      <View style={styles.textInputContainer}>
+        <SelectList
+          data={data} 
+          setSelected={ (val: string) => {
+            onChange(val)
+            setSelected(val)
+          }}
+          save='key'  
+        /> 
+      </View>
+    </View>
+  )
 }
 
 /***
