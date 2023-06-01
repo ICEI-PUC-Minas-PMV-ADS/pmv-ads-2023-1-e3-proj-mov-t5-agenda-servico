@@ -19,7 +19,7 @@ import { useAppContext } from '../contexts/app_context';
 
 export function ConfigPage({
   navigation,
-}: NativeStackScreenProps<AppParamsList, 'Support'>) {
+}: NativeStackScreenProps<AppParamsList, 'Config'>) {
   const [isEnabled, setIsEnabled] = useState(false);
   const appContext = useAppContext();
   return (

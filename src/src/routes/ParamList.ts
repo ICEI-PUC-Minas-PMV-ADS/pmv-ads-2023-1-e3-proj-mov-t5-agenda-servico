@@ -9,6 +9,11 @@ export type AppParamsList = {
   Support: {},
   Config: {},
   ChangePassword: {},
-  BookingPage: {id: string },
-  
+  BookingPage: { id: string },
+  MapPage: {
+    readOnly?: boolean;
+    lat?: number;
+    lng?: number;
+    onReceivePosition?: (lat: number, lng: number) => void;
+  }
 };
