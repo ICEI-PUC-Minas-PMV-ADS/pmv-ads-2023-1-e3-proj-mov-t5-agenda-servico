@@ -89,7 +89,7 @@ export function ConfigPage({
                   <TouchableOpacity
                     style={styles.settingsButton}
                     onPress={() => {
-                      navigation.replace('Support', {});
+                      navigation.navigate('Support', {});
                     }}>
                     <Text style={{ color: '#FFFFFF' }}>Suporte</Text>
                     <IcFrontArrow />

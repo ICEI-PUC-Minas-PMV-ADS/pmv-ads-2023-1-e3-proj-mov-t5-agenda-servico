@@ -49,7 +49,7 @@ export function BottomNavigation(props: BottomNavigationProps) {
             />
 
             <BottomNavigationItem
-              route={'Support'}/*Configuration*/
+              route={'Config'}/*Configuration*/
               icon={IcMenuConfig}
               label={'Configurações'}
               navigation={props.navigation}

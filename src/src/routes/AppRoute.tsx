@@ -5,6 +5,7 @@ import { LoginPage } from '../pages/LoginPage';
 import { HomePage } from '../pages/HomePage';
 import { TestPage } from '../pages/TestPage';
 import { ConfigPage } from '../pages/ConfigPage';
+import { SupportPage } from '../pages/SupportPage';
 import { ChangePasswordPage } from '../pages/ChangePasswordPage';
 
 import ClientProfilePage from '../pages/ClientProfilePage';
@@ -22,7 +23,8 @@ function AppRoute(): JSX.Element {
       <Stack.Screen name="Test" component={TestPage} />
       <Stack.Screen name="ProfessionalProfile" component={ProfessionalProfilePage} options={{ headerShown: false }} />
       <Stack.Screen name="ClientProfile" component={ClientProfilePage} options={{ headerShown: false }} />
-      <Stack.Screen name="Support" component={ConfigPage} options={{ headerShown: false }} />
+      <Stack.Screen name="Config" component={ConfigPage} options={{ headerShown: false }} />
+      <Stack.Screen name="Support" component={SupportPage} options={{ headerShown: false }} />
       <Stack.Screen name="ChangePassword" component={ChangePasswordPage} options={{ headerShown: false }} />
       <Stack.Screen name='BookingPage' component={BookingPage} options={{headerShown: false}} /> 
       <Stack.Screen name="ForgotPasswordScreen" component={ForgotPasswordScreen} />

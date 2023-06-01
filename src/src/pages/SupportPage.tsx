@@ -15,6 +15,8 @@ import {
 import { IcBackArrow } from '../constants/icons';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { AppParamsList } from '../routes/ParamList';
+import { TicketRepository } from '../repositories/ticket_repository';
+import { Ticket } from '../models/ticket';
 
 export function SupportPage({
   navigation,
@@ -92,10 +94,16 @@ export function SupportPage({
                 <TouchableOpacity
                   style={styles.button}
                   onPress={() => {
-                    navigation.pop();
-                    Alert.alert('Solicitação enviada', 'Aguarde até 72h!', [
-                      { text: 'Ok' },
-                    ]);
+                    const ticketRepo =  new TicketRepository();
+                    const ticket = new Ticket();
+                    ticket.motivo = motivo;
+                    ticket.descricao = descricao;
+                    ticketRepo.create(ticket, () => {
+                      navigation.pop();
+                      Alert.alert('Solicitação enviada', 'Aguarde até 72h!', [
+                        { text: 'Ok' },
+                      ]);
+                    })
                   }}>
                   <Text style={{ color: '#FDFDFD' }}>Enviar</Text>
                 </TouchableOpacity>

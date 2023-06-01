@@ -7,6 +7,7 @@ export type AppParamsList = {
   RegisterRoute: {};
   ForgotPasswordScreen: {},
   Support: {},
+  Config: {},
   ChangePassword: {},
   BookingPage: {id: string },
   
