@@ -14,8 +14,8 @@ import { Button } from "react-native-paper";
 export function MapPage(props: NativeStackScreenProps<AppParamsList, 'MapPage'>) {
   const [mapMarker, setMapMarker] = React.useState<MapMarker[]>([]);
 
-  const [lat, setLat] = React.useState<number>(0);
-  const [lng, setLng] = React.useState<number>(0);
+  const [lat, setLat] = React.useState<number | undefined>();
+  const [lng, setLng] = React.useState<number | undefined>();
 
   const readOnly = props.route.params?.readOnly;
   const onReceivePosition = props.route.params?.onReceivePosition;
@@ -29,7 +29,18 @@ export function MapPage(props: NativeStackScreenProps<AppParamsList, 'MapPage'>)
       if (message.event === "onMapClicked") {
         const { lat: markerLat, lng: markerLng } = message.payload?.touchLatLng;
 
-        setMapMarker([{ icon: 'x', position: { lat: markerLat, lng: markerLng }, size: [32, 32] }]);
+        setMapMarker([{
+          icon: 'x',
+          position: {
+            lat: markerLat,
+            lng: markerLng
+          },
+          size: [32, 32],
+          iconAnchor: {
+            x: 4,
+            y: 24,
+          }
+        }]);
 
         setLat(markerLat);
         setLng(markerLng);
@@ -38,7 +49,9 @@ export function MapPage(props: NativeStackScreenProps<AppParamsList, 'MapPage'>)
   };
 
   const onConfirmPosition = React.useCallback(() => {
-    onReceivePosition?.(lat, lng);
+    if (lat !== undefined && lng !== undefined) {
+      onReceivePosition?.(lat, lng);
+    }
   }, [lat, lng]);
 
   return (
@@ -62,6 +75,7 @@ export function MapPage(props: NativeStackScreenProps<AppParamsList, 'MapPage'>)
 
       {readOnly !== true && <PrimaryButton
         onPress={() => onConfirmPosition()}
+        disabled={mapMarker.length === 0}
         title="Confirmar posição" />}
 
     </View>
