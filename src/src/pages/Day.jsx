@@ -62,6 +62,11 @@ export function Day() {
         setDataOpening(data)
         setItem(data[dayIndex])
         setUser(user)
+        userRepository.getAll((users) => {
+          //const data = JSON.parse(users)
+          console.log(users)
+          //data.filter(service => service.prestador_servico_fk == appContext.user?.id)
+        })
       })
     };
 
@@ -163,17 +168,20 @@ export function Day() {
 
 
   const onUpdate = () => {
+    const newUser = { ...user }
     const copy = [...dataOpening]
     copy[dayIndex] = newItemData
     newUser.lista_de_horarios = copy
 
-    userRepository.update(newUser, () => {
-      navigation.navigate('Opening', {})
-    })
+    console.log(user)
+    //userRepository.update(newUser, () => {
+    //navigation.navigate('Opening', {})
+    //})
 
   };
 
   const updateInterval = (index) => {
+    const newUser = { ...user }
     const copy = [...dataOpening]
     copy[dayIndex] = newItemData
     newUser.lista_de_horarios = copy
@@ -185,6 +193,7 @@ export function Day() {
   };
 
   const newInterval = () => {
+    const newUser = { ...user }
     const copy = [...dataOpening]
     copy[dayIndex] = newItemData
     newUser.lista_de_horarios = copy

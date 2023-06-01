@@ -49,6 +49,7 @@ export function WhereWork() {
     console.log(newUser.onde_trabalha.casa_cliente)
     if (whereWork.casa_cliente == true && newUser.onde_trabalha.casa_cliente == false) {
       setVisible(true)
+      
     }
     else {
       //userRepository.update(newUser, () => {
