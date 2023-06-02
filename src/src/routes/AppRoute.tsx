@@ -15,6 +15,9 @@ import { Opening } from '../pages/Opening';
 import { Day } from '../pages/Day';
 import { Intervalo } from '../pages/Interval';
 import { WhereWork } from '../pages/UpdateWhere';
+import { Fees } from '../pages/Fees';
+import { Address } from '../pages/UpdateAddress';
+import { Cep } from '../pages/UpdateCEP';
 
 import ClientProfilePage from '../pages/ClientProfilePage';
 import ProfessionalProfilePage from '../pages/ProfessionalProfilePage';
@@ -35,7 +38,7 @@ function AppRoute(): JSX.Element {
       <Stack.Screen name="Config" component={ConfigPage} options={{ headerShown: false }} />
       <Stack.Screen name="Support" component={SupportPage} options={{ headerShown: false }} />
       <Stack.Screen name="ChangePassword" component={ChangePasswordPage} options={{ headerShown: false }} />
-      <Stack.Screen name='BookingPage' component={BookingPage} options={{headerShown: false}} /> 
+      <Stack.Screen name='BookingPage' component={BookingPage} options={{ headerShown: false }} />
       <Stack.Screen name="ForgotPasswordScreen" component={ForgotPasswordScreen} />
       <Stack.Screen name='Services' component={Services} options={{
         title: 'Serviços',
@@ -72,6 +75,27 @@ function AppRoute(): JSX.Element {
       }} />
       <Stack.Screen name='Where' component={WhereWork} options={{
         title: 'Onde você trabalha?',
+        headerStyle: {
+          backgroundColor: BackgroundColor
+        },
+        headerTintColor: WhiteColor
+      }} />
+      <Stack.Screen name='Fees' component={Fees} options={{
+        title: 'Taxa de deslocamento',
+        headerStyle: {
+          backgroundColor: BackgroundColor
+        },
+        headerTintColor: WhiteColor
+      }} />
+      <Stack.Screen name='Address' component={Address} options={{
+        title: 'Atualize aqui o seu endereço',
+        headerStyle: {
+          backgroundColor: BackgroundColor
+        },
+        headerTintColor: WhiteColor
+      }} />
+      <Stack.Screen name='CEP' component={Cep} options={{
+        title: 'Digite o CEP da sua rua',
         headerStyle: {
           backgroundColor: BackgroundColor
         },

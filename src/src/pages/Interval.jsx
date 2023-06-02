@@ -1,18 +1,20 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
-import { BackgroundColor, WhiteColor, LightGray } from "../constants/colors";
+import { BackgroundColor, WhiteColor, LightGray, PrimaryColor } from "../constants/colors";
 import { PrimaryButton, DeleteButton } from "../components/Buttons";
-import { useNavigation, useRoute, useIsFocused } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { TimePicker } from '../components/TimePicker'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useAppContext } from '../contexts/app_context';
+import { ActivityIndicator } from 'react-native-paper';
 import { UserRepository } from "../repositories/user_repository";
 
-const DayHeader = ({ day, nav }) => {
+const DayHeader = ({ day, nav, loading }) => {
   const navigation = useNavigation();
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
+      headerShown: !loading,
       headerTitle: `Intervalo • ${day}`,
       headerLeft: () => (
         <TouchableOpacity onPress={nav}>
@@ -20,12 +22,13 @@ const DayHeader = ({ day, nav }) => {
         </TouchableOpacity>
       ),
     });
-  }, [navigation, day]);
+  }, [navigation, day, loading]);
 
   return null;
 };
 
 export function Intervalo() {
+  const [loading, setLoading] = React.useState(true)
   const appContext = useAppContext();
   const userRepository = new UserRepository()
   const [user, setUser] = React.useState('');
@@ -52,11 +55,12 @@ export function Intervalo() {
     React.useEffect(() => {
       const carregarItem = async () => {
         userRepository.get(appContext.user?.id, user => {
-          const data = JSON.parse(user.lista_de_horarios)
+          const data = user.lista_de_horarios
           setDataOpening(data)
           setDay(data[dayIndex])
           setInterval(data[dayIndex].intervalos[intervalIndex])
           setUser(user)
+          setLoading(false)
         })
       };
       carregarItem();
@@ -83,6 +87,7 @@ export function Intervalo() {
           setDataOpening(data)
           setDay(data[dayIndex])
           setUser(user)
+          setLoading(false)
         })
       };
 
@@ -98,6 +103,7 @@ export function Intervalo() {
         setEndHours(13)
         setEndMinutes(0)
         setNameDay(day.dia)
+
       }
     }, [day]);
 
@@ -161,23 +167,27 @@ export function Intervalo() {
 
 
   const onUpdate = () => {
-    const newUser = {...user}
+    setLoading(true)
+    const newUser = { ...user }
     const copy = [...dataOpening]
     copy[dayIndex].intervalos[intervalIndex] = newInterval
     newUser.lista_de_horarios = copy
 
     userRepository.update(newUser, () => {
+      setLoading(false)
       goToDay()
     })
   };
 
   const createInterval = () => {
-    const newUser = {...user}
+    setLoading(true)
+    const newUser = { ...user }
     const copy = [...dataOpening]
     copy[dayIndex].intervalos.push(newInterval)
     newUser.lista_de_horarios = copy
 
     userRepository.update(newUser, () => {
+      setLoading(false)
       goToDay()
     })
   }
@@ -192,71 +202,88 @@ export function Intervalo() {
   }
 
   const onDelete = () => {
-    const newUser = {...user}
+    setLoading(true)
+    const newUser = { ...user }
     const copy = [...dataOpening]
     copy[dayIndex].intervalos.splice(intervalIndex, 1)
     newUser.lista_de_horarios = copy
 
     userRepository.update(newUser, () => {
+      setLoading(false)
       goToDay()
     })
 
   };
 
   return (
-
-    <View style={styles.container}>
-      <DayHeader day={nameDay} nav={goToDay} />
-      <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-        <Text style={styles.whiteText}> Defina seu intervalo aqui. </Text>
-      </View>
-      <View style={styles.timeContainer}>
-        <View style={styles.buttonTimeContainer}>
-          <Text style={styles.whiteText}>Início</Text>
-          <PrimaryButton title={start} onPress={() => setVisibleOpening(true)} />
-          <TimePicker
-            visible={visibleOpening}
-            onDismiss={onDismissOpening}
-            onConfirm={onConfirmOpening}
-            hours={startHours}
-            minutes={startMinutes}
-          />
+    <View style={{ flex: 1 }}>
+      <DayHeader day={nameDay} nav={goToDay} loading={loading} />
+      {
+        loading &&
+        <View style={styles.loadingContainer}>
+          <Text style={styles.whiteText}>Aguarde um instante</Text>
+          <ActivityIndicator style={{ marginTop: 20 }} animating={loading} color={PrimaryColor} />
         </View>
-        <Text style={styles.whiteText}>-</Text>
-        <View style={styles.buttonTimeContainer}>
-          <Text style={styles.whiteText}>Término</Text>
-          <PrimaryButton title={end} onPress={() => setVisibleClosure(true)} />
-          <TimePicker
-            visible={visibleClosure}
-            onDismiss={onDismissClosure}
-            onConfirm={onConfirmClosure}
-            hours={endHours}
-            minutes={endMinutes}
-          />
-        </View>
-      </View>
+      }
+      {
+        loading == false &&
+        <View style={styles.container}>
+          <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+            <Text style={styles.whiteText}> Defina seu intervalo aqui. </Text>
+          </View>
+          <View style={styles.timeContainer}>
+            <View style={styles.buttonTimeContainer}>
+              <Text style={styles.whiteText}>Início</Text>
+              <PrimaryButton title={start} onPress={() => setVisibleOpening(true)} />
+              <TimePicker
+                visible={visibleOpening}
+                onDismiss={onDismissOpening}
+                onConfirm={onConfirmOpening}
+                hours={startHours}
+                minutes={startMinutes}
+              />
+            </View>
+            <Text style={styles.whiteText}>-</Text>
+            <View style={styles.buttonTimeContainer}>
+              <Text style={styles.whiteText}>Término</Text>
+              <PrimaryButton title={end} onPress={() => setVisibleClosure(true)} />
+              <TimePicker
+                visible={visibleClosure}
+                onDismiss={onDismissClosure}
+                onConfirm={onConfirmClosure}
+                hours={endHours}
+                minutes={endMinutes}
+              />
+            </View>
+          </View>
 
-      <View style={styles.buttonContainer}>
-        <>{buttonDelete()}</>
-        <View style={{ flex: 2 }}>
-          <PrimaryButton title={'Salvar'} onPress={() => {
-            if (intervalIndex != undefined) {
-              onUpdate()
-            }
-            else {
-              createInterval()
-            }
+          <View style={styles.buttonContainer}>
+            <>{buttonDelete()}</>
+            <View style={{ flex: 2 }}>
+              <PrimaryButton title={'Salvar'} onPress={() => {
+                if (intervalIndex != undefined) {
+                  onUpdate()
+                }
+                else {
+                  createInterval()
+                }
 
-          }} />
-        </View>
-      </View>
-    </View >
-
-
+              }} />
+            </View>
+          </View>
+        </View >
+      }
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    backgroundColor: BackgroundColor,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   container: {
     flex: 1,
     backgroundColor: BackgroundColor,

@@ -14,6 +14,18 @@ import { useAppContext } from '../contexts/app_context';
 import { Service, Tempo } from "../models/service";
 import { ServiceRepository } from "../repositories/service_repository";
 
+const Header = ({ loading }) => {
+  const navigation = useNavigation();
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: !loading
+    });
+  }, [navigation, loading]);
+
+  return null;
+};
+
 export function UpdateServices() {
   const serviceRepository = new ServiceRepository()
   const appContext = useAppContext();
@@ -50,7 +62,7 @@ export function UpdateServices() {
 
     React.useEffect(() => {
       if (service) {
-        const duration = JSON.parse(service.duracao)
+        const duration = service.duracao
         setName(service.titulo)
         setPrice(service.valor)
         setDescription(service.descricao)
@@ -194,21 +206,27 @@ export function UpdateServices() {
   novoServico.prestador_servico_fk = appContext.user?.id
 
   const onUpdate = () => {
+    setLoading(true)
     novoServico.id = service.id
     serviceRepository.update(novoServico, () => {
+      setLoading(false)
       navigation.navigate('Services', {})
     })
   };
 
   const createService = () => {
+    setLoading(true)
     serviceRepository.create(novoServico, () => {
+      setLoading(false)
       navigation.navigate('Services', {})
     })
   }
 
   const onDelete = () => {
+    setLoading(true)
     novoServico.id = service.id
     serviceRepository.delete(novoServico, () => {
+      setLoading(false)
       navigation.navigate('Services', {})
     })
   };
@@ -226,10 +244,12 @@ export function UpdateServices() {
   return (
 
     <View style={{ flex: 1 }}>
+      <Header loading={loading} />
       {
         loading &&
         <View style={styles.loadingContainer}>
-          <ActivityIndicator animating={loading} color={PrimaryColor} />
+          <Text style={styles.whiteText}>Aguarde um instante</Text>
+          <ActivityIndicator style={{ marginTop: 20 }} animating={loading} color={PrimaryColor} />
         </View>
       }
       {

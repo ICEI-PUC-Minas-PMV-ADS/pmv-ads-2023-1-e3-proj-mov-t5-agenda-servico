@@ -24,7 +24,7 @@ export class ServiceRepository extends Repository<Service> {
     service.categoria = model.categoria;
     service.avaliacao = model.avaliacao;
     service.regime_de_trabalho = model.regime_de_trabalho;
-    service.duracao = model.duracao
+    service.duracao =  JSON.parse(model.duracao ?? "{}")
     return service;
   }
 }

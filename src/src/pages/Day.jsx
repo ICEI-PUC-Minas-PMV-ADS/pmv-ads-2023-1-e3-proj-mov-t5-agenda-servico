@@ -4,17 +4,18 @@ import { BackgroundColor, WhiteColor, LightGray, PrimaryColor } from "../constan
 import { PrimaryButton } from "../components/Buttons";
 import { useNavigation, useRoute, useIsFocused } from "@react-navigation/native";
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { List, Switch } from 'react-native-paper';
+import { List, Switch, ActivityIndicator } from 'react-native-paper';
 import { TimePicker } from '../components/TimePicker'
 import { useAppContext } from '../contexts/app_context';
 import { UserRepository } from "../repositories/user_repository";
 
-const DayHeader = ({ isSwitchOn, onToggleSwitch, day }) => {
+const DayHeader = ({ isSwitchOn, onToggleSwitch, day, loading }) => {
   const navigation = useNavigation();
   const nameSwitch = isSwitchOn ? 'Aberto' : 'Fechado';
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
+      headerShown: !loading,
       headerTitle: day,
       headerRight: () => (
         <View style={{ marginRight: 5, flexDirection: 'column', alignItems: 'center' }}>
@@ -32,14 +33,14 @@ const DayHeader = ({ isSwitchOn, onToggleSwitch, day }) => {
         </TouchableOpacity>
       ),
     });
-  }, [navigation, isSwitchOn, onToggleSwitch, day]);
+  }, [navigation, isSwitchOn, onToggleSwitch, day, loading]);
 
   return null;
 };
 
 export function Day() {
   //declarando variaveis necessarias
-
+  const [loading, setLoading] = React.useState(true)
   const appContext = useAppContext();
   const [user, setUser] = React.useState()
   const userRepository = new UserRepository()
@@ -58,15 +59,11 @@ export function Day() {
   React.useEffect(() => {
     const carregarItem = async () => {
       userRepository.get(appContext?.user?.id, user => {
-        const data = JSON.parse(user.lista_de_horarios)
+        const data = user.lista_de_horarios
         setDataOpening(data)
         setItem(data[dayIndex])
         setUser(user)
-        userRepository.getAll((users) => {
-          //const data = JSON.parse(users)
-          console.log(users)
-          //data.filter(service => service.prestador_servico_fk == appContext.user?.id)
-        })
+        setLoading(false)
       })
     };
 
@@ -168,37 +165,42 @@ export function Day() {
 
 
   const onUpdate = () => {
-    const newUser = { ...user }
-    const copy = [...dataOpening]
-    copy[dayIndex] = newItemData
-    newUser.lista_de_horarios = copy
-
-    console.log(user)
-    //userRepository.update(newUser, () => {
-    //navigation.navigate('Opening', {})
-    //})
-
-  };
-
-  const updateInterval = (index) => {
+    setLoading(true)
     const newUser = { ...user }
     const copy = [...dataOpening]
     copy[dayIndex] = newItemData
     newUser.lista_de_horarios = copy
 
     userRepository.update(newUser, () => {
+      setLoading(false)
+      navigation.navigate('Opening', {})
+    })
+
+  };
+
+  const updateInterval = (index) => {
+    setLoading(true)
+    const newUser = { ...user }
+    const copy = [...dataOpening]
+    copy[dayIndex] = newItemData
+    newUser.lista_de_horarios = copy
+
+    userRepository.update(newUser, () => {
+      setLoading(false)
       navigateToInterval(index)
     })
 
   };
 
   const newInterval = () => {
+    setLoading(true)
     const newUser = { ...user }
     const copy = [...dataOpening]
     copy[dayIndex] = newItemData
     newUser.lista_de_horarios = copy
 
     userRepository.update(newUser, () => {
+      setLoading(false)
       navigateToInterval()
     })
 
@@ -210,83 +212,96 @@ export function Day() {
 
   return (
 
-
-    <View style={styles.container}>
-      <DayHeader isSwitchOn={isSwitchOn} onToggleSwitch={onToggleSwitch} day={day} />
-      <View>
-        {
-          isSwitchOn &&
+    <View style={{ flex: 1 }}>
+      <DayHeader isSwitchOn={isSwitchOn} onToggleSwitch={onToggleSwitch} day={day} loading={loading} />
+      {
+        loading &&
+        <View style={styles.loadingContainer}>
+          <Text style={styles.whiteText}>Aguarde um instante</Text>
+          <ActivityIndicator style={{ marginTop: 20 }} animating={loading} color={PrimaryColor} />
+        </View>
+      }
+      {
+        loading == false &&
+        <View style={styles.container}>
           <View>
-            <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 10 }}>
-              <Text style={styles.whiteText}> Defina seu horário de trabalho aqui. </Text>
-            </View>
-            <View style={styles.timeContainer}>
-              <View style={styles.buttonTimeContainer}>
-                <Text style={styles.whiteText}> Início</Text>
-                <PrimaryButton title={opening} onPress={() => setVisibleOpening(true)} />
-                <TimePicker
-                  visible={visibleOpening}
-                  onDismiss={onDismissOpening}
-                  onConfirm={onConfirmOpening}
-                  hours={openingHours}
-                  minutes={openingMinutes}
-                />
-              </View>
-              <Text style={styles.whiteText}>-</Text>
-              <View style={styles.buttonTimeContainer}>
-                <Text style={styles.whiteText}>Término</Text>
-                <PrimaryButton title={closure} onPress={() => setVisibleClosure(true)} />
-                <TimePicker
-                  visible={visibleClosure}
-                  onDismiss={onDismissClosure}
-                  onConfirm={onConfirmClosure}
-                  hours={closureHours}
-                  minutes={closureMinutes}
-                />
-              </View>
-            </View>
-            <View style={{ marginTop: 40 }}>
-              <Text style={styles.whiteText}> Intervalos </Text>
+            {
+              isSwitchOn &&
               <View>
-                <View style={styles.listItem}>
-                  <List.Item
-                    title={() => <Text style={styles.whiteText}>Adicionar intervalo</Text>}
-                    onPress={() => {
-                      newInterval()
-                    }}
-                    left={() => plusIcon}
-                  />
+                <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 10 }}>
+                  <Text style={styles.whiteText}> Defina seu horário de trabalho aqui. </Text>
                 </View>
-                <FlatList
-                  data={item.intervalos}
-                  renderItem={({ item, index }) =>
-                    <TouchableOpacity onPress={() => {
-                      updateInterval(index)
-                    }}>
-                      <Item startHours={item.inicio.horas} startMinutes={item.inicio.minutos} endHours={item.fim.horas} endMinutes={item.fim.minutos} />
-                    </TouchableOpacity>
-                  }
+                <View style={styles.timeContainer}>
+                  <View style={styles.buttonTimeContainer}>
+                    <Text style={styles.whiteText}> Início</Text>
+                    <PrimaryButton title={opening} onPress={() => setVisibleOpening(true)} />
+                    <TimePicker
+                      visible={visibleOpening}
+                      onDismiss={onDismissOpening}
+                      onConfirm={onConfirmOpening}
+                      hours={openingHours}
+                      minutes={openingMinutes}
+                    />
+                  </View>
+                  <Text style={styles.whiteText}>-</Text>
+                  <View style={styles.buttonTimeContainer}>
+                    <Text style={styles.whiteText}>Término</Text>
+                    <PrimaryButton title={closure} onPress={() => setVisibleClosure(true)} />
+                    <TimePicker
+                      visible={visibleClosure}
+                      onDismiss={onDismissClosure}
+                      onConfirm={onConfirmClosure}
+                      hours={closureHours}
+                      minutes={closureMinutes}
+                    />
+                  </View>
+                </View>
+                <View style={{ marginTop: 40 }}>
+                  <Text style={styles.whiteText}> Intervalos </Text>
+                  <View>
+                    <View style={styles.listItem}>
+                      <List.Item
+                        title={() => <Text style={styles.whiteText}>Adicionar intervalo</Text>}
+                        onPress={() => {
+                          newInterval()
+                        }}
+                        left={() => plusIcon}
+                      />
+                    </View>
+                    <FlatList
+                      data={item.intervalos}
+                      renderItem={({ item, index }) =>
+                        <TouchableOpacity onPress={() => {
+                          updateInterval(index)
+                        }}>
+                          <Item startHours={item.inicio.horas} startMinutes={item.inicio.minutos} endHours={item.fim.horas} endMinutes={item.fim.minutos} />
+                        </TouchableOpacity>
+                      }
 
-                />
+                    />
+                  </View>
+                </View>
               </View>
-            </View>
+            }
           </View>
-        }
-      </View>
-      <View style={styles.buttonContainer}>
-        <PrimaryButton title={'Salvar'} onPress={() => {
-          onUpdate()
-        }} />
-      </View>
-
-
-    </View >
-
-
+          <View style={styles.buttonContainer}>
+            <PrimaryButton title={'Salvar'} onPress={() => {
+              onUpdate()
+            }} />
+          </View>
+        </View >
+      }
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    backgroundColor: BackgroundColor,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   container: {
     flex: 1,
     backgroundColor: BackgroundColor,

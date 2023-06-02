@@ -45,7 +45,7 @@ export class UserRepository extends Repository<User> {
     user.lista_de_horarios = JSON.parse(json.lista_de_horarios ?? "[]")
     user.taxa_de_deslocamento = JSON.parse(json.taxa_de_deslocamento ?? "{}")
     user.onde_trabalha = JSON.parse(json.onde_trabalha ?? "{}")
-    user.endereco_visivel = json.onde_trabalha
+    user.endereco_visivel = json.endereco_visivel
     return user;
   }
 }

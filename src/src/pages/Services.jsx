@@ -9,6 +9,18 @@ import { ActivityIndicator } from 'react-native-paper';
 import { useAppContext } from '../contexts/app_context';
 import { ServiceRepository } from "../repositories/service_repository";
 
+const Header = ({ loading }) => {
+  const navigation = useNavigation();
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: !loading
+    });
+  }, [navigation, loading]);
+
+  return null;
+};
+
 export function Services() {
   const appContext = useAppContext();
   const arrowIcon = <Icon name="chevron-right" size={15} color={LightGray} style={{ marginLeft: 20 }} />;
@@ -68,10 +80,14 @@ export function Services() {
 
   return (
 
-    <View style={styles.loadingContainer}>
+    <View style={{ flex: 1 }}>
+      <Header loading={loading} />
       {
         loading &&
-        <ActivityIndicator animating={loading} color={PrimaryColor} />
+        <View style={styles.loadingContainer}>
+          <Text style={styles.whiteText}>Aguarde um instante</Text>
+          <ActivityIndicator style={{ marginTop: 20 }} animating={loading} color={PrimaryColor} />
+        </View>
       }
       {
         loading == false &&
@@ -97,7 +113,7 @@ export function Services() {
                     data={services}
                     renderItem={({ item, index }) =>
                       <TouchableOpacity onPress={() => navigateToDetails(index)}>
-                        <Item title={item.titulo} duration={JSON.parse(item.duracao)} price={item.valor} />
+                        <Item title={item.titulo} duration={item.duracao} price={item.valor} />
                       </TouchableOpacity>
                     }
 
@@ -115,12 +131,12 @@ export function Services() {
                 }
               </HelperText>
             </View>
-            <PrimaryButton title={'Continuar'} onPress={() => {
+            <PrimaryButton title={'Salvar'} onPress={() => {
               if (services.length == 0) {
                 setError(true)
               }
               else {
-                navigation.navigate('Register', {})
+                navigation.navigate('Profile', {})
               }
 
             }} />
@@ -136,6 +152,8 @@ const styles = StyleSheet.create({
   loadingContainer: {
     flex: 1,
     backgroundColor: BackgroundColor,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   container: {
     flex: 1,

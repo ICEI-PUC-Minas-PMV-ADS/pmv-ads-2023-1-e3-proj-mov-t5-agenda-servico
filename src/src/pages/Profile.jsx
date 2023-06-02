@@ -53,40 +53,45 @@ export function Profile() {
             <Text style={styles.textBlue}>EDITAR</Text>
           </View>
           <View style={{ flexDirection: 'column', alignItems: 'flex-start', marginLeft: 25, marginRight: 25 }}>
-            <Text style={styles.textWhitePlus}>{appContext.user?.nome_fantasia}</Text>
+            <Text style={styles.textWhitePlus}>{
+              appContext?.user?.tipo === 'cliente' ? appContext.user?.nome : appContext.user?.nome_fantasia
+            }</Text>
             <Text style={styles.textGray}>{appContext.user?.telefone}</Text>
           </View>
         </TouchableOpacity>
       </View>
-      <View style={{ marginTop: 25 }}>
-        <View style={styles.listItem}>
-          <List.Item
-            title={() => <Text style={styles.textWhite}>SERVIÇOS</Text>}
-            onPress={() => {
-              navigation.navigate('Services')
-            }}
-            right={() => arrowIcon}
-          />
+      {
+        appContext?.user?.tipo === 'prestador' &&
+        <View style={{ marginTop: 25 }}>
+          <View style={styles.listItem}>
+            <List.Item
+              title={() => <Text style={styles.textWhite}>SERVIÇOS</Text>}
+              onPress={() => {
+                navigation.navigate('Services')
+              }}
+              right={() => arrowIcon}
+            />
+          </View>
+          <View style={styles.listItem}>
+            <List.Item
+              title={() => <Text style={styles.textWhite}>HORÁRIO DE FUNCIONAMENTO</Text>}
+              onPress={() => {
+                navigation.navigate('Opening')
+              }}
+              right={() => arrowIcon}
+            />
+          </View>
+          <View style={styles.listItem}>
+            <List.Item
+              title={() => <Text style={styles.textWhite}>ENDEREÇO</Text>}
+              onPress={() => {
+                navigation.navigate('Where')
+              }}
+              right={() => arrowIcon}
+            />
+          </View>
         </View>
-        <View style={styles.listItem}>
-          <List.Item
-            title={() => <Text style={styles.textWhite}>HORÁRIO DE FUNCIONAMENTO</Text>}
-            onPress={() => {
-              navigation.navigate('Opening')
-            }}
-            right={() => arrowIcon}
-          />
-        </View>
-        <View style={styles.listItem}>
-          <List.Item
-            title={() => <Text style={styles.textWhite}>ENDEREÇO</Text>}
-            onPress={() => {
-              navigation.navigate('Where')
-            }}
-            right={() => arrowIcon}
-          />
-        </View>
-      </View>
+      }
     </View>
   )
 }

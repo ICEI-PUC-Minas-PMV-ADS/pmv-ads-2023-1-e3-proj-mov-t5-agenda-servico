@@ -6,16 +6,19 @@ export type AppParamsList = {
   Profile: {};
   ProfessionalProfile: {};
   RegisterRoute: {};
-  ForgotPasswordScreen: {},
-  Support: {},
-  Config: {},
-  ChangePassword: {},
-  Services: {},
-  UpdateServices: {},
-  Opening: {},
-  Day: {},
-  Intervalo: {},
-  Where:{}
-  BookingPage: {id: string },
-  
+  ForgotPasswordScreen: {};
+  Support: {};
+  ChangePassword: {};
+  Services: {};
+  UpdateServices: {};
+  Opening: {};
+  Day: {};
+  Intervalo: {};
+  Where: {};
+  BookingPage: { id: string };
+  Fees: {};
+  Config: {};
+  Address: {};
+  CEP: {};
+
 };

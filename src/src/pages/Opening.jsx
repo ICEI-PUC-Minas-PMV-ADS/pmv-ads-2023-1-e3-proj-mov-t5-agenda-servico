@@ -1,12 +1,24 @@
 import React from "react"
 import { StyleSheet, Text, View, FlatList, TouchableOpacity } from "react-native";
-import { List } from 'react-native-paper';
-import { BackgroundColor, WhiteColor, LightGray } from "../constants/colors";
+import { List, ActivityIndicator } from 'react-native-paper';
+import { BackgroundColor, WhiteColor, LightGray, PrimaryColor } from "../constants/colors";
 import { PrimaryButton } from "../components/Buttons";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation, useIsFocused } from "@react-navigation/native";
 import { useAppContext } from '../contexts/app_context';
 import { UserRepository } from "../repositories/user_repository";
+
+const Header = ({ loading }) => {
+  const navigation = useNavigation();
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: !loading
+    });
+  }, [navigation, loading]);
+
+  return null;
+};
 
 export function Opening() {
   const appContext = useAppContext();
@@ -14,13 +26,15 @@ export function Opening() {
   const arrowIcon = <Icon name="chevron-right" size={15} color={LightGray} />;
   const navigation = useNavigation();
   const isFocused = useIsFocused();
+  const [loading, setLoading] = React.useState(true)
 
   //criação ou recuperação dos dados 
   const [dataOpening, setDataOpening] = React.useState('')
 
   const getData = () => {
     userRepository.get(appContext.user?.id, user => {
-      setDataOpening(JSON.parse(user.lista_de_horarios))
+      setDataOpening(user.lista_de_horarios)
+      setLoading(false)
     })
   }
 
@@ -58,6 +72,8 @@ export function Opening() {
 
 
     return (
+
+
       <View style={styles.listItem}>
         <List.Item
           title={() => <View style={styles.titleContainer}>
@@ -75,6 +91,7 @@ export function Opening() {
           right={() => arrowIcon}
         />
       </View>
+
     )
   }
 
@@ -85,37 +102,47 @@ export function Opening() {
 
 
   return (
-    <View style={styles.container}>
-      <View>
+    <View style={{ flex: 1 }}>
+      <Header loading={loading} />
+      {
+        loading &&
+        <View style={styles.loadingContainer}>
+          <Text style={styles.whiteText}>Aguarde um instante</Text>
+          <ActivityIndicator style={{ marginTop: 20 }} animating={loading} color={PrimaryColor} />
+        </View>
+      }
+      {
+        loading == false &&
+        <View style={styles.container}>
+          <View>
+            <FlatList
+              data={dataOpening}
 
-
-
-        <FlatList
-          data={dataOpening}
-
-          renderItem={({ item, index }) =>
-            <TouchableOpacity onPress={() => navigateToDay(item, index)}>
-              <Item title={item.dia} openingHours={item.inicio.horas} openingMinutes={item.inicio.minutos} closureHours={item.fim.horas} closureMinutes={item.fim.minutos} open={item.aberto} />
-            </TouchableOpacity>
-          }
-
-
-        />
-
-
-      </View>
-      <View style={styles.buttonContainer}>
-        <PrimaryButton title={'Continuar'} onPress={() => {
-          navigation.navigate('Services', {})
-        }} />
-      </View>
+              renderItem={({ item, index }) =>
+                <TouchableOpacity onPress={() => navigateToDay(item, index)}>
+                  <Item title={item.dia} openingHours={item.inicio.horas} openingMinutes={item.inicio.minutos} closureHours={item.fim.horas} closureMinutes={item.fim.minutos} open={item.aberto} />
+                </TouchableOpacity>
+              }
+            />
+          </View>
+          <View style={styles.buttonContainer}>
+            <PrimaryButton title={'Salvar'} onPress={() => {
+              navigation.navigate('Profile', {})
+            }} />
+          </View>
+        </View>
+      }
     </View>
-
   )
 }
 
 const styles = StyleSheet.create({
-
+  loadingContainer: {
+    flex: 1,
+    backgroundColor: BackgroundColor,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   container: {
     flex: 1,
     backgroundColor: BackgroundColor,
