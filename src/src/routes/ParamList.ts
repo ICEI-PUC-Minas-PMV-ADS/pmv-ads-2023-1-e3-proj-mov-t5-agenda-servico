@@ -20,5 +20,10 @@ export type AppParamsList = {
   Config: {};
   Address: {};
   CEP: {};
-
+  MapPage: {
+    readOnly?: boolean;
+    lat?: number;
+    lng?: number;
+    onReceivePosition?: (lat: number, lng: number) => void;
+  }
 };

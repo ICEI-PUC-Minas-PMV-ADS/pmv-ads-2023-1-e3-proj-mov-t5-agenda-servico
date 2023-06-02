@@ -18,6 +18,7 @@ import { WhereWork } from '../pages/UpdateWhere';
 import { Fees } from '../pages/Fees';
 import { Address } from '../pages/UpdateAddress';
 import { Cep } from '../pages/UpdateCEP';
+import { MapPage } from '../pages/MapPage';
 
 import ClientProfilePage from '../pages/ClientProfilePage';
 import ProfessionalProfilePage from '../pages/ProfessionalProfilePage';
@@ -28,7 +29,7 @@ const Stack = createNativeStackNavigator<AppParamsList>();
 
 function AppRoute(): JSX.Element {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName='Login'>
       <Stack.Screen name='Login' component={LoginPage} options={{ headerShown: false }} />
       <Stack.Screen name='Home' component={HomePage} options={{ headerShown: false }} />
       <Stack.Screen name="Test" component={TestPage} />
@@ -101,6 +102,7 @@ function AppRoute(): JSX.Element {
         },
         headerTintColor: WhiteColor
       }} />
+      <Stack.Screen name="MapPage" component={MapPage} options={{ headerShown: false }} />
     </Stack.Navigator>
 
   );

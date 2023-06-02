@@ -43,9 +43,9 @@ export function BottomNavigation(props: BottomNavigationProps) {
             />
 
             <BottomNavigationItem
-              route={'Home'}/*Scheduling*/
+              route={'MapPage'}/*Scheduling*/
               icon={IcMenuScheduling}
-              label={'Agendamentos '}
+              label={'Mapa '}
               navigation={props.navigation}
             />
 
