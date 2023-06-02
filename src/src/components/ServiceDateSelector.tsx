@@ -9,19 +9,23 @@ import {
 } from "../constants/colors";
 import { SelectList } from "react-native-dropdown-select-list";
 import { UserRepository } from "../repositories/user_repository";
-import { AvaliableSchedule, Tempo, User } from "../models/user";
+import { AvaliableSchedule, Horario, Tempo, User } from "../models/user";
 
 interface ServiceDateSelectorProps {
     label?: String,
     professionalId?: string,
-    onChange: (key: string) => void,
+    onChangeDay: (val: string) => void,
+    onChangeHour: (val: string) => void,
 }
 
-export default function ServiceDateSelector({ label, professionalId, onChange }: ServiceDateSelectorProps) {
-    const [selected, setSelected] = useState("");
+export default function ServiceDateSelector({ label, professionalId, onChangeDay, onChangeHour }: ServiceDateSelectorProps) {
+    const [selectedDay, setSelectedDay] = useState("");
+    const [selectedHour, setSelectedHour] = useState("");
+    const [hourList, setHourList] = useState<string[]>([])
     const [user, setUser] = useState<User>();
+    const [weekDays, setWeekDays] = useState<string[]>([]);
     const userRep = new UserRepository();
-
+    
     useEffect(() => {
         if (professionalId) {
             userRep.get(professionalId, (e) => {
@@ -31,7 +35,7 @@ export default function ServiceDateSelector({ label, professionalId, onChange }:
     }, [])
 
     function getFreeTimeList(eUser: User) {
-        eUser.lista_de_horarios?.forEach(weekDay => {
+        return eUser.lista_de_horarios?.map(weekDay => {
             if (weekDay.aberto === true) {
                 let avaliableHourList: AvaliableSchedule[] = [];
                 for (let day_hours = weekDay.inicio!.horas!; day_hours < weekDay.fim!.horas!; day_hours++) {
@@ -42,14 +46,44 @@ export default function ServiceDateSelector({ label, professionalId, onChange }:
                 }
                 weekDay.horarios_agendados = avaliableHourList
             }
+            return weekDay
         });
-        console.log(JSON.stringify(eUser.lista_de_horarios))
+    }
+
+    function workDaysList() {
+        let daysList
+        if (user) {
+            daysList = getFreeTimeList(user)
+                ?.filter(weekDay => weekDay.aberto === true && weekDay.dia !== undefined)
+                .map((weekDay) => weekDay.dia!);
+        }
+        if (daysList !== undefined) {
+            setWeekDays(daysList)
+        }
+    }
+
+    function avaliableHourList(selectedDay: string) {
+        let hourList;
+        if (user) {
+            hourList = getFreeTimeList(user)
+                ?.find(weekDay => weekDay.dia === selectedDay && weekDay.dia !== undefined)
+                ?.horarios_agendados?.filter(hours => hours.status === "disponivel")
+                ?.map(schedule => schedule.horas!.toString());
+        }
+        if (hourList !== undefined)
+            setHourList(hourList);
     }
 
     useEffect(() => {
-        if (user)
-            getFreeTimeList(user);
+        if (user) {
+            getFreeTimeList(user)
+            workDaysList()
+        }
     }, [user])
+
+    useEffect(() => {
+        avaliableHourList(selectedDay)
+    }, [selectedDay])
 
     return (
         <View style={styles.container}>
@@ -60,14 +94,25 @@ export default function ServiceDateSelector({ label, professionalId, onChange }:
             )}
             <View style={styles.textInputContainer}>
                 <SelectList
-                    data={["Teste", "TesteAAA"]}
+                    data={weekDays}
                     setSelected={(val: string) => {
-                        onChange(val)
-                        setSelected(val)
+                        onChangeDay(val)
+                        setSelectedDay(val)
                     }}
                     save='value'
                 />
             </View>
+            <View style={styles.textInputContainer}>
+                <SelectList
+                    data={hourList}
+                    setSelected={(val: string) => {
+                        onChangeHour(val)
+                        setSelectedHour(val)
+                    }}
+                    save='value'
+                />
+            </View>
+
         </View>
     )
 }

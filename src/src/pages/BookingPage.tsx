@@ -16,7 +16,8 @@ import ServiceDateSelector from "../components/ServiceDateSelector";
 export default function BookingPage({ route, navigation
 }: NativeStackScreenProps<AppParamsList, 'BookingPage'>) {
 
-    const [hourDate, setHourDate] = useState("");
+    const [hour, setHour] = useState("");
+    const [day, setDay] = useState("");
     const [selectedServiceId, setSelectedServiceId] = useState("");
     const [price, setPrice] = useState();
     const [address, setAddress] = useState();
@@ -61,7 +62,6 @@ export default function BookingPage({ route, navigation
     }
     useEffect(() => {
         filterServiceBySupplier();
-
     }, [])
 
     return (
@@ -89,9 +89,12 @@ export default function BookingPage({ route, navigation
 
                 <ServiceDateSelector
                     label="Horários Disponiveis"
-                    professionalId = {id}
-                    onChange={ (key) => {
-                        setHourDate(key)
+                    professionalId={id}
+                    onChangeDay={(key) => {
+                        setDay(key)
+                    }}
+                    onChangeHour={(key) => {
+                        setHour(key)
                     }}
                 />
 
@@ -110,8 +113,16 @@ export default function BookingPage({ route, navigation
                     onChange={value => setObservations(value)}
                 />
 
+                <InputText
+                    placeholder=" "
+                    label="Observações: "
+                    value={userContext.user?.descricao}
+                    onChange={value => setObservations(value)}
+                />
+
                 <PrimaryButton
                     title="Salvar Informações"
+                    onPress={() => { }}
                 />
 
             </ScrollView>
