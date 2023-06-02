@@ -30,7 +30,8 @@ export default function RegisterRoute() {
       <Stack.Screen name='Email' component={WhatsEmail} options={{
         title: 'Qual é o seu e-mail?',
         headerStyle: {
-          backgroundColor: BackgroundColor
+          backgroundColor: BackgroundColor,
+
         },
         headerTintColor: WhiteColor
 

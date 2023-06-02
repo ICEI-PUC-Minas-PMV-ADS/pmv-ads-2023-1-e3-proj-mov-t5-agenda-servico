@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import { BackgroundColor, WhiteColor, LightGray } from "../constants/colors";
 import { PrimaryButton, DeleteButton } from "../components/Buttons";
-import { useNavigation, useRoute, useIsFocused } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { TimePicker } from '../components/TimePicker'
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -25,11 +25,8 @@ const DayHeader = ({ day, nav }) => {
 };
 
 export function Interval() {
-
-
   const navigation = useNavigation();
   const route = useRoute();
-  const isFocused = useIsFocused()
   const dayIndex = route.params.dayIndex
   const intervalIndex = route.params.intervalIndex
   const [dataOpening, setDataOpening] = React.useState('')
@@ -46,7 +43,7 @@ export function Interval() {
   const [visibleOpening, setVisibleOpening] = React.useState(false)
   const [visibleClosure, setVisibleClosure] = React.useState(false)
 
-  if (intervalIndex) {
+  if (intervalIndex != undefined) {
     React.useEffect(() => {
       const carregarItem = async () => {
         const value = await AsyncStorage.getItem('opening');

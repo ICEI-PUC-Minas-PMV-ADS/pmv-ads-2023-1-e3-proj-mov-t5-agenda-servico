@@ -118,7 +118,7 @@ export function Register() {
 
 
               newHorario.dia = dia.day
-              newHorario.aberto = dia.opening
+              newHorario.aberto = dia.open
               newHorario.inicio = inicio
               newHorario.fim = fim
               newHorario.intervalos = intervalos

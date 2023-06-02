@@ -35,7 +35,8 @@ export function BottomNavigation(props: BottomNavigationProps) {
             />
 
             <BottomNavigationItem
-              route={appContext?.user?.tipo === 'cliente' ? 'ClientProfile' : 'ProfessionalProfile'}
+              //appContext?.user?.tipo === 'cliente' ? 'ClientProfile' : 'ProfessionalProfile'
+              route={'Profile'}
               icon={IcMenuProfile}
               label={'Perfil'}
               navigation={props.navigation}
