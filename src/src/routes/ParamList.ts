@@ -25,5 +25,10 @@ export type AppParamsList = {
     lat?: number;
     lng?: number;
     onReceivePosition?: (lat: number, lng: number) => void;
-  }
+  };
+  ChatPage: {
+    scheduledServiceId: string;
+    clientId: string;
+    supplierId: string;
+  };
 };

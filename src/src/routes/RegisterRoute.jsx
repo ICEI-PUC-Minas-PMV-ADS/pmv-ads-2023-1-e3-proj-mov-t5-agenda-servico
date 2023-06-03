@@ -14,7 +14,7 @@ import { DisplacementFee } from '../pages/DisplacementFee';
 import { Services } from '../pages/ConfigServices';
 import { ServiceDetails } from '../pages/ServiceDetails';
 import { Register } from '../pages/Register';
-import { HomePage } from '../pages/HomePage';
+import { HomePage } from '../pages/home_page/HomePage';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 

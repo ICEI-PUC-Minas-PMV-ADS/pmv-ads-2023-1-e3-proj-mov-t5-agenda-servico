@@ -24,7 +24,7 @@ export class QueryScheduledServicesByUser {
             accepted(this.filterScheduledServicesToProvider(scheduledServices));
           }
         } else {
-          rejected("QueryScheduledServicesByUser.query: schduled service data not found!");
+          rejected("QueryScheduledServicesByUser.query: scheduled service data not found!");
         }
       });
     }));

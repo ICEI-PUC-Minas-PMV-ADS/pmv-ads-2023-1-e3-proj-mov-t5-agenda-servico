@@ -1,5 +1,5 @@
 import { View, StyleSheet } from "react-native";
-import { ScheduledServices } from "../models/scheduled_services";
+import { ScheduledServices } from "../../../models/scheduled_services";
 import { ScheduledServiceView } from "./ScheduleServiceView";
 
 /***
@@ -29,5 +29,6 @@ export function ScheduledServiceList({ data }: ScheduledServiceListProps) {
 const style = StyleSheet.create({
   container: {
     width: '100%',
+    paddingBottom: 170,
   }
 });

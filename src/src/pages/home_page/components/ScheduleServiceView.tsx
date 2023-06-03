@@ -1,16 +1,15 @@
 import React from "react";
 
-import { StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
-import { ScheduledServices } from "../models/scheduled_services";
-import { SecondaryColor, SecondaryTextInputHintColor, TextInputHintColor, WhiteColor } from "../constants/colors";
-import { Service } from "../models/service";
-import { ServiceRepository } from "../repositories/service_repository";
-import {
-  IcIndexScheduleServiceViewCancel,
-  IcIndexScheduleServiceViewEdit,
-  IcIndexScheduleServiceViewMessage,
-  IcIndexTwoSquares
-} from "../constants/icons";
+import { Alert, StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
+import { WhiteColor, TextInputHintColor, SecondaryColor, SecondaryTextInputHintColor } from "../../../constants/colors";
+import { IcIndexScheduleServiceViewEdit, IcIndexScheduleServiceViewCancel, IcIndexScheduleServiceViewMessage, IcIndexTwoSquares } from "../../../constants/icons";
+import { ScheduledServices } from "../../../models/scheduled_services";
+import { Service } from "../../../models/service";
+import { ServiceRepository } from "../../../repositories/service_repository";
+import { useHomeContext } from "../context/home_context";
+import { ScheduledServicesRepository } from "../../../repositories/scheduled_services";
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { AppParamsList } from "../../../routes/ParamList";
 
 /***
  * ScheduledServiceViewProps
@@ -26,6 +25,8 @@ type ScheduledServiceViewProps = {
 
 export function ScheduledServiceView({ model }: ScheduledServiceViewProps) {
   const [service, setService] = React.useState<Service | undefined>();
+  const homeContext = useHomeContext();
+  const navigation = useNavigation<NavigationProp<AppParamsList>>();
 
   React.useLayoutEffect(() => {
     if (model.servico_fk) {
@@ -56,9 +57,42 @@ export function ScheduledServiceView({ model }: ScheduledServiceViewProps) {
 
   const onEditScheduledService = () => { };
 
-  const onCancelScheduledService = () => { };
+  const onCancelScheduledService = () => {
+    Alert.alert(
+      'App',
+      'Você deseja realmente cancelar este serviço agendado?',
+      [
+        {
+          text: "Sim",
+          onPress: () => {
+            model.status = 'cancelado';
+            new ScheduledServicesRepository().update(model, () => {
+              const updatedScheduledServices = [...homeContext.scheduledServices];
+              const modelIndex = updatedScheduledServices.findIndex(sv => sv.id === model.id)
+              updatedScheduledServices[modelIndex] = model;
+              homeContext.setScheduledServices?.(updatedScheduledServices);
+            });
+          }
+        },
+        { text: "Não" }
+      ]
+    );
+  };
 
-  const onMessageScheduledService = () => { };
+  const onMessageScheduledService = () => {
+    if (model.servico_fk) {
+      const servicesRepo = new ServiceRepository();
+      servicesRepo.get(model.servico_fk, (service) => {
+        if (service?.prestador_servico_fk) {
+          navigation.navigate('ChatPage', {
+            scheduledServiceId: model.id!,
+            clientId: model.cliente_fk!,
+            supplierId: service.prestador_servico_fk!,
+          });
+        }
+      });
+    }
+  };
 
   return (
     <View style={style.container}>
@@ -74,25 +108,31 @@ export function ScheduledServiceView({ model }: ScheduledServiceViewProps) {
 
           {/* Actions */}
 
-          {isCanceled === false && <View style={style.actionBar}>
-            {isDone === false && <View style={{ marginHorizontal: 4 }}>
-              <TouchableWithoutFeedback onPress={() => onEditScheduledService()}>
-                <IcIndexScheduleServiceViewEdit />
-              </TouchableWithoutFeedback>
-            </View>}
+          <View style={style.actionBar}>
+            {(isPending === true || isOutOfTime === true) &&
+              (
+                <>
+                  <View style={{ marginHorizontal: 4 }}>
+                    <TouchableWithoutFeedback onPress={() => onEditScheduledService()}>
+                      <IcIndexScheduleServiceViewEdit />
+                    </TouchableWithoutFeedback>
+                  </View>
 
-            {isDone === false && <View style={{ marginHorizontal: 4 }}>
-              <TouchableWithoutFeedback onPress={() => onCancelScheduledService()}>
-                <IcIndexScheduleServiceViewCancel />
-              </TouchableWithoutFeedback>
-            </View>}
+                  <View style={{ marginHorizontal: 4 }}>
+                    <TouchableWithoutFeedback onPress={() => onCancelScheduledService()}>
+                      <IcIndexScheduleServiceViewCancel />
+                    </TouchableWithoutFeedback>
+                  </View>
+                </>
+              )
+            }
 
             <View style={{ marginHorizontal: 4 }}>
               <TouchableWithoutFeedback onPress={() => onMessageScheduledService()}>
                 <IcIndexScheduleServiceViewMessage />
               </TouchableWithoutFeedback>
             </View>
-          </View>}
+          </View>
         </View>
 
         {/* Descrição */}

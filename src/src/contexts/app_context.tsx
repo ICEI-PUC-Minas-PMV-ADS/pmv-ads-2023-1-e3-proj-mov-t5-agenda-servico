@@ -29,6 +29,5 @@ export const AppProvider = ({ children }: any) => {
 export const AppConsumer = AppContext.Consumer;
 
 export const useAppContext = () => {
-  const appContext = React.useContext(AppContext);
-  return appContext;
+  return React.useContext(AppContext);
 };

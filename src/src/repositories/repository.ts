@@ -31,7 +31,7 @@ export abstract class Repository<TModel extends Model> {
         }
         callback?.(models);
       } else {
-        callback?.(undefined);
+        callback?.([]);
       }
     });
   }
