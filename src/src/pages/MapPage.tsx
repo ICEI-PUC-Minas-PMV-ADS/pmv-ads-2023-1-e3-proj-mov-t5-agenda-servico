@@ -68,7 +68,7 @@ export function MapPage(props: NativeStackScreenProps<AppParamsList, 'MapPage'>)
           onMessageReceived={onMessageReceived}
           mapCenterPosition={mapMarker.length === 0 ? { lat: -13.3000, lng: -47.1258 } : mapMarker[0]}
           mapMarkers={mapMarker}
-          doDebug={true}
+          doDebug={false}
           zoom={5}
         />
       </View>

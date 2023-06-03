@@ -69,7 +69,7 @@ export function ScheduledServiceView({ model }: ScheduledServiceViewProps) {
 
           <View>
             <Text style={style.label}>Titulo</Text>
-            <Text style={textValueStyle}>{service?.titulo}</Text>
+            <Text style={{ color: WhiteColor }}>{service?.titulo}</Text>
           </View>
 
           {/* Actions */}

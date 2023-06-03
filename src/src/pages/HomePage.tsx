@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import EncryptedStorage from 'react-native-encrypted-storage';
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -16,6 +16,9 @@ import { ScheduledServicesRepository } from '../repositories/scheduled_services'
 import { QueryValidateTimeOfScheduleServices } from '../repositories/queries/query_validate_time_of_schedule_services';
 import { BottomNavigation } from '../components/bottom_navigation';
 import { useNavigationState } from '@react-navigation/native';
+import { ServiceRepository } from '../repositories/service_repository';
+import { Service } from '../models/service';
+import moment from 'moment';
 
 /***
  * HomePageImpl
@@ -24,7 +27,6 @@ import { useNavigationState } from '@react-navigation/native';
 function HomePageImpl({
   navigation,
 }: NativeStackScreenProps<AppParamsList, 'Home'>) {
-  const [selectedTab, setSelectedTab] = React.useState(0);
   const [loadingUserData, setLoadingUserData] = React.useState(true);
 
   const appContext = useAppContext();
@@ -47,25 +49,18 @@ function HomePageImpl({
   return (
     loadingUserData
       ? <View style={style.loadingContainer}><ActivityIndicator /></View>
-      : <HomePageContent selectedTab={selectedTab} setSelectedTab={(tab) => setSelectedTab(tab)} />
+      : <HomePageContent />
   );
 }
-
-/***
- * HomePageContentProps
- */
-
-type HomePageContentProps = {
-  selectedTab: number;
-  setSelectedTab: (tab: number) => void;
-};
 
 /***
  * HomePageContent
  */
 
-function HomePageContent({ selectedTab, setSelectedTab }: HomePageContentProps) {
-  const [data, setData] = React.useState<ScheduledServices[]>([]);
+function HomePageContent() {
+  const [scheduledServices, setScheduledServices] = React.useState<ScheduledServices[] | undefined>();
+  const [services, setServices] = React.useState<Service[]>([]);
+  const [searchFilter, setSearchFilter] = React.useState<string | undefined>();
   const [loading, setLoading] = React.useState(true);
   const appContext = useAppContext();
 
@@ -82,18 +77,29 @@ function HomePageContent({ selectedTab, setSelectedTab }: HomePageContentProps) 
    */
 
   React.useEffect(() => {
-    if (appContext?.user) {
+    if (appContext?.user && scheduledServices === undefined) {
       const scheduledServicesRepo = new ScheduledServicesRepository();
-      scheduledServicesRepo.filterScheduledServicesByUser(appContext.user, (scheduledServices) => {
-        new QueryValidateTimeOfScheduleServices(scheduledServices)
+      scheduledServicesRepo.filterScheduledServicesByUser(appContext.user, (filteredScheduledServices) => {
+        new QueryValidateTimeOfScheduleServices(filteredScheduledServices)
           .query()
-          .then((scheduledServices) => {
-            setData(scheduledServices);
-            setLoading(false);
+          .then((queryScheduledServices) => {
+            const filteredServices: Service[] = [];
+            const serviceRepo = new ServiceRepository();
+            serviceRepo.getAll((services) => {
+              services?.forEach((service) => {
+                if (queryScheduledServices.find((scheduledService) => scheduledService.servico_fk === service.id)) {
+                  filteredServices.push(service);
+                }
+              });
+
+              setServices(filteredServices);
+              setScheduledServices(queryScheduledServices);
+              setLoading(false);
+            });
           });
       });
     }
-  }, [setData, setLoading, appContext.user]);
+  }, [appContext.user]);
 
   return (
     <View style={{ width: '100%', height: '100%' }}>
@@ -104,33 +110,35 @@ function HomePageContent({ selectedTab, setSelectedTab }: HomePageContentProps) 
         <ScrollView style={style.scrollContainer}>
           <Text style={style.title}>Agendamentos</Text>
 
-          {/* TAB */}
-
-          {/*<View style={style.tabContainer}>
-            <TouchableWithoutFeedback onPress={() => setSelectedTab(0)}>
-              <View style={[style.tabItem, selectedTab == 0 && style.tabSelectedItem]}>
-                <Text style={style.tabItemLabel}>Todos</Text>
-              </View>
-            </TouchableWithoutFeedback>
-
-            <TouchableWithoutFeedback onPress={() => setSelectedTab(1)}>
-              <View style={[style.tabItem, selectedTab == 1 && style.tabSelectedItem]}>
-                <Text style={style.tabItemLabel}>Favoritos</Text>
-              </View>
-            </TouchableWithoutFeedback>
-          </View>*/}
-
           {/* Searchbar */}
 
-          <InputIconText margin={0} icon={IcCategorySearch} placeholder="Pesquise seu agendamento" />
+          <InputIconText
+            margin={0}
+            icon={IcCategorySearch}
+            onChange={(value) => setSearchFilter(value?.trim().length > 0 ? value : undefined)}
+            placeholder="Pesquise seu agendamento" />
 
           {/* Content */}
 
           <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             {loading
               ? <View style={style.emptyContainer}><View style={style.loadingContainer}><ActivityIndicator /></View></View>
-              : (data.length > 0
-                ? <ScheduledServiceList data={data} />
+              : (scheduledServices !== undefined && scheduledServices.length > 0
+                ? <ScheduledServiceList
+                  data={
+                    searchFilter === undefined
+                      ? scheduledServices
+                      : scheduledServices.filter((scheduledService) => {
+                        const relatedService = services.find(findedService => findedService.id === scheduledService.servico_fk);
+                        const dateHour = moment(scheduledService.data).format("DD/MM/YYYY hh:mm");
+                        return (
+                          scheduledService.descricao?.toLowerCase().includes(searchFilter)
+                          || scheduledService.status?.toLowerCase().includes(searchFilter)
+                          || relatedService?.titulo?.toLowerCase().includes(searchFilter)
+                          || dateHour?.toLowerCase().includes(searchFilter)
+                        );
+                      })
+                  } />
                 : <View style={style.emptyContainer}><Image source={require('../../assets/images/Empty.png')} /></View>)
             }
           </View>
