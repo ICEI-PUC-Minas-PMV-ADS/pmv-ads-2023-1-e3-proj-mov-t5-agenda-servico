@@ -27,64 +27,38 @@ import moment from 'moment';
 function HomePageImpl({
   navigation,
 }: NativeStackScreenProps<AppParamsList, 'Home'>) {
-  const [loadingUserData, setLoadingUserData] = React.useState(true);
-
-  const appContext = useAppContext();
-
-  React.useLayoutEffect(() => {
-    if (!appContext?.user) {
-      EncryptedStorage.getItem(KEY_USERDATA).then(userData => {
-        if (userData) {
-          appContext?.setUser(JSON.parse(userData));
-        } else {
-          navigation?.replace('Login', {});
-        }
-        setLoadingUserData(false);
-      });
-    } else {
-      setLoadingUserData(false);
-    }
-  }, []);
-
-  return (
-    loadingUserData
-      ? <View style={style.loadingContainer}><ActivityIndicator /></View>
-      : <HomePageContent />
-  );
-}
-
-/***
- * HomePageContent
- */
-
-function HomePageContent() {
-  const [scheduledServices, setScheduledServices] = React.useState<ScheduledServices[] | undefined>();
-  const [services, setServices] = React.useState<Service[]>([]);
-  const [searchFilter, setSearchFilter] = React.useState<string | undefined>();
   const [loading, setLoading] = React.useState(true);
-  const appContext = useAppContext();
-
-  /***
-   * Events
-   */
-
-  const onFabClick = () => {
-
-  };
+  const [scheduledServices, setScheduledServices] = React.useState<ScheduledServices[]>([]);
+  const [services, setServices] = React.useState<Service[]>([]);
+  const { user, setUser } = useAppContext();
 
   /***
    * Effects
    */
 
+
+  React.useLayoutEffect(() => {
+    if (!user) {
+      EncryptedStorage.getItem(KEY_USERDATA).then(userData => {
+        if (userData) {
+          setUser(JSON.parse(userData));
+        } else {
+          navigation?.replace('Login', {});
+        }
+      });
+    }
+  }, []);
+
   React.useEffect(() => {
-    if (appContext?.user && scheduledServices === undefined) {
+    if (user) {
       const scheduledServicesRepo = new ScheduledServicesRepository();
-      scheduledServicesRepo.filterScheduledServicesByUser(appContext.user, (filteredScheduledServices) => {
+      scheduledServicesRepo.filterScheduledServicesByUser(user, (filteredScheduledServices) => {
         new QueryValidateTimeOfScheduleServices(filteredScheduledServices)
           .query()
           .then((queryScheduledServices) => {
             const filteredServices: Service[] = [];
             const serviceRepo = new ServiceRepository();
+
             serviceRepo.getAll((services) => {
               services?.forEach((service) => {
                 if (queryScheduledServices.find((scheduledService) => scheduledService.servico_fk === service.id)) {
@@ -99,7 +73,39 @@ function HomePageContent() {
           });
       });
     }
-  }, [appContext.user]);
+  }, [user]);
+
+  return (
+    loading
+      ? <View style={style.loadingContainer}><ActivityIndicator /></View>
+      : <HomePageContent scheduledServices={scheduledServices} services={services} />
+  );
+}
+
+/***
+ * HomePageContentProps
+ */
+
+type HomePageContentProps = {
+  scheduledServices: ScheduledServices[];
+  services: Service[];
+};
+
+/***
+ * HomePageContent
+ */
+
+function HomePageContent({ scheduledServices, services }: HomePageContentProps) {
+  const [searchFilter, setSearchFilter] = React.useState<string | undefined>();
+  const appContext = useAppContext();
+
+  /***
+   * Events
+   */
+
+  const onFabClick = () => {
+
+  };
 
   return (
     <View style={{ width: '100%', height: '100%' }}>
@@ -121,25 +127,23 @@ function HomePageContent() {
           {/* Content */}
 
           <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            {loading
-              ? <View style={style.emptyContainer}><View style={style.loadingContainer}><ActivityIndicator /></View></View>
-              : (scheduledServices !== undefined && scheduledServices.length > 0
-                ? <ScheduledServiceList
-                  data={
-                    searchFilter === undefined
-                      ? scheduledServices
-                      : scheduledServices.filter((scheduledService) => {
-                        const relatedService = services.find(findedService => findedService.id === scheduledService.servico_fk);
-                        const dateHour = moment(scheduledService.data).format("DD/MM/YYYY hh:mm");
-                        return (
-                          scheduledService.descricao?.toLowerCase().includes(searchFilter)
-                          || scheduledService.status?.toLowerCase().includes(searchFilter)
-                          || relatedService?.titulo?.toLowerCase().includes(searchFilter)
-                          || dateHour?.toLowerCase().includes(searchFilter)
-                        );
-                      })
-                  } />
-                : <View style={style.emptyContainer}><Image source={require('../../assets/images/Empty.png')} /></View>)
+            {scheduledServices !== undefined && scheduledServices.length > 0
+              ? <ScheduledServiceList
+                data={
+                  searchFilter === undefined
+                    ? scheduledServices
+                    : scheduledServices.filter((scheduledService) => {
+                      const relatedService = services.find(findedService => findedService.id === scheduledService.servico_fk);
+                      const dateHour = moment(scheduledService.data).format("DD/MM/YYYY hh:mm");
+                      return (
+                        scheduledService.descricao?.toLowerCase().includes(searchFilter)
+                        || scheduledService.status?.toLowerCase().includes(searchFilter)
+                        || relatedService?.titulo?.toLowerCase().includes(searchFilter)
+                        || dateHour?.toLowerCase().includes(searchFilter)
+                      );
+                    })
+                } />
+              : <View style={style.emptyContainer}><Image source={require('../../assets/images/Empty.png')} /></View>
             }
           </View>
         </ScrollView>
