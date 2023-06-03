@@ -9,6 +9,7 @@ import { AppParamsList } from "../../routes/ParamList";
 import { PrimaryButton } from "../../components/Buttons";
 import { UserRepository } from "../../repositories/user_repository";
 import { BackgroundColor, WhiteColor } from "../../constants/colors";
+import { toString } from './../../../node_modules/moment/src/lib/moment/format';
 
 export function ScheduleServiceCepPage({ route, navigation
 }: NativeStackScreenProps<AppParamsList, 'ScheduleServiceCepPage'>) {
@@ -25,7 +26,6 @@ export function ScheduleServiceCepPage({ route, navigation
 
   const addressRep = new LocaleRepository();
   const userRep = new UserRepository();
-
 
   function getProfessionalAddressId() {
     let aId: string | undefined
@@ -110,7 +110,7 @@ export function ScheduleServiceCepPage({ route, navigation
         {state => <InputText
           placeholder="Cidade"
           label="Nome da Cidade: "
-          value={state.state?.firstPage?.schedule.descricao}
+          value={JSON.stringify(state)}
           onChange={value => setCidade(value)}
         />}
       </ScheduledServicesComsumer>

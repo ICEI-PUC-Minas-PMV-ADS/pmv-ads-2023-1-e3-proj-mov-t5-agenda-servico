@@ -11,3 +11,5 @@ export const ScheduleServiceContext = React.createContext<ScheduleServiceContext
 
 export const ScheduleServiceProvider = ScheduleServiceContext.Provider;
 export const ScheduledServicesComsumer = ScheduleServiceContext.Consumer;
+
+export const useScheduleServiceContext = () => React.useContext(ScheduleServiceContext);

@@ -15,7 +15,7 @@ export interface ProfessionalProfilePageProps {
     userTeste: () => void;
 }
 
-export default function ProfessionalProfilePage({navigation,
+export default function ProfessionalProfilePage({ navigation,
 }: NativeStackScreenProps<AppParamsList, 'ProfessionalProfile'>) {
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
@@ -25,16 +25,16 @@ export default function ProfessionalProfilePage({navigation,
     const userRep = new UserRepository();
     const userContext = useAppContext();
 
-    if(userContext.user === undefined){
-        navigation.navigate({name:'Login', params:{}})
+    if (userContext.user === undefined) {
+        navigation.navigate({ name: 'Login', params: {} })
     }
 
-    useEffect( () => {
+    useEffect(() => {
         setName(userContext.user?.nome ?? "")
         setPhone(userContext.user?.telefone ?? "");
         setEmail(userContext.user?.email ?? "");
         setDescricao(userContext.user?.descricao ?? "");
-    },[ ])
+    }, [])
 
     const changeInfoAccount = React.useCallback(() => {
         let newUser = { ...userContext.user };
@@ -54,15 +54,15 @@ export default function ProfessionalProfilePage({navigation,
         <View style={styles.body}>
             <ScrollView>
                 <ReturnButton
-                    onPress={() => {navigation.pop() }}
+                    onPress={() => { navigation.pop() }}
                 />
                 <Text style={styles.title}> Perfil Empresarial </Text>
                 <ProfileImage
                     image={userContext.user?.imagem_perfil}
                 />
-                
-                <ReturnButton 
-                    onPress={() => navigation.navigate('BookingPage',{id:"-NWh3lQu8uLUau-XbB8b"})}
+
+                <ReturnButton
+                    onPress={() => navigation.navigate('BookingRoutes', { id: "-NWh3lQu8uLUau-XbB8b" })}
                 />
 
                 <InputText
@@ -84,10 +84,10 @@ export default function ProfessionalProfilePage({navigation,
                     value={userContext.user?.email}
                     readonly
                     onChange={value => setEmail(value)}
-                    
+
                 />
 
-             
+
                 <InputText
                     placeholder="Entre com a descrição Geral"
                     label="Descrição Geral: "
@@ -97,7 +97,7 @@ export default function ProfessionalProfilePage({navigation,
 
                 <PrimaryButton
                     title="Salvar Informações"
-                    onPress={ () => changeInfoAccount()}
+                    onPress={() => changeInfoAccount()}
                 />
 
             </ScrollView>

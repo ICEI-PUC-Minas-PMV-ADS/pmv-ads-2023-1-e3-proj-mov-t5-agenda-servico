@@ -12,20 +12,19 @@ import { ServiceRepository } from "../../repositories/service_repository";
 import { Service } from "../../models/service";
 import ServiceDateSelector from "../../components/ServiceDateSelector";
 import { ScheduleServiceReducer } from "./schedule_service_reducer";
-import { ScheduleServiceProvider } from "./schedule_service_context";
+import { ScheduleServiceProvider, useScheduleServiceContext } from "./schedule_service_context";
 import { ScheduledServices } from "../../models/scheduled_services";
 
 
 export default function BookingPage({ route, navigation
 }: NativeStackScreenProps<AppParamsList, 'BookingPage'>) {
-    const [state, dispatch] = React.useReducer(ScheduleServiceReducer, {});
-
     const [hour, setHour] = useState("");
     const [date, setDate] = useState<Date>(new Date());
     const [selectedServiceId, setSelectedServiceId] = useState("");
     const [price, setPrice] = useState("");
     const [observations, setObservations] = useState("");
     const [serviceLists, setServiceLists] = useState<Service[]>([]);
+    const { dispatch } = useScheduleServiceContext();
 
     const userContext = useAppContext();
     const serviceRep = new ServiceRepository();
@@ -48,7 +47,7 @@ export default function BookingPage({ route, navigation
     if (userContext.user === undefined) {
         navigation.navigate({ name: 'Login', params: {} })
     }
-    
+
     function createScheduleService() {
         let schedule = new ScheduledServices();
         schedule.data = date;
@@ -73,59 +72,57 @@ export default function BookingPage({ route, navigation
     }, [])
 
     return (
-        <ScheduleServiceProvider value={{ state, dispatch }}>
-            <View style={styles.body}>
-                <ScrollView>
-                    <ReturnButton
-                        onPress={() => { navigation.pop() }}
-                    />
-                    <Text style={styles.title}> Agendar Serviço </Text>
+        <View style={styles.body}>
+            <ScrollView>
+                <ReturnButton
+                    onPress={() => { navigation.pop() }}
+                />
+                <Text style={styles.title}> Agendar Serviço </Text>
 
-                    <ServiceTypeSelector
-                        label="Tipo de Serviço"
-                        types={serviceLists}
-                        onChange={(key) => {
-                            setSelectedServiceId(key)
-                        }}
-                    />
+                <ServiceTypeSelector
+                    label="Tipo de Serviço"
+                    types={serviceLists}
+                    onChange={(key) => {
+                        setSelectedServiceId(key)
+                    }}
+                />
 
-                    <ServiceDateSelector
-                        label="Horários Disponiveis"
-                        professionalId={id}
-                        onChangeDate={(key) => {
-                            setDate(key)
-                        }}
-                        onChangeHour={(key) => {
-                            setHour(key)
-                        }}
-                    />
+                <ServiceDateSelector
+                    label="Horários Disponiveis"
+                    professionalId={id}
+                    onChangeDate={(key) => {
+                        setDate(key)
+                    }}
+                    onChangeHour={(key) => {
+                        setHour(key)
+                    }}
+                />
 
-                    <InputText
-                        placeholder="Preço"
-                        label="Valor do Serviço"
-                        onChange={e => setPrice(e)}
-                        value={handleFeeChange(serviceLists.find(service => service.id === selectedServiceId)?.valor?.toString() ?? "0000")}
-                        readonly
-                    />
+                <InputText
+                    placeholder="Preço"
+                    label="Valor do Serviço"
+                    onChange={e => setPrice(e)}
+                    value={handleFeeChange(serviceLists.find(service => service.id === selectedServiceId)?.valor?.toString() ?? "0000")}
+                    readonly
+                />
 
-                    <InputText
-                        placeholder="Entre com alguma observação"
-                        label="Observações: "
-                        value={userContext.user?.descricao}
-                        onChange={value => setObservations(value)}
-                    />
+                <InputText
+                    placeholder="Entre com alguma observação"
+                    label="Observações: "
+                    value={userContext.user?.descricao}
+                    onChange={value => setObservations(value)}
+                />
 
-                    <PrimaryButton
-                        title="Próximo"
-                        onPress={() => {
-                            navigation.navigate("ScheduleServiceCepPage", { id })
-                            dispatch?.({ type: "set_first_page", payload: createScheduleService() })
-                        }}
-                    />
+                <PrimaryButton
+                    title="Próximo"
+                    onPress={() => {
+                        navigation.navigate("ScheduleServiceCepPage", { id })
+                        dispatch?.({ type: "set_first_page", payload: createScheduleService() })
+                    }}
+                />
 
-                </ScrollView>
-            </View>
-        </ScheduleServiceProvider>
+            </ScrollView>
+        </View>
     )
 }
 

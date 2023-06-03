@@ -19,7 +19,8 @@ export type AppParamsList = {
   Support: {};
   Config: {};
   ChangePassword: {};
-  ScheduleServiceCepPage: {id: string };
+  ScheduleServiceCepPage: { id: string };
+  BookingRoutes: { id: string };
   BookingPage: { id: string };
   MapPage: {
     readOnly?: boolean;

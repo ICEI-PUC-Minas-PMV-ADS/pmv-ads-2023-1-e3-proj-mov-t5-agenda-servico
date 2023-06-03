@@ -24,8 +24,11 @@ import { ChatPage } from '../pages/chat_page';
 import ClientProfilePage from '../pages/ClientProfilePage';
 import ProfessionalProfilePage from '../pages/ProfessionalProfilePage';
 import ForgotPasswordScreen from '../pages/PassRecover';
-import BookingPage from '../pages/schedule_service_pages/BookingPage';
 import { ScheduleServiceCepPage } from '../pages/schedule_service_pages/schedule_service_start_cep';
+import BookingPage from './../pages/schedule_service_pages/BookingPage';
+import { ScheduleServiceReducer } from '../pages/schedule_service_pages/schedule_service_reducer';
+import { ScheduleServiceProvider } from '../pages/schedule_service_pages/schedule_service_context';
+import { RouteProp, useRoute } from '@react-navigation/native';
 
 const Stack = createNativeStackNavigator<AppParamsList>();
 
@@ -41,9 +44,8 @@ function AppRoute(): JSX.Element {
       <Stack.Screen name="Config" component={ConfigPage} options={{ headerShown: false }} />
       <Stack.Screen name="Support" component={SupportPage} options={{ headerShown: false }} />
       <Stack.Screen name="ChangePassword" component={ChangePasswordPage} options={{ headerShown: false }} />
-      <Stack.Screen name='BookingPage' component={BookingPage} options={{ headerShown: false }} />
-      <Stack.Screen name='ScheduleServiceCepPage' component={ScheduleServiceCepPage} options={{ headerShown: false }} />
       <Stack.Screen name="ForgotPasswordScreen" component={ForgotPasswordScreen} />
+      <Stack.Screen name="BookingRoutes" component={BookingRoutes} options={{ headerShown: false }} />
       <Stack.Screen name="ChatPage" component={ChatPage} options={{
         title: 'Chat',
         headerStyle: {
@@ -117,5 +119,21 @@ function AppRoute(): JSX.Element {
 
   );
 }
+
+const BookingRoutes = () => {
+  const [state, dispatch] = React.useReducer(ScheduleServiceReducer, {});
+  const bookingStack = createNativeStackNavigator<AppParamsList>();
+  const route = useRoute<RouteProp<AppParamsList, 'BookingRoutes'>>();
+  const id = route?.params.id;
+
+  return (
+    <ScheduleServiceProvider value={{ state, dispatch }}>
+      <bookingStack.Navigator initialRouteName='BookingPage'>
+        <bookingStack.Screen name='BookingPage' initialParams={{ id }} component={BookingPage} options={{ headerShown: false }} />
+        <bookingStack.Screen name='ScheduleServiceCepPage' component={ScheduleServiceCepPage} options={{ headerShown: false }} />
+      </bookingStack.Navigator>
+    </ScheduleServiceProvider>
+  );
+};
 
 export default AppRoute;
