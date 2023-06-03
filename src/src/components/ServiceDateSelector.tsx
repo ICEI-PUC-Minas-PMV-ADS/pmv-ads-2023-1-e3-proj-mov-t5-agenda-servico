@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, Button } from "react-native";
 import { useEffect, useState } from "react";
 import {
     TextInputBackgroundColor,
@@ -9,23 +9,28 @@ import {
 } from "../constants/colors";
 import { SelectList } from "react-native-dropdown-select-list";
 import { UserRepository } from "../repositories/user_repository";
-import { AvaliableSchedule, Horario, Tempo, User } from "../models/user";
+import {  User } from "../models/user";
+import DatePicker from 'react-native-date-picker';
+import { InputText } from "./Inputs";
+import { ScheduledServicesRepository } from "../repositories/scheduled_services";
+import moment from "moment";
 
 interface ServiceDateSelectorProps {
     label?: String,
     professionalId?: string,
-    onChangeDay: (val: string) => void,
+    onChangeDate: (val: Date) => void,
     onChangeHour: (val: string) => void,
 }
 
-export default function ServiceDateSelector({ label, professionalId, onChangeDay, onChangeHour }: ServiceDateSelectorProps) {
-    const [selectedDay, setSelectedDay] = useState("");
-    const [selectedHour, setSelectedHour] = useState("");
-    const [hourList, setHourList] = useState<string[]>([])
+export default function ServiceDateSelector({ label, professionalId, onChangeDate, onChangeHour }: ServiceDateSelectorProps) {
+    const [date, setDate] = useState(new Date());
+    const [open, setOpen] = useState(false);
+    const [hourList, setHourList] = useState<number[]>([])
     const [user, setUser] = useState<User>();
-    const [weekDays, setWeekDays] = useState<string[]>([]);
+
     const userRep = new UserRepository();
-    
+    const scheduleRep = new ScheduledServicesRepository();
+
     useEffect(() => {
         if (professionalId) {
             userRep.get(professionalId, (e) => {
@@ -34,56 +39,60 @@ export default function ServiceDateSelector({ label, professionalId, onChangeDay
         }
     }, [])
 
-    function getFreeTimeList(eUser: User) {
-        return eUser.lista_de_horarios?.map(weekDay => {
-            if (weekDay.aberto === true) {
-                let avaliableHourList: AvaliableSchedule[] = [];
+    // Filtra os horários dísponiveis do dia
+    function getFreeHoursList(eUser: User, day: string) {
+        let listaDisponiveisDeHoras: number[] = [];
+        eUser.lista_de_horarios?.forEach(weekDay => {
+            if (weekDay.aberto === true && weekDay.dia === day) {
                 for (let day_hours = weekDay.inicio!.horas!; day_hours < weekDay.fim!.horas!; day_hours++) {
                     if (weekDay.intervalos!.filter(hour => day_hours >= hour.inicio!.horas! && day_hours < hour.fim!.horas!).length > 0) {
                         continue
                     }
-                    avaliableHourList.push({ horas: day_hours, minutos: 0, status: "disponivel" })
+                    listaDisponiveisDeHoras.push(day_hours)
                 }
-                weekDay.horarios_agendados = avaliableHourList
             }
-            return weekDay
-        });
+        })
+        return listaDisponiveisDeHoras;
     }
 
-    function workDaysList() {
-        let daysList
-        if (user) {
-            daysList = getFreeTimeList(user)
-                ?.filter(weekDay => weekDay.aberto === true && weekDay.dia !== undefined)
-                .map((weekDay) => weekDay.dia!);
-        }
-        if (daysList !== undefined) {
-            setWeekDays(daysList)
-        }
+    function filterAvaliableHours(eUser: User, edata: Date, eHoursList: number[]) {
+        let transformedData = moment(edata).format("YYYY/MM/DD")
+        let listWithWheHoursAlreadyFiltered: number[] = [];
+
+        scheduleRep.filterScheduledServicesByUser(eUser, schedules => {
+            let filteredScheduleServices = schedules.filter(service => {
+                let data = moment(service.data).format("YYYY/MM/DD");
+                return moment(transformedData).isSame(data)
+            })
+            eHoursList.forEach(avaliableHours => {
+                if (filteredScheduleServices.find(e => e.data?.getHours() === avaliableHours) === undefined) {
+                    listWithWheHoursAlreadyFiltered.push(avaliableHours)
+                }
+            })
+        })
+        return listWithWheHoursAlreadyFiltered
     }
 
-    function avaliableHourList(selectedDay: string) {
-        let hourList;
-        if (user) {
-            hourList = getFreeTimeList(user)
-                ?.find(weekDay => weekDay.dia === selectedDay && weekDay.dia !== undefined)
-                ?.horarios_agendados?.filter(hours => hours.status === "disponivel")
-                ?.map(schedule => schedule.horas!.toString());
+    function weekDayConverter(day: number) {
+        switch (day) {
+            case 0:
+                return "Domingo"
+            case 1:
+                return "Segunda-Feira"
+            case 2:
+                return "Terça-Feira"
+            case 3:
+                return "Quarta-Feira"
+            case 4:
+                return "Quinta-Feira"
+            case 5:
+                return "Sexta-Feira"
+            case 6:
+                return "Sábado"
+            default:
+                return "nenhum"
         }
-        if (hourList !== undefined)
-            setHourList(hourList);
     }
-
-    useEffect(() => {
-        if (user) {
-            getFreeTimeList(user)
-            workDaysList()
-        }
-    }, [user])
-
-    useEffect(() => {
-        avaliableHourList(selectedDay)
-    }, [selectedDay])
 
     return (
         <View style={styles.container}>
@@ -92,27 +101,58 @@ export default function ServiceDateSelector({ label, professionalId, onChangeDay
             ) : (
                 <></>
             )}
-            <View style={styles.textInputContainer}>
-                <SelectList
-                    data={weekDays}
-                    setSelected={(val: string) => {
-                        onChangeDay(val)
-                        setSelectedDay(val)
+
+            <View>
+                <Button title="Data do Evento" onPress={() => setOpen(true)} />
+                <DatePicker
+                    modal
+                    open={open}
+                    date={date}
+                    mode={"date"}
+                    minimumDate={new Date()}
+                    locale="pt-BR"
+                    onConfirm={(date) => {
+                        setOpen(false)
+                        setDate(date)
+                        onChangeDate(date)
+                        if (user) {
+                            let listOfAvaliableHours = getFreeHoursList(user, weekDayConverter(date.getDay()))
+                            let finalListOfHours = filterAvaliableHours(user, date, listOfAvaliableHours)
+                            setHourList(finalListOfHours)
+                        }
                     }}
-                    save='value'
+                    onCancel={() => {
+                        setOpen(false)
+                    }}
                 />
             </View>
+
+
+            <View style={styles.textInputContainer}>
+                <InputText
+                    placeholder="Data"
+                    label="Data do Evento "
+                    value={date.toLocaleDateString("pt-BR")}
+                    readonly
+                />
+                <InputText
+                    placeholder="Data"
+                    label="Dia da Semana "
+                    value={weekDayConverter(date.getDay())}
+                    readonly
+                />
+            </View>
+
+
             <View style={styles.textInputContainer}>
                 <SelectList
                     data={hourList}
                     setSelected={(val: string) => {
                         onChangeHour(val)
-                        setSelectedHour(val)
                     }}
                     save='value'
                 />
             </View>
-
         </View>
     )
 }

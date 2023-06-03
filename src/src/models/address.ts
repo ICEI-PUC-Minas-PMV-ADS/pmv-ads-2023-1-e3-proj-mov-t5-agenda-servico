@@ -4,9 +4,8 @@ export class Address extends Model {
   id?: string;
   cep?: string;
   logradouro?: string;
-  numero?: number;
+  cidade?: string;
   bairro?: string;
   uf?: string;
   complemento?: string;
-  observacoes?: string;
 }

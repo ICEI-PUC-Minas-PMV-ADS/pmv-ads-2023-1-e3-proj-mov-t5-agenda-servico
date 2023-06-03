@@ -50,13 +50,6 @@ export default function ProfessionalProfilePage({navigation,
         }
     }, [name, phone, email, descricao])
 
-    // Conteúdo para teste de página de agendamento de serviços deletar após implementação.
-    const professional = {
-        nome:"Pedro Teste",
-        id: "-NTKrt6E9_NTRPXE3ui6"      
-    }
-    // Conteúdo para teste de página de agendamento de serviços deletar após implementação.
-
     return (
         <View style={styles.body}>
             <ScrollView>

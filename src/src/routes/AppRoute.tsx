@@ -24,7 +24,8 @@ import { ChatPage } from '../pages/chat_page';
 import ClientProfilePage from '../pages/ClientProfilePage';
 import ProfessionalProfilePage from '../pages/ProfessionalProfilePage';
 import ForgotPasswordScreen from '../pages/PassRecover';
-import BookingPage from '../pages/BookingPage';
+import BookingPage from '../pages/schedule_service_pages/BookingPage';
+import { ScheduleServiceCepPage } from '../pages/schedule_service_pages/schedule_service_start_cep';
 
 const Stack = createNativeStackNavigator<AppParamsList>();
 
@@ -41,6 +42,7 @@ function AppRoute(): JSX.Element {
       <Stack.Screen name="Support" component={SupportPage} options={{ headerShown: false }} />
       <Stack.Screen name="ChangePassword" component={ChangePasswordPage} options={{ headerShown: false }} />
       <Stack.Screen name='BookingPage' component={BookingPage} options={{ headerShown: false }} />
+      <Stack.Screen name='ScheduleServiceCepPage' component={ScheduleServiceCepPage} options={{ headerShown: false }} />
       <Stack.Screen name="ForgotPasswordScreen" component={ForgotPasswordScreen} />
       <Stack.Screen name="ChatPage" component={ChatPage} options={{
         title: 'Chat',

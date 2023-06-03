@@ -69,6 +69,7 @@ export function Register() {
             newUser.onde_trabalha = newOnde
             newUser.tipo_login = 'app'
             newUser.endereco_visivel = address.visible != undefined ? address.visible : false;
+            // Mudar para nova Implementação<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
             newUser.lista_de_horarios.forEach(weekDay => {
               if (weekDay.aberto === true) {
                 let avaliableHourList = [];
