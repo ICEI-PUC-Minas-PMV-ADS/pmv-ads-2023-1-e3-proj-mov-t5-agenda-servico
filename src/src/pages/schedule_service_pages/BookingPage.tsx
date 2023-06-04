@@ -53,8 +53,8 @@ export default function BookingPage({ route, navigation
         schedule.preco = price
         schedule.hora = Number.parseInt(hour);
         schedule.status = "pendente";
-        schedule.cliente_fk = userContext.user?.id
-        schedule.servico_fk = serviceLists.find( e => e.prestador_servico_fk === id)?.prestador_servico_fk
+        schedule.cliente_fk = userContext.user?.id;
+        schedule.servico_fk = selectedServiceId;
         return schedule;
     }
 
@@ -99,7 +99,8 @@ export default function BookingPage({ route, navigation
                     label="Horários Disponiveis do Dia:"
                     professionalId={id}
                     onChangeDate={(key) => {
-                        setDate(key)
+                        const normalizedDateWithoutTime = new Date(key.getFullYear(), key.getMonth(), key.getDate());
+                        setDate(normalizedDateWithoutTime);
                     }}
                     onChangeHour={(key) => {
                         setHour(key)

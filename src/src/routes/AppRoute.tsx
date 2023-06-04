@@ -30,6 +30,7 @@ import { ScheduleServiceReducer } from '../pages/schedule_service_pages/schedule
 import { ScheduleServiceProvider } from '../pages/schedule_service_pages/schedule_service_context';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { ScheduleServiceConfirmPage } from '../pages/schedule_service_pages/schedule_service_confirm';
+import { CategorySelectorPage } from '../pages/CategorySelectorPage';
 
 const Stack = createNativeStackNavigator<AppParamsList>();
 
@@ -38,7 +39,7 @@ function AppRoute(): JSX.Element {
     <Stack.Navigator initialRouteName='Login'>
       <Stack.Screen name='Login' component={LoginPage} options={{ headerShown: false }} />
       <Stack.Screen name='Home' component={HomePage} options={{ headerShown: false }} />
-     
+
       <Stack.Screen name="Test" component={TestPage} />
       <Stack.Screen name='Profile' component={Profile} options={{ headerShown: false }} />
       <Stack.Screen name="ProfessionalProfile" component={ProfessionalProfilePage} options={{ headerShown: false }} />
@@ -48,6 +49,13 @@ function AppRoute(): JSX.Element {
       <Stack.Screen name="ChangePassword" component={ChangePasswordPage} options={{ headerShown: false }} />
       <Stack.Screen name="ForgotPasswordScreen" component={ForgotPasswordScreen} />
       <Stack.Screen name="BookingRoutes" component={BookingRoutes} options={{ headerShown: false }} />
+      <Stack.Screen name="CategorySelector" component={CategorySelectorPage} options={{
+        title: 'Categorias',
+        headerStyle: {
+          backgroundColor: BackgroundColor
+        },
+        headerTintColor: WhiteColor
+      }} />
       <Stack.Screen name="ChatPage" component={ChatPage} options={{
         title: 'Chat',
         headerStyle: {

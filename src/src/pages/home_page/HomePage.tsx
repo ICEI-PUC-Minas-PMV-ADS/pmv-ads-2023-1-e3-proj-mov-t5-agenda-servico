@@ -15,7 +15,7 @@ import { ScheduledServiceList } from './components/ScheduledServiceList';
 import { ScheduledServicesRepository } from '../../repositories/scheduled_services';
 import { QueryValidateTimeOfScheduleServices } from '../../repositories/queries/query_validate_time_of_schedule_services';
 import { BottomNavigation } from '../../components/bottom_navigation';
-import { useNavigationState } from '@react-navigation/native';
+import { useNavigation, useNavigationState, NavigationProp } from '@react-navigation/native';
 import { ServiceRepository } from '../../repositories/service_repository';
 import { Service } from '../../models/service';
 import { HomeConsumer, HomeProvider } from './context/home_context';
@@ -95,6 +95,7 @@ function HomePageImpl({
 
 function HomePageContent() {
   const [searchFilter, setSearchFilter] = React.useState<string | undefined>();
+  const navigation = useNavigation<NavigationProp<AppParamsList>>();
 
   /***
    * Aux functions
@@ -121,70 +122,7 @@ function HomePageContent() {
    */
 
   const onFabClick = () => {
-    /*
-    const clientId = '-NWo3uZXwIncy6A3o7Uj';
-    const addressId = '-NWo3oheJB5CCpH4jM08';
-    const serviceId1 = '-NWo3uavYBBnjuUeqcAI';
-    const serviceId2 = '-NWo3uaweMYrAvAxckdC';
-
-    const scheduledServiceRepo = new ScheduledServicesRepository();
-    const scheduledService1 = new ScheduledServices();
-    scheduledService1.cliente_fk = clientId;
-    scheduledService1.servico_fk = serviceId1;
-    scheduledService1.local_fk = addressId;
-    scheduledService1.descricao = "Atras da igreja";
-    scheduledService1.numero_endereco = 20;
-    scheduledService1.status = "pendente";
-    scheduledService1.data = new Date(2023, 5, 7, 12, 0);
-    scheduledServiceRepo.create(scheduledService1, () => {
-      console.log('Created!');
-
-      const scheduledService2 = new ScheduledServices();
-      scheduledService2.cliente_fk = clientId;
-      scheduledService2.servico_fk = serviceId2;
-      scheduledService2.local_fk = addressId;
-      scheduledService2.descricao = "Embaixo da ponte";
-      scheduledService2.numero_endereco = 20;
-      scheduledService2.status = "pendente";
-      scheduledService2.data = new Date(2023, 5, 7, 12, 0);
-      scheduledServiceRepo.create(scheduledService2, () => {
-        console.log('Created!');
-
-        const scheduledService3 = new ScheduledServices();
-        scheduledService3.cliente_fk = clientId;
-        scheduledService3.servico_fk = serviceId1;
-        scheduledService3.local_fk = addressId;
-        scheduledService3.numero_endereco = 20;
-        scheduledService3.status = "concluido";
-        scheduledService3.data = new Date(2023, 5, 7, 12, 0);
-        scheduledServiceRepo.create(scheduledService3, () => {
-          console.log('Created!');
-
-          const scheduledService4 = new ScheduledServices();
-          scheduledService4.cliente_fk = clientId;
-          scheduledService4.servico_fk = serviceId1;
-          scheduledService4.local_fk = addressId;
-          scheduledService4.numero_endereco = 20;
-          scheduledService4.status = "fora do prazo";
-          scheduledService4.data = new Date(2023, 5, 7, 12, 0);
-          scheduledServiceRepo.create(scheduledService4, () => {
-            console.log('Created!');
-
-            const scheduledService5 = new ScheduledServices();
-            scheduledService5.cliente_fk = clientId;
-            scheduledService5.servico_fk = serviceId1;
-            scheduledService5.local_fk = addressId;
-            scheduledService5.numero_endereco = 20;
-            scheduledService5.status = "cancelado";
-            scheduledService5.data = new Date(2023, 5, 7, 12, 0);
-            scheduledServiceRepo.create(scheduledService5, () => {
-              console.log('Created!');
-            });
-          });
-        });
-      });
-    });
-    */
+    navigation.navigate("CategorySelector", {});
   };
 
   return (
@@ -255,7 +193,7 @@ const style = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: BackgroundColor,
+    backgroundColor: BackgroundColor
   },
   emptyContainer: {
     marginVertical: 200,

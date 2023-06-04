@@ -28,7 +28,7 @@ export function BottomNavigation(props: BottomNavigationProps) {
         <View style={styles.bottomNavigationContainer}>
           <View style={styles.bottomNavigation}>
             <BottomNavigationItem
-              route={'Home'}
+              route={'CategorySelector'}
               icon={IcMenuCategory}
               label={'Categorias'}
               navigation={props.navigation}

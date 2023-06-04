@@ -17,7 +17,6 @@ export function ScheduleServiceConfirmPage({ route, navigation
   const addressRep = new AddressRepository();
 
   function saveScheduleOnDb() {
-    debugger
     if (state?.addressPage?.address.id !== undefined) {
       if (state?.firstPage?.schedule !== undefined) {
         const schedule: ScheduledServices = { ...state?.firstPage?.schedule, local_fk: state.addressPage.address.id }
@@ -33,7 +32,7 @@ export function ScheduleServiceConfirmPage({ route, navigation
             );
           }
         })
-      } 
+      }
     } else {
       addressRep.create(state!.addressPage!.address, newAddress => {
         if (newAddress !== undefined) {
@@ -52,7 +51,7 @@ export function ScheduleServiceConfirmPage({ route, navigation
               }
             })
           }
-        }else{
+        } else {
           Alert.alert(
             'Falha ao Agendar Serviço',
             '',

@@ -54,9 +54,15 @@ export default function ClientProfilePage({ navigation }: NativeStackScreenProps
                 <ReturnButton
                     onPress={() => { navigation.pop() }}
                 />
+
                 <Text style={styles.title}> Perfil </Text>
+
                 <ProfileImage
                     image={userContext.user?.imagem_perfil}
+                />
+
+                <ReturnButton
+                    onPress={() => navigation.navigate('BookingRoutes', { id: "-NWh3lQu8uLUau-XbB8b" })}
                 />
 
                 <InputText
