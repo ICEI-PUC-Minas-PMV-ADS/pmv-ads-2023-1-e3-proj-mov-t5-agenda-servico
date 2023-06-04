@@ -42,6 +42,30 @@ Apos confirmar a senha, o usuário será redirecionado para a tela principal de 
 
 ![Tela 1.4 - Resultado login](img/login_tests_3.jpg)
 
+### RF-003 - Permitir que o usuário visualize sua agenda com compromissos marcados atualizada
+
+O teste consiste em verificar na pagina principal se o usuário pode visualizar seus serviçõs agendados:
+
+Conforme podemos perceber na imagem abaixo, os serviços agendados foram exibidos corretamente:
+
+![Tela 1.5 - Pagina principal com compromissos](img/home-servicos-agendados.png)
+
+### RF-005 - Permitir que qualquer usuário cancele um serviço que ele proprio agendou ou ira realizar
+
+O teste consiste em verificar se é possivel cancelar um serviço agendado:
+
+Conforme podemos perceber na imagem abaixo, o serviço esta devidamente agendado:
+
+![Tela 1.6 - Pagina principal com compromissos](img/home-cancelamento-1.png)
+
+Apos clicar no icone correspondente ao cancelamento, é possivel verificar que o sistema exibe uma mensagem de confirmação:
+
+![Tela 1.7 - Pagina principal com compromissos](img/home-cancelamento-2.png)
+
+Apos a confirmação é possivel verificar que o serviço já esta cancelado:
+
+![Tela 1.8 - Pagina principal com compromissos](img/home-cancelamento-3.png)
+
 ### RF-009 - Exibir o perfil do usuário e alterar informações.
 
 O teste consiste em verificar se o sistema vai recuperar as informações do usuário no banco de dados e disponibiliza-las na interface de forma satisfatoria.
