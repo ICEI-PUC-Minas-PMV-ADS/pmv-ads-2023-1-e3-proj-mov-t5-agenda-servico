@@ -22,6 +22,13 @@ Segue a implementação das telas que registram o usuário. Cada tela tem o obje
 
 <img src="./img/registerPages/Cadastro profissional.png" width="1000px">
 
+### Registro de usuário do tipo cliente
+
+- `RF-001 - Tela "Sobre você"`: responsável por captar informações básicas do usuário: Nome, sobrenome e telefone para contato. 
+- `RF-001 - Tela "Configuração de senha" `:  responsável por cadastrar a senha do novo usuário.
+
+<img src="./img/registerPages/Cadastro cliente.png" width="1000px">
+
 ## RF-002 - Permitir que o usuário realize login
 
 Segue a implementação da tela de login onde o usuário do sistema pode se conectar ao app e iniciar o fluxo de uso. O login do usuário pode ser feito de três formas distintas, por conta do app, login do google e login pela conta do facebook. O código escrito em typescript/javascript correspondente a esta tela se encontra no diretorio do código fonte srd/pages/login.tsx.
