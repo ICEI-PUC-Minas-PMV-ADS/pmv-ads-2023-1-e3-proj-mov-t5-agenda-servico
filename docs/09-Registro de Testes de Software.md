@@ -66,6 +66,18 @@ Apos a confirmação é possivel verificar que o serviço já esta cancelado:
 
 ![Tela 1.8 - Pagina principal com compromissos](img/home-cancelamento-3.png)
 
+### RF-006 - Notificar todos os tipos de usuário sobre um serviço marcado
+
+O teste consiste em verificar se o usuário é notificado apos fazer um agendamentot:
+
+Conforme podemos perceber na imagem abaixo, um agendamento está sendo realizado:
+
+![Tela 1.9 - Pagina principal com compromissos](img/agendamento-1.png)
+
+Após a confirmação é possivel ver a notificação:
+
+![Tela 1.12 - Pagina principal com compromissos](img/agendamento-2.png)
+
 ### RF-009 - Exibir o perfil do usuário e alterar informações.
 
 O teste consiste em verificar se o sistema vai recuperar as informações do usuário no banco de dados e disponibiliza-las na interface de forma satisfatoria.
