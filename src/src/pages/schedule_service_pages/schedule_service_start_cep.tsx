@@ -9,7 +9,6 @@ import { AppParamsList } from "../../routes/ParamList";
 import { PrimaryButton } from "../../components/Buttons";
 import { UserRepository } from "../../repositories/user_repository";
 import { BackgroundColor, WhiteColor } from "../../constants/colors";
-import { toString } from './../../../node_modules/moment/src/lib/moment/format';
 
 export function ScheduleServiceCepPage({ route, navigation
 }: NativeStackScreenProps<AppParamsList, 'ScheduleServiceCepPage'>) {
