@@ -2,21 +2,20 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { ScheduleServiceContext, ScheduledServicesComsumer } from './schedule_service_context'
 import { InputText } from "../../components/Inputs";
-import { LocaleRepository } from "../../repositories/locale_repository";
-import { Locale } from "../../models/locale";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { AppParamsList } from "../../routes/ParamList";
 import { PrimaryButton } from "../../components/Buttons";
 import { UserRepository } from "../../repositories/user_repository";
 import { BackgroundColor, WhiteColor } from "../../constants/colors";
-import { toString } from './../../../node_modules/moment/src/lib/moment/format';
+import { Address } from "../../models/address";
+import { AddressRepository } from "../../repositories/address_repository";
 
 export function ScheduleServiceCepPage({ route, navigation
 }: NativeStackScreenProps<AppParamsList, 'ScheduleServiceCepPage'>) {
   const { state, dispatch } = React.useContext(ScheduleServiceContext);
+  const [address, setAddress] = useState<Address>();
 
   const [cep, setCep] = useState<string | undefined>("");
-  const [address, setAddress] = useState<Locale>();
   const [numero, setNumero] = useState<string | undefined>("")
   const [rua, setRua] = useState<string | undefined>("")
   const [bairro, setBairro] = useState<string | undefined>("")
@@ -24,21 +23,28 @@ export function ScheduleServiceCepPage({ route, navigation
   const [cidade, setCidade] = useState<string | undefined>("")
   const { id } = route.params;
 
-  const addressRep = new LocaleRepository();
+  const addressRep = new AddressRepository();
   const userRep = new UserRepository();
 
   function getProfessionalAddressId() {
     let aId: string | undefined
-    userRep.get(id, user => {
-      aId = user?.endereco_fk
-    })
+
     return aId;
   }
-  console.log(JSON.stringify(state))
+
+  useEffect(() => {
+    userRep.get(id, user => {
+      if (user?.endereco_fk !== undefined) {
+        addressRep.get(user.endereco_fk, add => {
+          setAddress(add);
+        })
+      }
+    })
+  }, [id])
 
   function getAddress() {
 
-    let eAddress: Locale | undefined;
+    let eAddress: Address | undefined;
     let addressId = getProfessionalAddressId();
     addressRep.getAll(allAddress => {
       eAddress = allAddress?.find(address => {
@@ -50,12 +56,12 @@ export function ScheduleServiceCepPage({ route, navigation
     }
   }
 
-  function fillAddressForm(add: Locale) {
+  function fillAddressForm(add: Address) {
 
     if (add !== undefined) {
       setCep(add.cep);
       setBairro(add.bairro);
-      setRua(add.rua);
+      setRua(add.logradouro);
       setUf(add.uf);
       setCidade(add.cidade);
     }
@@ -68,12 +74,13 @@ export function ScheduleServiceCepPage({ route, navigation
     }
   }, [address])
 
-  function createLocale() {
-    let address = new Locale();
+  function createAddress(id: string) {
+    let address = new Address();
+    address.id = id
     address.bairro = bairro;
     address.cep = cep;
     address.cidade = cidade;
-    address.rua = rua;
+    address.logradouro = rua;
     address.uf = uf;
     return address;
   }
@@ -106,16 +113,14 @@ export function ScheduleServiceCepPage({ route, navigation
         value={bairro}
         onChange={value => setBairro(value)}
       />
-      <ScheduledServicesComsumer>
-        {state => <InputText
+
+       <InputText
           placeholder="Cidade"
           label="Nome da Cidade: "
-          value={JSON.stringify(state)}
+          value={cidade}
           onChange={value => setCidade(value)}
-        />}
-      </ScheduledServicesComsumer>
-
-
+      />
+     
       <InputText
         placeholder="UF"
         label="Entre com o UF: "
@@ -126,8 +131,8 @@ export function ScheduleServiceCepPage({ route, navigation
       <PrimaryButton
         title="Próximo"
         onPress={() => {
-          navigation.navigate("ScheduleServiceCepPage", { id })
-          dispatch?.({ type: "set_address_page", payload: createLocale() })
+          navigation.navigate("ScheduleServiceConfirmPage", {} )
+          dispatch?.({ type: "set_address_page", payload: {addressPage:{address:createAddress(address!.id!)}, numero} })
         }}
       />
 

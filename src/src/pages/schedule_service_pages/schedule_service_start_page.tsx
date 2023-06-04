@@ -10,7 +10,6 @@ export function ScheduleServiceStartPage() {
   return (
     <ScheduleServiceProvider value={{ state, dispatch }}>
       <View>
-        <InputText onChange={(value) => dispatch({ type: 'action_type', payload: value })} />
       </View>
     </ScheduleServiceProvider>
   );

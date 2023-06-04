@@ -5,10 +5,10 @@ export class Service extends Model {
   titulo?: string;
   prestador_servico_fk?: string;
   descricao?: string;
-  valor?: Number;
+  valor?: string;
   servico_externo?: Boolean;
   categoria?: string;
-  avaliacao?: Number;
+  avaliacao?: number;
   regime_de_trabalho?: string;
   duracao?: Tempo;
 }

@@ -9,7 +9,7 @@ import {
 } from "../constants/colors";
 import { SelectList } from "react-native-dropdown-select-list";
 import { UserRepository } from "../repositories/user_repository";
-import {  User } from "../models/user";
+import { User } from "../models/user";
 import DatePicker from 'react-native-date-picker';
 import { InputText } from "./Inputs";
 import { ScheduledServicesRepository } from "../repositories/scheduled_services";
@@ -144,8 +144,16 @@ export default function ServiceDateSelector({ label, professionalId, onChangeDat
             </View>
 
 
+            {label !== undefined ? (
+                <Text style={styles.textLabel}>{label}</Text>
+            ) : (
+                <></>
+            )}
             <View style={styles.textInputContainer}>
                 <SelectList
+                    boxStyles={{ width: 345 }}
+                    inputStyles={{ color: "white" }}
+                    dropdownTextStyles={{ color: "white" }}
                     data={hourList}
                     setSelected={(val: string) => {
                         onChangeHour(val)
@@ -168,6 +176,7 @@ const styles = StyleSheet.create({
         marginBottom: 4,
     },
     textInputContainer: {
+        marginTop: 10,
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: TextInputBackgroundColor,

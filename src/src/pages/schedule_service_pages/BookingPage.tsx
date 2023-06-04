@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
-import { InputPhoneText, InputText, ServiceTypeSelector } from "../../components/Inputs";
+import { InputText, ServiceTypeSelector } from "../../components/Inputs";
 import { BackgroundColor, WhiteColor } from "../../constants/colors";
 import { PrimaryButton, ReturnButton } from "../../components/Buttons";
-import { UserRepository } from "../../repositories/user_repository";
 import { Text } from "react-native";
 import { useAppContext } from "../../contexts/app_context";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -11,8 +10,7 @@ import { AppParamsList } from "../../routes/ParamList";
 import { ServiceRepository } from "../../repositories/service_repository";
 import { Service } from "../../models/service";
 import ServiceDateSelector from "../../components/ServiceDateSelector";
-import { ScheduleServiceReducer } from "./schedule_service_reducer";
-import { ScheduleServiceProvider, useScheduleServiceContext } from "./schedule_service_context";
+import { useScheduleServiceContext } from "./schedule_service_context";
 import { ScheduledServices } from "../../models/scheduled_services";
 
 
@@ -32,7 +30,7 @@ export default function BookingPage({ route, navigation
 
     const handleFeeChange = (text: string) => {
         const onlyNumbers = text.replace(/[^\d]/g, "");
-        const formattedValue = (Number(onlyNumbers)).toLocaleString("pt-BR", {
+        const formattedValue = (Number(onlyNumbers) / 100).toLocaleString("pt-BR", {
             style: "currency",
             currency: "BRL",
         });
@@ -52,8 +50,11 @@ export default function BookingPage({ route, navigation
         let schedule = new ScheduledServices();
         schedule.data = date;
         schedule.descricao = observations;
-        schedule.preco = Number.parseInt(price);
+        schedule.preco = price
         schedule.hora = Number.parseInt(hour);
+        schedule.status = "pendente";
+        schedule.cliente_fk = userContext.user?.id
+        schedule.servico_fk = serviceLists.find( e => e.prestador_servico_fk === id)?.prestador_servico_fk
         return schedule;
     }
 
@@ -66,6 +67,13 @@ export default function BookingPage({ route, navigation
             }
         })
     }
+
+    useEffect(() => {
+        let e = serviceLists.find(service => service.id === selectedServiceId)?.valor
+        if (e !== undefined) {
+            setPrice(e)
+        }
+    }, [selectedServiceId])
 
     useEffect(() => {
         filterServiceBySupplier();
@@ -88,7 +96,7 @@ export default function BookingPage({ route, navigation
                 />
 
                 <ServiceDateSelector
-                    label="Horários Disponiveis"
+                    label="Horários Disponiveis do Dia:"
                     professionalId={id}
                     onChangeDate={(key) => {
                         setDate(key)
@@ -101,8 +109,7 @@ export default function BookingPage({ route, navigation
                 <InputText
                     placeholder="Preço"
                     label="Valor do Serviço"
-                    onChange={e => setPrice(e)}
-                    value={handleFeeChange(serviceLists.find(service => service.id === selectedServiceId)?.valor?.toString() ?? "0000")}
+                    value={handleFeeChange(price)}
                     readonly
                 />
 

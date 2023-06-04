@@ -29,6 +29,7 @@ import BookingPage from './../pages/schedule_service_pages/BookingPage';
 import { ScheduleServiceReducer } from '../pages/schedule_service_pages/schedule_service_reducer';
 import { ScheduleServiceProvider } from '../pages/schedule_service_pages/schedule_service_context';
 import { RouteProp, useRoute } from '@react-navigation/native';
+import { ScheduleServiceConfirmPage } from '../pages/schedule_service_pages/schedule_service_confirm';
 
 const Stack = createNativeStackNavigator<AppParamsList>();
 
@@ -37,6 +38,7 @@ function AppRoute(): JSX.Element {
     <Stack.Navigator initialRouteName='Login'>
       <Stack.Screen name='Login' component={LoginPage} options={{ headerShown: false }} />
       <Stack.Screen name='Home' component={HomePage} options={{ headerShown: false }} />
+     
       <Stack.Screen name="Test" component={TestPage} />
       <Stack.Screen name='Profile' component={Profile} options={{ headerShown: false }} />
       <Stack.Screen name="ProfessionalProfile" component={ProfessionalProfilePage} options={{ headerShown: false }} />
@@ -131,6 +133,7 @@ const BookingRoutes = () => {
       <bookingStack.Navigator initialRouteName='BookingPage'>
         <bookingStack.Screen name='BookingPage' initialParams={{ id }} component={BookingPage} options={{ headerShown: false }} />
         <bookingStack.Screen name='ScheduleServiceCepPage' component={ScheduleServiceCepPage} options={{ headerShown: false }} />
+        <bookingStack.Screen name='ScheduleServiceConfirmPage' component={ScheduleServiceConfirmPage} options={{ headerShown: false }} />
       </bookingStack.Navigator>
     </ScheduleServiceProvider>
   );

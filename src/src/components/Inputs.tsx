@@ -15,6 +15,8 @@ import {
 } from '../constants/colors';
 import { SelectList } from 'react-native-dropdown-select-list';
 import { Service } from '../models/service';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { white } from 'react-native-paper/lib/typescript/src/styles/themes/v2/colors';
 
 /***
  * InputText Props
@@ -160,6 +162,9 @@ export function ServiceTypeSelector ({label, types, onChange}: ServiceTypeSelect
       )}
       <View style={styles.textInputContainer}>
         <SelectList
+          boxStyles={{ width: 345 }}
+          inputStyles={{ color: "white" }}
+          dropdownTextStyles={{color: "white" }}
           data={data} 
           setSelected={ (val: string) => {
             onChange(val)

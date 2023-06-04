@@ -8,4 +8,6 @@ export class Address extends Model {
   bairro?: string;
   uf?: string;
   complemento?: string;
+  lat?: number;
+  lng?: number;
 }

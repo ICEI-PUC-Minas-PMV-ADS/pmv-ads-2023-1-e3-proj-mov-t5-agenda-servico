@@ -1,9 +1,8 @@
-import { Locale } from "../../models/locale";
+import { Address } from "../../models/address";
 import { ScheduledServices } from "../../models/scheduled_services";
-import { ScheduledServicesRepository } from "../../repositories/scheduled_services";
 
 export type AddressPage = {
-  address: Locale,
+  address: Address,
 
 }
 
@@ -26,11 +25,11 @@ export function ScheduleServiceReducer(state: ScheduleServiceReducerState, actio
   switch (action.type) {
     case "set_address_page":
       return { 
-        ...state, addressPage: action.payload
+        ...state, addressPage: action.payload.addressPage, firstPage: {...state.firstPage, schedule: {...state.firstPage?.schedule, numero_endereco: action.payload.numero} }
       }
     case "set_first_page":
       return {
-        ...state, firstPage: action.payload
+        ...state, firstPage:  {schedule: action.payload}
       }
   }
   return state;
