@@ -199,7 +199,6 @@ export function Address() {
                   </TouchableWithoutFeedback>
                 }
 
-
               </View>
             </ScrollView>
           </KeyboardAvoidingView>
