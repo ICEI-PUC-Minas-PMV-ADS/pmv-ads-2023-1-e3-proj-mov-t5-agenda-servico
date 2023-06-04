@@ -15,7 +15,7 @@ import { IcEyeOffSvg, IcEyeSvg } from '../constants/icons';
 import { UserRepository } from '../repositories/user_repository';
 import { hash } from '../utils/crypto';
 import { useAppContext } from '../contexts/app_context';
-import { useErrorContext } from '../contexts/error_context';
+import { useMessageContext } from '../contexts/message_context';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { AppParamsList } from '../routes/ParamList';
 
@@ -30,7 +30,7 @@ export function ChangePasswordPage({
   const [currentPassword, setCurrentPassword] = useState<string>('');
 
   const appContext = useAppContext();
-  const errorContext = useErrorContext();
+  const messageContext = useMessageContext();
 
   const userRepo = new UserRepository();
 
@@ -127,7 +127,7 @@ export function ChangePasswordPage({
                     if (appContext.user?.id) {
                       userRepo.get(appContext.user.id, (user) => {
                         if (user === undefined) {
-                          errorContext.dispatchError('Informações do usuario nao foram localizadas!');
+                          messageContext.dispatchMessage({ type: 'error', message: 'Informações do usuario nao foram localizadas!' });
                         } else {
                           if (user.hash === hash(currentPassword)) {
                             if (password === confirmPassword) {
@@ -141,10 +141,10 @@ export function ChangePasswordPage({
                                 );
                               });
                             } else {
-                              errorContext.dispatchError('A confirmação da senha esta diferente!');
+                              messageContext.dispatchMessage({ type: 'error', message: 'A confirmação da senha esta diferente!' });
                             }
                           } else {
-                            errorContext.dispatchError('Senha atual invalida!');
+                            messageContext.dispatchMessage({ type: 'error', message: 'Senha atual invalida!' });
                           }
                         }
                       });

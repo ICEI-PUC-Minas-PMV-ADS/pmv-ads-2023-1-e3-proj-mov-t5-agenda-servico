@@ -2,7 +2,7 @@ import React from 'react';
 import EncryptedStorage from 'react-native-encrypted-storage';
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { View, Text, StyleSheet, TouchableWithoutFeedback, Image, ActivityIndicator, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableWithoutFeedback, Image, ActivityIndicator, ScrollView, Alert } from 'react-native';
 import { AppParamsList } from '../../routes/ParamList';
 import { KEY_USERDATA } from '../../constants/app';
 import { useAppContext } from '../../contexts/app_context';
@@ -19,7 +19,10 @@ import { useNavigation, useNavigationState, NavigationProp } from '@react-naviga
 import { ServiceRepository } from '../../repositories/service_repository';
 import { Service } from '../../models/service';
 import { HomeConsumer, HomeProvider } from './context/home_context';
+import { useMessageContext } from '../../contexts/message_context';
+
 import moment from 'moment';
+import { UserRepository } from '../../repositories/user_repository';
 
 /***
  * HomePageImpl
@@ -33,10 +36,28 @@ function HomePageImpl({
   const [services, setServices] = React.useState<Service[]>([]);
 
   const { user, setUser } = useAppContext();
+  const messageContext = useMessageContext();
 
   /***
    * Effects
    */
+
+  /* React.useEffect(() => {
+    PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
+
+    messaging().registerDeviceForRemoteMessages().then(() => {
+      messaging().getToken().then((token) => {
+        console.log(token);
+      });
+    });
+
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      console.log('A new FCM message arrived! ' + JSON.stringify(remoteMessage));
+    });
+
+    return unsubscribe;
+  }, []); */
+
 
 
   React.useLayoutEffect(() => {
@@ -73,6 +94,25 @@ function HomePageImpl({
               setLoading(false);
             });
           });
+      });
+
+      const userRepo = new UserRepository();
+      userRepo.getNotifications(user, (notifications) => {
+        if (notifications.length > 0) {
+          userRepo.clearNotifications(user, () => {
+            const showNotification = (currentNotification: number) => setTimeout(() => {
+              messageContext.dispatchMessage({ type: 'notificatiton', message: notifications[currentNotification] });
+
+              if (currentNotification > 0) {
+                showNotification(currentNotification - 1);
+              }
+            }, 10000);
+
+            if (notifications?.length > 0) {
+              showNotification(notifications.length - 1);
+            }
+          });
+        }
       });
     }
   }, [user]);

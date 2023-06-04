@@ -20,7 +20,7 @@ export class User extends Model {
   taxa_de_deslocamento?: Taxa;
   onde_trabalha?: Onde;
   endereco_visivel?: boolean;
-
+  notificacoes?: string[] = [];
 }
 
 export class AvaliableSchedule {

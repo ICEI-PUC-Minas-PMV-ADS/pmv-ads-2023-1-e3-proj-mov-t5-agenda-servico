@@ -1,3 +1,4 @@
+import { database } from '../FirebaseAppNew';
 import { User } from '../models/user';
 import { Repository } from './repository';
 
@@ -14,6 +15,27 @@ export class UserRepository extends Repository<User> {
         callback(undefined);
       }
     });
+  }
+
+  clearNotifications(model: User, onComplete: () => void) {
+    database
+      .ref(`${this.table}/${model.id}/notificacoes`)
+      .set([])
+      .then(() => onComplete());
+  }
+
+  getNotifications(model: User, onComplete: (notifications: string[]) => void) {
+    database
+      .ref(`${this.table}/${model.id}/notificacoes`)
+      .once('value')
+      .then((snapshot) => onComplete(snapshot.val()));
+  }
+
+  sendNotification(model: User, message: string, onComplete: () => void) {
+    database
+      .ref(`${this.table}/${model.id}/notificacoes/${model.notificacoes?.length}`)
+      .set(message)
+      .then(() => onComplete());
   }
 
   protected serialize(model: User): any {
@@ -42,7 +64,6 @@ export class UserRepository extends Repository<User> {
     user.nome_fantasia = json.nome_fantasia;
     user.descricao = json.descricao;
     user.cnpj = json.cnpj;
-    //debugger
     user.lista_de_horarios = JSON.parse(json.lista_de_horarios ?? "[]")
     user.taxa_de_deslocamento = JSON.parse(json.taxa_de_deslocamento ?? "{}")
     user.onde_trabalha = JSON.parse(json.onde_trabalha ?? "{}")

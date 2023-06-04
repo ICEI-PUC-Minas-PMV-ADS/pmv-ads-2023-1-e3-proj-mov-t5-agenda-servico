@@ -1,16 +1,14 @@
 import React, { useReducer } from 'react';
 
-
 import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
 import { AppParamsList } from '../routes/ParamList';
 import { UserRepository } from '../repositories/user_repository';
 import { User } from '../models/user';
-import { useErrorContext, ErrorState } from '../contexts/error_context';
+import { useMessageContext, MessageState } from '../contexts/message_context';
 import { KEY_USERDATA, USER_CLIENT } from '../constants/app';
 import { useAppContext } from '../contexts/app_context';
 import { LoginAction, LoginInitialState, LoginReducer, LoginState } from '../reducers/login_reducer';
 import { hash } from '../utils/crypto';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { InputIconText, InputText } from '../components/Inputs';
 import { IcEyeOffSvg, IcEyeSvg } from '../constants/icons';
 
@@ -45,6 +43,23 @@ import {
 
 import CheckBox from '@react-native-community/checkbox';
 import EncryptedStorage from 'react-native-encrypted-storage';
+import { onGoogleButtonPress } from '../FirebaseAppNew';
+
+/***
+ * login
+ */
+
+const loginWithUpdateToken = (
+  navigation: NativeStackNavigationProp<AppParamsList, "Login", undefined>,
+  user: User,
+) => {
+  EncryptedStorage.setItem(
+    KEY_USERDATA,
+    JSON.stringify(user),
+  ).then(() => {
+    navigation.replace('Home', {});
+  });
+};
 
 /***
  * login
@@ -52,7 +67,7 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 
 const login = async (
   navigation: NativeStackNavigationProp<AppParamsList, "Login", undefined>,
-  errorContext: ErrorState,
+  messageContext: MessageState,
   state: LoginState,
   dispatch: React.Dispatch<LoginAction>
 ) => {
@@ -62,17 +77,12 @@ const login = async (
   userRepo.findUserByEmail(state.email, user => {
     if (user && user.tipo_login === 'app') {
       if (user.hash === hash(state.password)) {
-        EncryptedStorage.setItem(
-          KEY_USERDATA,
-          JSON.stringify(user),
-        ).then(() => {
-          navigation.replace('Home', {});
-        });
+        loginWithUpdateToken(navigation, user);
       } else {
-        errorContext.dispatchError('Usuário e/ou senha invalido!');
+        messageContext.dispatchMessage({ type: "error", message: 'Usuário e/ou senha invalido!' });
       }
     } else {
-      errorContext.dispatchError('Usuário e/ou senha invalido!');
+      messageContext.dispatchMessage({ type: "error", message: 'Usuário e/ou senha invalido!' });
     }
     dispatch({ type: 'set_is_checking_auth', payload: false });
   });
@@ -84,51 +94,35 @@ const login = async (
 
 const googleLogin = async (
   navigation: NativeStackNavigationProp<AppParamsList, "Login", undefined>,
-  errorContext: ErrorState
+  messageContext: MessageState,
 ) => {
-  GoogleSignin.configure({
-    scopes: ['email'],
-    webClientId:
-      '1044670167757-f5a5b86b7f067ebr6q14vn8s14h8941f.apps.googleusercontent.com',
-    forceCodeForRefreshToken: true,
-  });
-
-  try {
-    await GoogleSignin.hasPlayServices();
-    const userInfo = await GoogleSignin.signIn();
-    const userRepo = new UserRepository();
-
-    userRepo.findUserByEmail(userInfo.user.email, user => {
-      if (user && user.tipo_login === 'google') {
-        EncryptedStorage.setItem(
-          KEY_USERDATA,
-          JSON.stringify(user),
-        ).then(() => {
-          navigation.replace('Home', {});
-        });
-      } else {
-        const newUser = new User();
-        newUser.email = userInfo.user.email;
-        newUser.nome = userInfo.user.name ?? userInfo.user.email;
-        newUser.imagem_perfil = userInfo.user.photo ?? '';
-        newUser.tipo = USER_CLIENT;
-        newUser.tipo_login = 'google';
-        userRepo.create(newUser, _ => {
-          EncryptedStorage.setItem(
-            KEY_USERDATA,
-            JSON.stringify(newUser),
-          ).then(() => {
-            navigation.replace('Home', {});
+  onGoogleButtonPress((credentials) => {
+    if (credentials && credentials.user.email) {
+      const userRepo = new UserRepository();
+      userRepo.findUserByEmail(credentials.user.email, user => {
+        if (user && user.tipo_login === 'google') {
+          loginWithUpdateToken(navigation, user);
+        } else {
+          const newUser = new User();
+          newUser.email = credentials.user.email!;
+          newUser.nome = credentials.user.displayName ?? credentials.user.email!;
+          newUser.imagem_perfil = credentials.user.photoURL ?? '';
+          newUser.tipo = USER_CLIENT;
+          newUser.tipo_login = 'google';
+          userRepo.create(newUser, _ => {
+            EncryptedStorage.setItem(
+              KEY_USERDATA,
+              JSON.stringify(newUser),
+            ).then(() => {
+              navigation.replace('Home', {});
+            });
           });
-        });
-      }
-    });
-
-    // TODO: O token na base de dados.
-  } catch (e: any) {
-    console.log(e.code);
-    errorContext.dispatchError('Falha ao fazer autenticação!');
-  }
+        }
+      });
+    } else {
+      messageContext.dispatchMessage({ type: "error", message: 'Falha ao fazer autenticação!' });
+    }
+  });
 };
 
 /***
@@ -137,7 +131,7 @@ const googleLogin = async (
 
 const faceBookLogin = async (
   navigation: NativeStackNavigationProp<AppParamsList, "Login", undefined>,
-  errorContext: ErrorState
+  messageContext: MessageState,
 ) => {
   Settings.setAppID('2273447656158262');
   Settings.initializeSDK();
@@ -164,24 +158,20 @@ const faceBookLogin = async (
           newUser.imagem_perfil = currentProfile.imageURL ?? '';
           newUser.tipo = USER_CLIENT;
           newUser.tipo_login = 'facebook';
-          userRepo.create(newUser, _ => {
-            EncryptedStorage.setItem(
-              KEY_USERDATA,
-              JSON.stringify(newUser),
-            ).then(() => {
-              navigation.replace('Home', {});
-            });
+          userRepo.create(newUser, serverUser => {
+            if (serverUser) {
+              loginWithUpdateToken(navigation, serverUser);
+            }
           });
         }
       } else {
-        errorContext.dispatchError('Falha ao fazer autenticação!');
+        messageContext.dispatchMessage({ type: "error", message: 'Falha ao fazer autenticação!' });
       }
     } else {
-      errorContext.dispatchError('Falha ao fazer autenticação!');
+      messageContext.dispatchMessage({ type: "error", message: 'Falha ao fazer autenticação!' });
     }
   } catch (error) {
-    console.log(error);
-    errorContext.dispatchError('Falha ao fazer autenticação!');
+    messageContext.dispatchMessage({ type: "error", message: 'Falha ao fazer autenticação!' });
   }
 };
 
@@ -194,7 +184,7 @@ export function LoginPage({
 }: NativeStackScreenProps<AppParamsList, 'Login'>) {
   const [state, dispatch] = useReducer(LoginReducer, LoginInitialState);
 
-  const errorContext = useErrorContext();
+  const messageContext = useMessageContext();
   const appContext = useAppContext();
 
   React.useEffect(() => {
@@ -258,7 +248,7 @@ export function LoginPage({
         <PrimaryButton
           title={state.isCheckingAuth ? 'Aguarde' : 'Login'}
           disabled={state.isCheckingAuth}
-          onPress={() => { login(navigation, errorContext, state, dispatch) }}
+          onPress={() => { login(navigation, messageContext, state, dispatch) }}
         />
 
         <View style={{ flexDirection: 'row', alignItems: 'center', margin: 10 }}>
@@ -277,11 +267,11 @@ export function LoginPage({
 
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <GoogleButton
-            onPress={() => { googleLogin(navigation, errorContext); }}
+            onPress={() => { googleLogin(navigation, messageContext); }}
           />
 
           <FacebookButton
-            onPress={() => { faceBookLogin(navigation, errorContext) }}
+            onPress={() => { faceBookLogin(navigation, messageContext) }}
           />
         </View>
 

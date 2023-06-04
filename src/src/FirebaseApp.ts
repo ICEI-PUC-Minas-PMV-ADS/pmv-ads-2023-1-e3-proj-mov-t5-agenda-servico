@@ -1,5 +1,5 @@
-import {initializeApp} from 'firebase/app';
-import {getDatabase} from 'firebase/database';
+import { initializeApp } from 'firebase/app';
+import { getDatabase } from 'firebase/database';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -16,3 +16,6 @@ const firebaseConfig = {
 export const firebase = initializeApp(firebaseConfig);
 
 export const database = getDatabase(firebase);
+
+export const getToken = (callback: (token: string) => void) => {
+}

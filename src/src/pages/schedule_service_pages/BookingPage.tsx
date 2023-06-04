@@ -125,7 +125,7 @@ export default function BookingPage({ route, navigation
                     title="Próximo"
                     onPress={() => {
                         navigation.navigate("ScheduleServiceCepPage", { id })
-                        dispatch?.({ type: "set_first_page", payload: createScheduleService() })
+                        dispatch?.({ type: "set_first_page", payload: { scheduledService: createScheduleService(), supplierId: id } })
                     }}
                 />
 

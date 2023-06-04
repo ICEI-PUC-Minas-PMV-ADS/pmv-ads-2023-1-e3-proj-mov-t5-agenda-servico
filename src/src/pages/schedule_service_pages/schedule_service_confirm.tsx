@@ -8,13 +8,32 @@ import { BackgroundColor, WhiteColor } from "../../constants/colors";
 import { ScheduledServicesRepository } from "../../repositories/scheduled_services";
 import { AddressRepository } from "../../repositories/address_repository";
 import { ScheduledServices } from "../../models/scheduled_services";
+import { UserRepository } from "../../repositories/user_repository";
 
-export function ScheduleServiceConfirmPage({ route, navigation
+export function ScheduleServiceConfirmPage({ navigation
 }: NativeStackScreenProps<AppParamsList, 'ScheduleServiceConfirmPage'>) {
   const { state } = React.useContext(ScheduleServiceContext);
 
   const scheduleRep = new ScheduledServicesRepository();
   const addressRep = new AddressRepository();
+
+  function sendSuccessNotifications(userId: string, supplierId: string, onComplete: () => void) {
+    const message = 'Um serviço foi agendado!';
+    const userRepo = new UserRepository();
+    userRepo.get(userId, (user) => {
+      if (user) {
+        userRepo.sendNotification(user, message, () => {
+          userRepo.get(supplierId, (supplier) => {
+            if (supplier) {
+              userRepo.sendNotification(supplier, message, () => {
+                onComplete();
+              });
+            }
+          });
+        });
+      }
+    });
+  }
 
   function saveScheduleOnDb() {
     if (state?.addressPage?.address.id !== undefined) {
@@ -22,7 +41,9 @@ export function ScheduleServiceConfirmPage({ route, navigation
         const schedule: ScheduledServices = { ...state?.firstPage?.schedule, local_fk: state.addressPage.address.id }
         scheduleRep.create(schedule, service => {
           if (service !== undefined) {
-            navigation.replace("Home", {})
+            sendSuccessNotifications(schedule.cliente_fk!, state.supplierId!, () => {
+              navigation.replace("Home", {});
+            });
           }
           else {
             Alert.alert(
@@ -40,7 +61,9 @@ export function ScheduleServiceConfirmPage({ route, navigation
             const schedule: ScheduledServices = { ...state?.firstPage?.schedule, local_fk: newAddress.id }
             scheduleRep.create(schedule, service => {
               if (service !== undefined) {
-                navigation.replace("Home", {})
+                sendSuccessNotifications(schedule.cliente_fk!, state.supplierId!, () => {
+                  navigation.replace("Home", {});
+                });
               }
               else {
                 Alert.alert(

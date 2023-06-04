@@ -9,18 +9,17 @@ import {
 } from 'react-native';
 
 import { BackgroundColor } from './constants/colors';
-import { ErrorConsumer, ErrorProvider } from './contexts/error_context';
-import { AppConsumer, AppProvider } from './contexts/app_context';
+import { MessageConsumer, MessageProvider } from './contexts/message_context';
+import { AppProvider } from './contexts/app_context';
 import { Route } from "./routes";
 import { NavigationContainer } from '@react-navigation/native';
 import { Provider as PaperProvider } from 'react-native-paper';
 
 function App(): JSX.Element {
   return (
-
     <NavigationContainer>
       <AppProvider>
-        <ErrorProvider>
+        <MessageProvider>
           <PaperProvider>
             <View style={styles.rootContainer}>
               <SafeAreaView style={styles.safeContainer}>
@@ -33,16 +32,19 @@ function App(): JSX.Element {
                   <Route />
                 </View>
               </SafeAreaView>
-              <ErrorConsumer>
-                {context => <Animated.View style={[styles.errorContainer, { display: context.errorMessage ? 'flex' : 'none', opacity: context.containerAnim }]}>
-                  <View style={styles.errorPanel}>
-                    <Text style={styles.errorMessage}>{context.errorMessage}</Text>
-                  </View>
-                </Animated.View>}
-              </ErrorConsumer>
+              <MessageConsumer>
+                {({ message, containerAnim }) => {
+                  console.log(JSON.stringify(message));
+                  return <Animated.View style={[styles.messageContainer, { display: message ? 'flex' : 'none', opacity: containerAnim }]}>
+                    <View style={message?.type ? styles.notificationPanel : styles.errorPanel}>
+                      <Text style={message?.type ? styles.notificationMessage : styles.errorMessage}>{message?.message}</Text>
+                    </View>
+                  </Animated.View>;
+                }}
+              </MessageConsumer>
             </View>
           </PaperProvider>
-        </ErrorProvider>
+        </MessageProvider>
       </AppProvider>
     </NavigationContainer>
   );
@@ -60,11 +62,18 @@ const styles = StyleSheet.create({
   pageContainer: {
     flex: 1,
   },
-  errorContainer: {
+  messageContainer: {
     position: 'absolute',
     bottom: 10,
     left: 0,
     right: 0,
+  },
+  notificationPanel: {
+    backgroundColor: '#f0f0f0',
+    borderRadius: 15,
+    padding: 15,
+    marginHorizontal: 30,
+    marginVertical: 15,
   },
   errorPanel: {
     backgroundColor: '#f0f0f0',
@@ -72,6 +81,9 @@ const styles = StyleSheet.create({
     padding: 15,
     marginHorizontal: 30,
     marginVertical: 15,
+  },
+  notificationMessage: {
+    color: 'green',
   },
   errorMessage: {
     color: 'red',

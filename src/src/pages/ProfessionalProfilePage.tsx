@@ -7,7 +7,7 @@ import { UserRepository } from "../repositories/user_repository";
 import { Text } from "react-native";
 import { ProfileImage } from "../components/ProfileImage";
 import { useAppContext } from "../contexts/app_context";
-import { useErrorContext } from "../contexts/error_context";
+import { useMessageContext } from "../contexts/message_context";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { AppParamsList } from "../routes/ParamList";
 
@@ -45,7 +45,7 @@ export default function ProfessionalProfilePage({ navigation,
             newUser.descricao = descricao;
             userRep.update(newUser, (user) => {
                 if (user === undefined)
-                    useErrorContext().dispatchError("Falha ao atualizar o Usuário!!!!!")
+                    useMessageContext().dispatchMessage({ type: "error", message: "Falha ao atualizar o Usuário!!!!!" });
             })
         }
     }, [name, phone, email, descricao])

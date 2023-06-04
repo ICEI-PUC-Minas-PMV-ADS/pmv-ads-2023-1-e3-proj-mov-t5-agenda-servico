@@ -7,7 +7,7 @@ import { UserRepository } from "../repositories/user_repository";
 import { Text } from "react-native";
 import { ProfileImage } from "../components/ProfileImage";
 import { useAppContext } from "../contexts/app_context";
-import { useErrorContext } from "../contexts/error_context";
+import { useMessageContext } from "../contexts/message_context";
 import { NativeStackScreenProps } from "@react-navigation/native-stack/lib/typescript/src/types";
 import { AppParamsList } from "../routes/ParamList";
 
@@ -40,8 +40,9 @@ export default function ClientProfilePage({ navigation }: NativeStackScreenProps
             newUser.telefone = phone;
             newUser.email = email;
             userRep.update(newUser, (user) => {
-                if (user === undefined)
-                    useErrorContext().dispatchError("Falha ao atualizar o Usuário!!!!!")
+                if (user === undefined) {
+                    useMessageContext().dispatchMessage({ type: "error", message: "Falha ao atualizar o Usuário!!!!!" });
+                }
             })
         }
     }, [name, phone, email])
