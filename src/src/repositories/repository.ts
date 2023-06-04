@@ -15,7 +15,7 @@ export abstract class Repository<TModel extends Model> {
       ref(database, this.table),
       JSON.parse(JSON.stringify(normalizedModel)),
     ).then(data => {
-      callback?.(this.deserialize({ ...model, id: data.key }));
+      callback?.(this.deserialize({ ...normalizedModel, id: data.key }));
     });
   }
 

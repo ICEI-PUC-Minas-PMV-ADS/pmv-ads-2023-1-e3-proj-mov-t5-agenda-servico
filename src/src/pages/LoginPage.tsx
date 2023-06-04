@@ -1,5 +1,6 @@
 import React, { useReducer } from 'react';
 
+
 import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
 import { AppParamsList } from '../routes/ParamList';
 import { UserRepository } from '../repositories/user_repository';
@@ -199,6 +200,7 @@ export function LoginPage({
   React.useEffect(() => {
     EncryptedStorage.getItem(KEY_USERDATA).then(value => {
       if (value) {
+
         appContext.setUser(JSON.parse(value));
         navigation.replace('Home', {});
       } else {

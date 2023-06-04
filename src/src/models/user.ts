@@ -10,6 +10,7 @@ export class User extends Model {
   tipo?: 'cliente' | 'prestador';
   tipo_login?: 'google' | 'facebook' | 'app';
   created_at?: Date = new Date();
+  fcm_token?: string;
   endereco_fk?: string;
   portifolio_fk?: string;
   nome_fantasia?: string;
