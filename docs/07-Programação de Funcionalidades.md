@@ -2,68 +2,32 @@
 
 <span style="color:red">Pré-requisitos: <a href="2-Especificação do Projeto.md"> Especificação do Projeto</a></span>, <a href="3-Projeto de Interface.md"> Projeto de Interface</a>, <a href="4-Metodologia.md"> Metodologia</a>, <a href="3-Projeto de Interface.md"> Projeto de Interface</a>, <a href="5-Arquitetura da Solução.md"> Arquitetura da Solução</a>
 
-## RF-001 - Permitir que o usuário realize seu cadastro (Em desenvolvimento)
-Segue a implementação das telas que registram o usuário. Cada tela tem o objetivo de captar as informações mínimas para que um usuário comece a usar o sistema.
+## RF-001 - Permitir que o usuário realize seu cadastro 
+Segue a implementação das telas que registram o usuário. Cada tela tem o objetivo de captar as informações mínimas para que um usuário comece a usar o sistema. Na tela "Quem é você?" o usuário é qustionado se é um cliente ou profissional, a partir desse momento as telas que virão serão personalizadas para o cadastro de cada tipo de usuário.
 
-### Tela "WhatsEmail" (Em desenvolvimento)
-O usuário digita o email que deseja cadastrar. É realizado uma busca no banco de dados para verificar se o email não pertence a alguma conta, se o email ja estiver em uso, o usuário é levado de volta para a tela de login, senão é dado continuidade no processo de registro.
+- `RF-001 - Tela "Qual é o seu e-mail?"`: responsável por verficar se e-mail digitado pelo usuário já está cadastrado.
+- `RF-001 - Tela "Quem é você"`:  responsável por cadastrar o tipo do usuário, a partir desse momento as telas que virão serão personalizadas para cada tipo de usuário.
 
-<img src="./img/registerPages/WhatsEmail.png" width="400px"> 
+<img src="./img/registerPages/Cadastro.png" width="1000px">
 
-### Tela "WhoYou" 
-A partir da tela “WhoYou” cria-se uma bifurcação onde o usuário define seu tipo de conta (empresarial ou cliente).
+### Registro de usuário do tipo profissional
 
-<img src="./img/registerPages/WhoYou.png" width="400px"> 
+- `RF-001 - Tela "Sobre você"`: responsável por captar informações básicas do usuário: Nome e sobrenome, nome da empresa, telefone para contato. 
+- `RF-001 - Tela "Configuração de senha" `:  responsável por cadastrar a senha do novo usuário.
+- `RF-010 - Tela "Onde você trabalha?" `:  responsável por captar onde o usuário realiza seus serviços: no seu estabelecimento, na casa do cliente ou em ambos.
+- `RF-001 - Telas "Confirme seu endereço" `:  responsáveis por cadastrar o endereço do usuário. Caso somente a opção "Na casa do cliente" da tela "Onde você trabalha?" for marcada, o usuário poderá escolher se deseja que seu endereço seja privado.
+- `RF-001 - Tela "Diga sua taxa de deslocamento" `:  essa tela ficará disponível para o usuário somente se a opção "Na casa do cliente" da tela "Onde você trabalha?" for marcada. Resposável por cadastrar os valores de deslocamento do profissional até o local do serviço.
+- `RF-018 e RF-008 - Telas "Seu horário de funcionamento", "Dia(Sábado)" e "Intervalo • (Dia)"`: responsáveis por captar informações referentes ao horário de trabalho do usuário.
+- `RF-009 - Telas "Começe a adicionar serviços" e "Detalhes do serviço" `: responsáveis por cadastrar os serviços que o usuário realiza bem como a categoria de cada um.
 
-### Registro de usuários do tipo empresarial
+<img src="./img/registerPages/Cadastro profissional.png" width="1000px">
 
-#### Tela "AboutYou" 
-Tela responsável por captar informações básicas do usuário: Nome e sobrenome, nome da empresa, telefone para contato.
+### Registro de usuário do tipo cliente
 
-<img src="./img/registerPages/AboutYou.png" width="400px"> 
+- `RF-001 - Tela "Sobre você"`: responsável por captar informações básicas do usuário: Nome, sobrenome e telefone para contato. 
+- `RF-001 - Tela "Configuração de senha" `:  responsável por cadastrar a senha do novo usuário.
 
-#### Tela "Password" 
-Tela responsável pela criação da senha da nova conta.
-
-<img src="./img/registerPages/Password.png" width="400px"> 
-
-#### Tela "Category" 
-Tela responsável por captar o nicho de trabalho do usuário. Essa informação será usada porteriormente para que o cliente o encontre mais facilmente.
-
-<img src="./img/registerPages/Category.png" width="400px"> 
-
-#### Tela "WhereWork" 
-Tela responsável por captar onde o usuário realiza seus serviços: no seu estabelecimento ou na casa do cliente. Essa informação será usada posteriormente para a configuração do endereço do usuário bem como para a criação dos seus serviços.
-
-<img src="./img/registerPages/WhereWork.png" width="400px"> 
-
-#### Telas de cadastro de endereço (ConfigCEP e ConfigAddress) 
-Telas responsáveis por captar o endereço do estabelecimento do usuário. Essa informação será usada posteriormente para marcar o local do serviço.
-
-<img src="./img/registerPages/ConfigCep.png" width="400px"> 
-
-<img src="./img/registerPages/ConfigAddress.png" width="400px"> 
-
-#### Tela "DisplacementFee" 
-Tela responsável por captar as informações de custo referente a deslocação do usuário para o local de execução do serviço.
-
-<img src="./img/registerPages/displacementfee.png" width="400px"> 
-
-#### Telas de cadastro de horários (ConfigOpening, ConfigDay e ConfigInterval) 
-Telas responsáveis por captar informações referentes ao horário de trabalho do usuário. Essas informações serão usadas porteriromente para que o cliente possa marcar um serviço.
-
-<img src="./img/registerPages/ConfigOpening.png" width="400px"> 
-
-<img src="./img/registerPages/ConfigDay.png" width="400px"> 
-
-<img src="./img/registerPages/ConfigInterval.png" width="400px"> 
-
-#### Telas de cadastro de serviços (ConfigServices e ServiceDetails) 
-Telas responsáveis por captar informações referentes ao serviços fornecidos pelo usuário: Nome do serviço, preço, tempo de execução.
-
-<img src="./img/registerPages/ConfigServices.png" width="400px">
-
-<img src="./img/registerPages/ConfigDay.png" width="400px">
+<img src="./img/registerPages/Cadastro cliente.png" width="1000px">
 
 ## RF-002 - Permitir que o usuário realize login
 
