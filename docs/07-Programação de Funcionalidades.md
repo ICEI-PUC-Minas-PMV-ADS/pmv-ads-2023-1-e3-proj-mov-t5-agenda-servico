@@ -8,7 +8,7 @@ Segue a implementação das telas que registram o usuário. Cada tela tem o obje
 - `RF-001 - Tela "Qual é o seu e-mail?"`: responsável por verficar se e-mail digitado pelo usuário já está cadastrado.
 - `RF-001 - Tela "Quem é você"`:  responsável por cadastrar o tipo do usuário, a partir desse momento as telas que virão serão personalizadas para cada tipo de usuário.
 
-<img src="./img/registerPages/Cadastro.png" width="500px">
+<img src="./img/registerPages/Cadastro.png" width="1000px">
 
 ### Registro de usuário do tipo profissional
 
@@ -20,7 +20,7 @@ Segue a implementação das telas que registram o usuário. Cada tela tem o obje
 - `RF-018 e RF-008 - Telas "Seu horário de funcionamento", "Dia(Sábado)" e "Intervalo • (Dia)"`: responsáveis por captar informações referentes ao horário de trabalho do usuário.
 - `RF-009 - Telas "Começe a adicionar serviços" e "Detalhes do serviço" `: responsáveis por cadastrar os serviços que o usuário realiza bem como a categoria de cada um.
 
-<img src="./img/registerPages/Cadastro profissional.png" width="500px">
+<img src="./img/registerPages/Cadastro profissional.png" width="1000px">
 
 ## RF-002 - Permitir que o usuário realize login
 
