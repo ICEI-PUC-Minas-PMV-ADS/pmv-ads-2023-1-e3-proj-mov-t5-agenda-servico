@@ -441,7 +441,7 @@ As tabelas que se seguem apresentam os requisitos funcionais e não funcionais q
 |RF-002| Permitir que o usuário realize login   | ALTA |
 |RF-003| Permitir que o usuário visualize sua agenda com compromissos marcados atualizada   | ALTA |
 |RF-004| Permitir que o usuário do tipo empresa reagende um serviço junto ao usuário do tipo cliente   | ALTA |
-|RF-005| Permitir que qualquer usuário cancele um serviço com no mínimo uma hora de antecedência   | ALTA |
+|RF-005| Permitir que qualquer usuário cancele um serviço   | ALTA |
 |RF-006| Notificar todos os tipos de usuário sobre um serviço marcado | BAIXA |
 |RF-007| Permitir que usuários do tipo cliente e empresa troquem mensagens entre si   | BAIXA |
 |RF-008| Permitir que usuários do tipo empresa defina um intervalo entre os serviços   | ALTA |
