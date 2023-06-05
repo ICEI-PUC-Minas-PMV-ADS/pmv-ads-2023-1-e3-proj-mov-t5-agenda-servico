@@ -108,11 +108,11 @@ O sistema deve apresentar tela de configurações:
 
 ![Tela de Configurações](img/telaconfig.png)
 
-- Senha alterada.
+- Senha alterada.<br>
 ![Tela de Senha](img/telasenha.png)
 ![Tela Senha Alterada](img/mudarsenha.png)
 
-- Senha errada com erro.
+- Senha errada com erro.<br>
  ![Tela de Erro Senha](img/telaconfigsenhaerrada.png)
 
 O sistema deve ter local para pedir suporte com o aplicatio:
