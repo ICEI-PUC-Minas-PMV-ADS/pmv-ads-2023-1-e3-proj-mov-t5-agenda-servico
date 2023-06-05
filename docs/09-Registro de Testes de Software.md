@@ -100,7 +100,7 @@ Conforme podemos perceber na imagem abaixo, este recurso esta funcional:
 
 <img src="./img/testeRF009/Teste serviços 1.png" width="1000px">
 
-<img src="./img/testeRF009/Teste serviços 1.png" width="1000px">
+<img src="./img/testeRF009/Teste serviços 2.png" width="1000px">
 
 <img src="./img/testeRF009/Teste serviços 3.png" width="1000px">
 
