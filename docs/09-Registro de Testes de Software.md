@@ -104,15 +104,26 @@ O sistema deve apresentar as informações de perfil do usuário profissional:
 
 ![Tela de Perfil do Profissional ](img/perfil-profissional.png)
 
-O sistema deve apresentar as função de trocar senha do usuário:
+O sistema deve apresentar tela de configurações:
 
-![Tela de Mudar Senha](img/telasenha.png)
+![Tela de Configurações](img/telaconfig.png)
+
+- Senha alterada.
+![Tela de Senha](img/telasenha.png)
 ![Tela Senha Alterada](img/mudarsenha.png)
+
+- Senha errada com erro.
+ ![Tela de Erro Senha](img/telaconfigsenhaerrada.png)
 
 O sistema deve ter local para pedir suporte com o aplicatio:
 
-![Tela de Pedir Suporte](img/telasuporte.png)
-![Tela Pedido Suporte Enviado](img/suporte.png)
+![Tela de Pedir Suporte](img/telaconfigsupport.png)
+![Tela Pedido Suporte Enviado](img/telaconfigsupport2.png)
+![Tela DataBase Pedido](img/supoortdatabase.png)
+
+O sistema deve ter local para sair do aplicatio:
+
+![Tela de Pedir Suporte](img/telaconfigsair.png)
 
 
 
