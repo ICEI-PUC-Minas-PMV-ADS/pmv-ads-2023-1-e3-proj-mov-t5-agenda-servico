@@ -119,6 +119,7 @@ O sistema deve ter local para pedir suporte com o aplicatio:
 
 ![Tela de Pedir Suporte](img/telaconfigsupport.png)
 ![Tela Pedido Suporte Enviado](img/telaconfigsupport2.png)
+- Database com solicitação.<br>
 ![Tela DataBase Pedido](img/supoortdatabase.png)
 
 O sistema deve ter local para sair do aplicatio:
