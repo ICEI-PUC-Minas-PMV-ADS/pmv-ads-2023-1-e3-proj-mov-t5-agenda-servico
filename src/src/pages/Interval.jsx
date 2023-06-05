@@ -83,7 +83,7 @@ export function Intervalo() {
     React.useEffect(() => {
       const carregarItem = async () => {
         userRepository.get(appContext.user?.id, user => {
-          const data = JSON.parse(user.lista_de_horarios)
+          const data = user.lista_de_horarios
           setDataOpening(data)
           setDay(data[dayIndex])
           setUser(user)

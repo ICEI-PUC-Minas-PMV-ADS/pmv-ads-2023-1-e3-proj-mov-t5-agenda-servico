@@ -6,6 +6,10 @@ Relatório com as evidências dos testes de software realizados no sistema pela 
 
 ## Avaliação
 
+### RF-001 - Usuário efetuar o cadastramento da conta
+
+<img src="./img/testeRF001/Teste cadastro.png" width="1000px">
+
 ### RF-002 - Permitir que o usuário realize login
 
 O teste consiste em verificar se o usuário pode fazer login no sistema de diferentes formas:
@@ -86,6 +90,20 @@ Conforme podemos perceber na imagem abaixo, este recurso esta funcional:
 
 ![Tela 1.9 - Pagina principal com compromissos](img/chat.jpeg)
 
+### RF-008 - O usuário do tipo empresa irá cadastrar um horário de intervalo entre serviços
+
+<img src="./img/testeRF008/Teste intervalo 1.png" width="1000px">
+
+<img src="./img/testeRF008/Teste intervalo 2.png" width="1000px">
+
+### RF-009 - Usuário irá criar um novo serviço, edita-lo e deletar esse serviço.
+
+<img src="./img/testeRF009/Teste serviços 1.png" width="1000px">
+
+<img src="./img/testeRF009/Teste serviços 1.png" width="1000px">
+
+<img src="./img/testeRF009/Teste serviços 3.png" width="1000px">
+
 ### RF-009 - Exibir o perfil do usuário e alterar informações.
 
 O teste consiste em verificar se o sistema vai recuperar as informações do usuário no banco de dados e disponibiliza-las na interface de forma satisfatoria.
@@ -126,5 +144,18 @@ O sistema deve ter local para sair do aplicatio:
 
 ![Tela de Pedir Suporte](img/telaconfigsair.png)
 
+### RF-010 - O usuário do tipo empresa irá cadastrar o local onde o serviço será realizado
+
+<img src="./img/testeRF010/Teste local serviço 1.png" width="1000px">
+
+<img src="./img/testeRF010/Teste local serviço 2.png" width="1000px">
+
+<img src="./img/testeRF010/Teste local serviço 3.png" width="1000px">
+
+### RF-018 - O usuário do tipo empresa deve selecionar os dias em que seus serviços serão prestados
+
+<img src="./img/testeRF018/Teste horario 1.png" width="1000px">
+
+<img src="./img/testeRF018/Teste horario 2.png" width="1000px">
 
 

@@ -13,6 +13,7 @@ import { CategoryRepository } from "../repositories/category_repository";
 import { useAppContext } from '../contexts/app_context';
 import { Service, Tempo } from "../models/service";
 import { ServiceRepository } from "../repositories/service_repository";
+import { UserRepository } from "../repositories/user_repository";
 
 const Header = ({ loading }) => {
   const navigation = useNavigation();
@@ -27,6 +28,7 @@ const Header = ({ loading }) => {
 };
 
 export function UpdateServices() {
+  const userRepository = new UserRepository()
   const serviceRepository = new ServiceRepository()
   const appContext = useAppContext();
   const deleteIcon = <Icon name="trash" size={20} />;
@@ -44,7 +46,7 @@ export function UpdateServices() {
   const [errorTime, setErrorTime] = useState(false);
   const [hours, setHours] = useState('')
   const [minutes, setMinutes] = useState('')
-  const where = appContext.user?.onde_trabalha
+  const [where, setWhere] = useState('')
   const [home, setHome] = React.useState(true);
 
 
@@ -56,10 +58,27 @@ export function UpdateServices() {
   const [types, setTypes] = useState([]);
   const [idType, setIdType] = useState('')
 
+  React.useEffect(() => {
+    userRepository.get(appContext?.user?.id, user => {
+      setWhere(user.onde_trabalha)
+    })
+  }, []);
 
+  React.useEffect(() => {
+    if (where.estabelecimento == false && where.casa_cliente == true) {
+      setHome(false)
+      setResidence(true)
+    }
+    if (where.casa_cliente == true && where.estabelecimento == true) {
+      setHome(true)
+    }
+    if (where.casa_cliente == false && where.estabelecimento == true) {
+      setHome(false)
+      setResidence(false)
+    }
+  }, [where]);
 
   if (serviceIndex != undefined) {
-
     React.useEffect(() => {
       if (service) {
         const duration = service.duracao
@@ -81,19 +100,7 @@ export function UpdateServices() {
       })
     }, []);
 
-    React.useEffect(() => {
-      if (where.estabelecimento == false && where.casa_cliente == true) {
-        setHome(false)
-        setResidence(true)
-      }
-      if (where.casa_cliente == true && where.estabelecimento == true) {
-        setHome(true)
-      }
-      if (where.casa_cliente == false && where.estabelecimento == true) {
-        setHome(false)
-        setResidence(false)
-      }
-    }, [where]);
+
   }
   else {
     React.useEffect(() => {
@@ -118,24 +125,6 @@ export function UpdateServices() {
 
       }
     }, [services]);
-
-    React.useEffect(() => {
-      if (where.estabelecimento == false && where.casa_cliente == true) {
-        setHome(false)
-        setResidence(true)
-      }
-      if (where.casa_cliente == true && where.estabelecimento == true) {
-        setHome(true)
-      }
-      if (where.casa_cliente == false && where.estabelecimento == true) {
-        setHome(false)
-        setResidence(false)
-      }
-    }, [where]);
-
-
-
-
   }
 
   const handleNameChange = (text) => {
