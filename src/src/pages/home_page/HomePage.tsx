@@ -98,7 +98,7 @@ function HomePageImpl({
 
       const userRepo = new UserRepository();
       userRepo.getNotifications(user, (notifications) => {
-        if (notifications.length > 0) {
+        if (notifications && notifications?.length > 0) {
           userRepo.clearNotifications(user, () => {
             const showNotification = (currentNotification: number) => setTimeout(() => {
               messageContext.dispatchMessage({ type: 'notificatiton', message: notifications[currentNotification] });
