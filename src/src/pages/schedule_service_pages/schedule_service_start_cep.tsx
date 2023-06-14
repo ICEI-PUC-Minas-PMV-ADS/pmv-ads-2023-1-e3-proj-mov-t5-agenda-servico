@@ -9,6 +9,7 @@ import { UserRepository } from "../../repositories/user_repository";
 import { BackgroundColor, WhiteColor } from "../../constants/colors";
 import { Address } from "../../models/address";
 import { AddressRepository } from "../../repositories/address_repository";
+import { ServiceRepository } from "../../repositories/service_repository";
 
 export function ScheduleServiceCepPage({ route, navigation
 }: NativeStackScreenProps<AppParamsList, 'ScheduleServiceCepPage'>) {
@@ -28,7 +29,6 @@ export function ScheduleServiceCepPage({ route, navigation
 
   function getProfessionalAddressId() {
     let aId: string | undefined
-
     return aId;
   }
 
@@ -101,6 +101,7 @@ export function ScheduleServiceCepPage({ route, navigation
         value={numero}
         onChange={value => setNumero(value)}
       />
+
       <InputText
         placeholder="Rua"
         label="Nome da Rua: "
@@ -131,8 +132,20 @@ export function ScheduleServiceCepPage({ route, navigation
       <PrimaryButton
         title="Próximo"
         onPress={() => {
-          navigation.navigate("ScheduleServiceConfirmPage", {})
-          dispatch?.({ type: "set_address_page", payload: { addressPage: { address: createAddress(address!.id!) }, numero } })
+          const serviceId = state?.firstPage?.schedule.servico_fk;
+          if (serviceId) {
+            new ServiceRepository().get(serviceId, (service) => {
+              if (service) {
+                if (service.servico_externo === true) {
+                  navigation.navigate("ScheduleServiceMapPage", {})
+                  dispatch?.({ type: "set_address_page", payload: { addressPage: { address: createAddress(address!.id!) }, numero } })
+                } else {
+                  navigation.navigate("ScheduleServiceConfirmPage", {})
+                  dispatch?.({ type: "set_address_page", payload: { addressPage: { address: createAddress(address!.id!) }, numero } })
+                }
+              }
+            });
+          }
         }}
       />
 

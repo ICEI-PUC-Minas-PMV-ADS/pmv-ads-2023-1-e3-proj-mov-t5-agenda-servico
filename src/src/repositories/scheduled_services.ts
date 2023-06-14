@@ -41,6 +41,8 @@ export class ScheduledServicesRepository extends Repository<ScheduledServices> {
     scheduledServices.preco = model.preco;
     scheduledServices.numero_endereco = model.numero_endereco;
     scheduledServices.avaliacao = model.avaliacao;
+    scheduledServices.lat = model.lat;
+    scheduledServices.lng = model.lng;
     return scheduledServices;
   }
 }

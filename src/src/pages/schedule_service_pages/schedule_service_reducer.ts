@@ -16,7 +16,7 @@ export type ScheduleServiceReducerState = {
 };
 
 export type ScheduleServiceReducerAction = {
-  type: "set_address_page" | "set_first_page";
+  type: "set_address_page" | "set_first_page" | "set_lat_lng";
   payload: any;
 };
 
@@ -30,6 +30,10 @@ export function ScheduleServiceReducer(state: ScheduleServiceReducerState, actio
     case "set_first_page":
       return {
         ...state, firstPage: { schedule: action.payload.scheduledService }, supplierId: action.payload.supplierId
+      }
+    case "set_lat_lng":
+      return {
+        ...state, firstPage: { schedule: { ...state.firstPage?.schedule, lat: action.payload.lat, lng: action.payload.lng } },
       }
   }
   return state;

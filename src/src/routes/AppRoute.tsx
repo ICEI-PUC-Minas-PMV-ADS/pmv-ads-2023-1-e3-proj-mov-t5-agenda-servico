@@ -33,6 +33,7 @@ import { ScheduleServiceConfirmPage } from '../pages/schedule_service_pages/sche
 import { CategorySelectorPage } from '../pages/CategorySelectorPage';
 import { SupplierSelectorPage } from '../pages/SupplierSelectorPage';
 import { NotificationPage } from '../pages/NotificationPage';
+import { ScheduleServiceMapPage } from '../pages/schedule_service_pages/schedule_service_map_page';
 
 const Stack = createNativeStackNavigator<AppParamsList>();
 
@@ -158,6 +159,13 @@ const BookingRoutes = () => {
         <bookingStack.Screen name='BookingPage' initialParams={{ id }} component={BookingPage} options={{ headerShown: false }} />
         <bookingStack.Screen name='ScheduleServiceCepPage' component={ScheduleServiceCepPage} options={{ headerShown: false }} />
         <bookingStack.Screen name='ScheduleServiceConfirmPage' component={ScheduleServiceConfirmPage} options={{ headerShown: false }} />
+        <bookingStack.Screen name='ScheduleServiceMapPage' component={ScheduleServiceMapPage} options={{
+          title: 'Selecione sua posição no mapa',
+          headerStyle: {
+            backgroundColor: BackgroundColor
+          },
+          headerTintColor: WhiteColor
+        }} />
       </bookingStack.Navigator>
     </ScheduleServiceProvider>
   );

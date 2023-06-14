@@ -14,11 +14,30 @@ import { Button } from "react-native-paper";
 export function MapPage(props: NativeStackScreenProps<AppParamsList, 'MapPage'>) {
   const [mapMarker, setMapMarker] = React.useState<MapMarker[]>([]);
 
-  const [lat, setLat] = React.useState<number | undefined>();
-  const [lng, setLng] = React.useState<number | undefined>();
+  const [lat, setLat] = React.useState<number | undefined>(props.route.params?.lat);
+  const [lng, setLng] = React.useState<number | undefined>(props.route.params?.lng);
 
   const readOnly = props.route.params?.readOnly;
   const onReceivePosition = props.route.params?.onReceivePosition;
+
+  React.useEffect(() => {
+    if (lat !== undefined && lng !== undefined) {
+      setTimeout(() => {
+        setMapMarker([{
+          icon: 'x',
+          position: {
+            lat: lat,
+            lng: lng
+          },
+          size: [32, 32],
+          iconAnchor: {
+            x: 4,
+            y: 24,
+          }
+        }]);
+      }, 1000);
+    }
+  }, [lat, lng]);
 
   /***
    * Events
@@ -54,6 +73,10 @@ export function MapPage(props: NativeStackScreenProps<AppParamsList, 'MapPage'>)
     }
   }, [lat, lng]);
 
+  const getMapMarker = React.useCallback(() => {
+    return mapMarker.length === 0 ? { lat: -13.3000, lng: -47.1258 } : mapMarker[0];
+  }, [mapMarker]);
+
   return (
     <View style={style.rootContainer}>
       <ReturnButton onPress={() => {
@@ -66,7 +89,7 @@ export function MapPage(props: NativeStackScreenProps<AppParamsList, 'MapPage'>)
         <LeafletView
           androidHardwareAccelerationDisabled={false}
           onMessageReceived={onMessageReceived}
-          mapCenterPosition={mapMarker.length === 0 ? { lat: -13.3000, lng: -47.1258 } : mapMarker[0]}
+          mapCenterPosition={getMapMarker()}
           mapMarkers={mapMarker}
           doDebug={false}
           zoom={5}

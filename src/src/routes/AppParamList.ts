@@ -6,6 +6,7 @@ export type AppParamsList = {
   Profile: {};
   ProfessionalProfile: {};
   ScheduleServiceConfirmPage: {};
+  ScheduleServiceMapPage: {};
   RegisterRoute: {};
   Services: {};
   UpdateServices: {};

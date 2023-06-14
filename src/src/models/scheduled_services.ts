@@ -10,8 +10,10 @@ export class ScheduledServices extends Model {
   cliente_fk?: string;
   local_fk?: string;
   hora?: number;
-  status?: "pendente" | "cancelado" | "concluido" | "fora do prazo" ;
-  numero_endereco?: number
+  status?: "pendente" | "cancelado" | "concluido" | "fora do prazo";
+  numero_endereco?: number;
+  lat?: number;
+  lng?: number;
 }
 
 

@@ -69,9 +69,9 @@ export default function BookingPage({ route, navigation
     }
 
     useEffect(() => {
-        let e = serviceLists.find(service => service.id === selectedServiceId)?.valor
-        if (e !== undefined) {
-            setPrice(e)
+        let service = serviceLists.find(service => service.id === selectedServiceId)
+        if (service?.valor) {
+            setPrice(service?.valor)
         }
     }, [selectedServiceId])
 
@@ -125,8 +125,8 @@ export default function BookingPage({ route, navigation
                 <PrimaryButton
                     title="Próximo"
                     onPress={() => {
-                        navigation.navigate("ScheduleServiceCepPage", { id })
-                        dispatch?.({ type: "set_first_page", payload: { scheduledService: createScheduleService(), supplierId: id } })
+                        navigation.navigate("ScheduleServiceCepPage", { id });
+                        dispatch?.({ type: "set_first_page", payload: { scheduledService: createScheduleService(), supplierId: id } });
                     }}
                 />
 
