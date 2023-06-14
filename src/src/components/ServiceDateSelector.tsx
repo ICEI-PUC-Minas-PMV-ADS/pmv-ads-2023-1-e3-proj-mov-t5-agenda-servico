@@ -56,12 +56,12 @@ export default function ServiceDateSelector({ label, professionalId, onChangeDat
     }
 
     function filterAvaliableHours(eUser: User, edata: Date, eHoursList: number[]) {
-        let transformedData = moment(edata).format("YYYY/MM/DD")
+        let transformedData = moment(edata).format("YYYY-MM-DD")
         let listWithWheHoursAlreadyFiltered: number[] = [];
 
         scheduleRep.filterScheduledServicesByUser(eUser, schedules => {
             let filteredScheduleServices = schedules.filter(service => {
-                let data = moment(service.data).format("YYYY/MM/DD");
+                let data = moment(service.data!).format("YYYY-MM-DD");
                 return moment(transformedData).isSame(data)
             })
             eHoursList.forEach(avaliableHours => {
