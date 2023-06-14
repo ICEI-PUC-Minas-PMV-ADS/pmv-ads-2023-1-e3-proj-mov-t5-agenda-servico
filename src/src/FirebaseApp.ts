@@ -1,21 +1,25 @@
-import { initializeApp } from 'firebase/app';
-import { getDatabase } from 'firebase/database';
+import firebaseDatabase from '@react-native-firebase/database';
+import authFirebase, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import firebaseMessaging from '@react-native-firebase/messaging';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: 'AIzaSyBYWbAZbh-UaEEYNXgJxfXv25gI59Siwyw',
-  authDomain: 'projeto-agenda-72b31.firebaseapp.com',
-  projectId: 'projeto-agenda-72b31',
-  storageBucket: 'projeto-agenda-72b31.appspot.com',
-  messagingSenderId: '1044670167757',
-  appId: '1:1044670167757:web:0a643d96b3ce921569c784',
-  databaseURL: 'https://projeto-agenda-72b31-default-rtdb.firebaseio.com/',
-};
+export const database = firebaseDatabase();
 
-// Initialize Firebase
-export const firebase = initializeApp(firebaseConfig);
+GoogleSignin.configure({
+  webClientId: '1044670167757-6aktlagh5kuh85ldqq9lkukavdlr07jh.apps.googleusercontent.com',
+});
 
-export const database = getDatabase(firebase);
-
-export const getToken = (callback: (token: string) => void) => {
+export function onGoogleButtonPress(callback: (credentials?: FirebaseAuthTypes.UserCredential) => void) {
+  GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true })
+    .then(() => {
+      GoogleSignin.signIn().then(({ idToken }) => {
+        const googleCredential = authFirebase.GoogleAuthProvider.credential(idToken);
+        authFirebase().signInWithCredential(googleCredential)
+          .then((credentials) => {
+            callback(credentials);
+          }).catch((error) => callback());
+      }).catch((error) => callback());
+    }).catch((error) => callback());
 }
+
+export const messaging = firebaseMessaging();

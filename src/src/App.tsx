@@ -34,7 +34,6 @@ function App(): JSX.Element {
               </SafeAreaView>
               <MessageConsumer>
                 {({ message, containerAnim }) => {
-                  console.log(JSON.stringify(message));
                   return <Animated.View style={[styles.messageContainer, { display: message ? 'flex' : 'none', opacity: containerAnim }]}>
                     <View style={message?.type ? styles.notificationPanel : styles.errorPanel}>
                       <Text style={message?.type ? styles.notificationMessage : styles.errorMessage}>{message?.message}</Text>

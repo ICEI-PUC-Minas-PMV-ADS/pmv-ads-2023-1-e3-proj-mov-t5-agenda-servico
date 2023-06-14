@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { ScheduleServiceContext, ScheduledServicesComsumer } from './schedule_service_context'
 import { InputText } from "../../components/Inputs";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { AppParamsList } from "../../routes/ParamList";
+import { AppParamsList } from "../../routes/AppParamList";
 import { PrimaryButton } from "../../components/Buttons";
 import { UserRepository } from "../../repositories/user_repository";
 import { BackgroundColor, WhiteColor } from "../../constants/colors";
@@ -114,13 +114,13 @@ export function ScheduleServiceCepPage({ route, navigation
         onChange={value => setBairro(value)}
       />
 
-       <InputText
-          placeholder="Cidade"
-          label="Nome da Cidade: "
-          value={cidade}
-          onChange={value => setCidade(value)}
+      <InputText
+        placeholder="Cidade"
+        label="Nome da Cidade: "
+        value={cidade}
+        onChange={value => setCidade(value)}
       />
-     
+
       <InputText
         placeholder="UF"
         label="Entre com o UF: "
@@ -131,8 +131,8 @@ export function ScheduleServiceCepPage({ route, navigation
       <PrimaryButton
         title="Próximo"
         onPress={() => {
-          navigation.navigate("ScheduleServiceConfirmPage", {} )
-          dispatch?.({ type: "set_address_page", payload: {addressPage:{address:createAddress(address!.id!)}, numero} })
+          navigation.navigate("ScheduleServiceConfirmPage", {})
+          dispatch?.({ type: "set_address_page", payload: { addressPage: { address: createAddress(address!.id!) }, numero } })
         }}
       />
 

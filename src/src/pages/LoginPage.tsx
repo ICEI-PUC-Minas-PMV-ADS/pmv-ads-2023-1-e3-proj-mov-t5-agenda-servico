@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
 
 import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
-import { AppParamsList } from '../routes/ParamList';
+import { AppParamsList } from '../routes/AppParamList';
 import { UserRepository } from '../repositories/user_repository';
 import { User } from '../models/user';
 import { useMessageContext, MessageState } from '../contexts/message_context';
@@ -43,7 +43,7 @@ import {
 
 import CheckBox from '@react-native-community/checkbox';
 import EncryptedStorage from 'react-native-encrypted-storage';
-import { onGoogleButtonPress } from '../FirebaseAppNew';
+import { onGoogleButtonPress } from '../FirebaseApp';
 
 /***
  * login

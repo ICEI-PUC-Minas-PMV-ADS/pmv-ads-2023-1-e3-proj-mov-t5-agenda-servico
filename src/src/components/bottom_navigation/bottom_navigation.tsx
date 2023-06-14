@@ -1,7 +1,7 @@
 import { View } from 'react-native';
 import { BottomNavigationItem } from './bottom_navigation_item';
 import { StyleSheet } from 'react-native';
-import { IcMenuCategory, IcMenuConfig, IcMenuProfile, IcMenuScheduling } from '../../constants/icons';
+import { IcMenuCategory, IcMenuConfig, IcMenuProfile, IcMenuScheduling, IcNotification } from '../../constants/icons';
 import { useAppContext } from '../../contexts/app_context';
 
 /***
@@ -43,9 +43,9 @@ export function BottomNavigation(props: BottomNavigationProps) {
             />
 
             <BottomNavigationItem
-              route={'MapPage'}/*Scheduling*/
-              icon={IcMenuScheduling}
-              label={'Mapa '}
+              route={'NotificationPage'}/*Notificações*/
+              icon={IcNotification}
+              label={'Notificações '}
               navigation={props.navigation}
             />
 

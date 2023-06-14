@@ -17,7 +17,7 @@ import { hash } from '../utils/crypto';
 import { useAppContext } from '../contexts/app_context';
 import { useMessageContext } from '../contexts/message_context';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { AppParamsList } from '../routes/ParamList';
+import { AppParamsList } from '../routes/AppParamList';
 
 export function ChangePasswordPage({
   navigation,

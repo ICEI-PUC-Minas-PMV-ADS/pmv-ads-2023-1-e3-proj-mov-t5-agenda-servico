@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Alert, StyleSheet, Text, View } from "react-native";
 import { ScheduleServiceContext } from "./schedule_service_context";
-import { AppParamsList } from "../../routes/ParamList";
+import { AppParamsList } from "../../routes/AppParamList";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { PrimaryButton } from "../../components/Buttons";
 import { BackgroundColor, WhiteColor } from "../../constants/colors";
@@ -18,14 +18,15 @@ export function ScheduleServiceConfirmPage({ navigation
   const addressRep = new AddressRepository();
 
   function sendSuccessNotifications(userId: string, supplierId: string, onComplete: () => void) {
+    const title = 'Agendamento';
     const message = 'Um serviço foi agendado!';
     const userRepo = new UserRepository();
     userRepo.get(userId, (user) => {
       if (user) {
-        userRepo.sendNotification(user, message, () => {
+        userRepo.sendNotification(user, title, message, () => {
           userRepo.get(supplierId, (supplier) => {
             if (supplier) {
-              userRepo.sendNotification(supplier, message, () => {
+              userRepo.sendNotification(supplier, title, message, () => {
                 onComplete();
               });
             }

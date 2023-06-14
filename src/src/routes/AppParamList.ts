@@ -17,7 +17,11 @@ export type AppParamsList = {
   Address: {};
   CEP: {};
   ForgotPasswordScreen: {};
+  NotificationPage: {};
   CategorySelector: {};
+  SupplierSelector: {
+    categoryId: string;
+  };
   Support: {};
   Config: {};
   ChangePassword: {};

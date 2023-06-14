@@ -1,7 +1,7 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { BackgroundColor, WhiteColor } from "../constants/colors";
-import { AppParamsList } from './ParamList';
+import { AppParamsList } from './AppParamList';
 import { LoginPage } from '../pages/LoginPage';
 import { HomePage } from '../pages/home_page';
 import { TestPage } from '../pages/TestPage';
@@ -31,6 +31,8 @@ import { ScheduleServiceProvider } from '../pages/schedule_service_pages/schedul
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { ScheduleServiceConfirmPage } from '../pages/schedule_service_pages/schedule_service_confirm';
 import { CategorySelectorPage } from '../pages/CategorySelectorPage';
+import { SupplierSelectorPage } from '../pages/SupplierSelectorPage';
+import { NotificationPage } from '../pages/NotificationPage';
 
 const Stack = createNativeStackNavigator<AppParamsList>();
 
@@ -49,8 +51,22 @@ function AppRoute(): JSX.Element {
       <Stack.Screen name="ChangePassword" component={ChangePasswordPage} options={{ headerShown: false }} />
       <Stack.Screen name="ForgotPasswordScreen" component={ForgotPasswordScreen} />
       <Stack.Screen name="BookingRoutes" component={BookingRoutes} options={{ headerShown: false }} />
+      <Stack.Screen name="NotificationPage" component={NotificationPage} options={{
+        title: 'Notificações',
+        headerStyle: {
+          backgroundColor: BackgroundColor
+        },
+        headerTintColor: WhiteColor
+      }} />
       <Stack.Screen name="CategorySelector" component={CategorySelectorPage} options={{
         title: 'Categorias',
+        headerStyle: {
+          backgroundColor: BackgroundColor
+        },
+        headerTintColor: WhiteColor
+      }} />
+      <Stack.Screen name="SupplierSelector" component={SupplierSelectorPage} options={{
+        title: 'Prestador',
         headerStyle: {
           backgroundColor: BackgroundColor
         },

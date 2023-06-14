@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import { IcBackArrow } from '../constants/icons';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { AppParamsList } from '../routes/ParamList';
+import { AppParamsList } from '../routes/AppParamList';
 import { TicketRepository } from '../repositories/ticket_repository';
 import { Ticket } from '../models/ticket';
 
@@ -94,7 +94,7 @@ export function SupportPage({
                 <TouchableOpacity
                   style={styles.button}
                   onPress={() => {
-                    const ticketRepo =  new TicketRepository();
+                    const ticketRepo = new TicketRepository();
                     const ticket = new Ticket();
                     ticket.motivo = motivo;
                     ticket.descricao = descricao;

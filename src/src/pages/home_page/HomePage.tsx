@@ -1,9 +1,10 @@
 import React from 'react';
 import EncryptedStorage from 'react-native-encrypted-storage';
+import moment from 'moment';
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { View, Text, StyleSheet, TouchableWithoutFeedback, Image, ActivityIndicator, ScrollView, Alert } from 'react-native';
-import { AppParamsList } from '../../routes/ParamList';
+import { View, Text, StyleSheet, TouchableWithoutFeedback, Image, ActivityIndicator, ScrollView, Alert, PermissionsAndroid } from 'react-native';
+import { AppParamsList } from '../../routes/AppParamList';
 import { KEY_USERDATA } from '../../constants/app';
 import { useAppContext } from '../../contexts/app_context';
 import { BackgroundColor, WhiteColor } from '../../constants/colors';
@@ -20,8 +21,6 @@ import { ServiceRepository } from '../../repositories/service_repository';
 import { Service } from '../../models/service';
 import { HomeConsumer, HomeProvider } from './context/home_context';
 import { useMessageContext } from '../../contexts/message_context';
-
-import moment from 'moment';
 import { UserRepository } from '../../repositories/user_repository';
 
 /***
@@ -41,24 +40,6 @@ function HomePageImpl({
   /***
    * Effects
    */
-
-  /* React.useEffect(() => {
-    PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
-
-    messaging().registerDeviceForRemoteMessages().then(() => {
-      messaging().getToken().then((token) => {
-        console.log(token);
-      });
-    });
-
-    const unsubscribe = messaging().onMessage(async remoteMessage => {
-      console.log('A new FCM message arrived! ' + JSON.stringify(remoteMessage));
-    });
-
-    return unsubscribe;
-  }, []); */
-
-
 
   React.useLayoutEffect(() => {
     if (!user) {
@@ -97,11 +78,11 @@ function HomePageImpl({
       });
 
       const userRepo = new UserRepository();
-      userRepo.getNotifications(user, (notifications) => {
+      userRepo.getUnnotifiedNotifications(user, (notifications) => {
         if (notifications && notifications?.length > 0) {
-          userRepo.clearNotifications(user, () => {
+          userRepo.markAsNotifiedNotifications(user, notifications, (updatedNotifications) => {
             const showNotification = (currentNotification: number) => setTimeout(() => {
-              messageContext.dispatchMessage({ type: 'notificatiton', message: notifications[currentNotification] });
+              messageContext.dispatchMessage({ type: 'notificatiton', message: updatedNotifications[currentNotification].message ?? "" });
 
               if (currentNotification > 0) {
                 showNotification(currentNotification - 1);

@@ -2,7 +2,7 @@ import React from "react";
 
 import { View, StyleSheet } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { AppParamsList } from "../../routes/ParamList";
+import { AppParamsList } from "../../routes/AppParamList";
 import { Chat, ChatMessage } from "../../models/chat";
 import { useAppContext } from "../../contexts/app_context";
 import { QueryChatByUserAndScheduledService } from "../../repositories/queries/query_chat_by_user_and_scheduled_service";

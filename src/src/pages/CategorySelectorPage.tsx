@@ -5,7 +5,7 @@ import { Category } from "../models/category";
 import { CategoryRepository } from "../repositories/category_repository";
 import { BackgroundColor } from "../constants/colors";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { AppParamsList } from "../routes/ParamList";
+import { AppParamsList } from "../routes/AppParamList";
 import { IcFrontArrow } from "../constants/icons";
 
 /***
@@ -22,7 +22,7 @@ export function CategorySelectorPage(props: NativeStackScreenProps<AppParamsList
    */
 
   const onClickCategory = (categoryId: string) => {
-
+    props.navigation.navigate("SupplierSelector", { categoryId: categoryId });
   };
 
   React.useEffect(() => {
@@ -41,9 +41,9 @@ export function CategorySelectorPage(props: NativeStackScreenProps<AppParamsList
           ? <View style={styles.loadingContainer}><ActivityIndicator /></View>
           : (
             <ScrollView style={styles.categoryContainer}>
-              {categories.map((category) => {
+              {categories.map((category, index) => {
                 return (
-                  <View key={category.id}>
+                  <View key={category.id} style={{ marginBottom: index === categories.length - 1 ? 16 : 0 }}>
                     <TouchableOpacity style={styles.category} onPress={() => onClickCategory(category.id!)}>
                       <Text style={{ color: '#FFFFFF' }}>{category.titulo}</Text>
                       <IcFrontArrow />

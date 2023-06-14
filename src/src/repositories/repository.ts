@@ -1,4 +1,4 @@
-import { database } from '../FirebaseAppNew';
+import { database } from '../FirebaseApp';
 import { Model } from '../models/model';
 
 export abstract class Repository<TModel extends Model> {
@@ -20,28 +20,26 @@ export abstract class Repository<TModel extends Model> {
   getAll(callback?: (models: TModel[] | undefined) => void): void {
     database
       .ref(`${this.table}`)
-      .once('value')
-      .then((snapshot) => {
+      .once('value', (snapshot) => {
+        const serverModels: TModel[] = [];
         const data = snapshot.val();
         if (data !== null && data instanceof Object) {
-          const models: TModel[] = [];
           for (let modelKey in data) {
-            models.push(
+            serverModels.push(
               this.deserialize({ ...data[modelKey as keyof object], id: modelKey }),
             );
           }
-          callback?.(models);
-        } else {
-          callback?.([]);
         }
+        callback?.(serverModels);
+      }, (error) => {
+        console.log(error);
       });
   }
 
   get(id: String, callback?: (model: TModel | undefined) => void): void {
     database
       .ref(`${this.table}/${id}`)
-      .once('value')
-      .then(snapshot => {
+      .once('value', (snapshot) => {
         const data = snapshot.val();
         if (data !== null && data instanceof Object) {
           callback?.(this.deserialize({ ...data, id: id }));
@@ -65,7 +63,7 @@ export abstract class Repository<TModel extends Model> {
               callback?.(error ? undefined : model)
             });
         }
-      })
+      });
   }
 
   delete(model: TModel, callback?: (success: boolean) => void): void {

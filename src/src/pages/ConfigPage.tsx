@@ -12,7 +12,7 @@ import {
 import { PrimaryButton } from '../components/Buttons';
 import { BackgroundColor } from '../constants/colors';
 import { IcBackArrow, IcFrontArrow } from '../constants/icons';
-import { AppParamsList } from '../routes/ParamList';
+import { AppParamsList } from '../routes/AppParamList';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import { KEY_USERDATA } from '../constants/app';
 import { useAppContext } from '../contexts/app_context';

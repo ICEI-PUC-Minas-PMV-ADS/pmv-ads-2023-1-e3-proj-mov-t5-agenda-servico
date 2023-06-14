@@ -6,7 +6,7 @@ import { PrimaryButton, ReturnButton } from "../../components/Buttons";
 import { Text } from "react-native";
 import { useAppContext } from "../../contexts/app_context";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { AppParamsList } from "../../routes/ParamList";
+import { AppParamsList } from "../../routes/AppParamList";
 import { ServiceRepository } from "../../repositories/service_repository";
 import { Service } from "../../models/service";
 import ServiceDateSelector from "../../components/ServiceDateSelector";
@@ -104,6 +104,7 @@ export default function BookingPage({ route, navigation
                     }}
                     onChangeHour={(key) => {
                         setHour(key)
+                        setDate(oldDate => new Date(oldDate.getFullYear(), oldDate.getMonth(), oldDate.getDate(), Number.parseInt(key), 0, 0));
                     }}
                 />
 

@@ -9,7 +9,7 @@ import { ServiceRepository } from "../../../repositories/service_repository";
 import { useHomeContext } from "../context/home_context";
 import { ScheduledServicesRepository } from "../../../repositories/scheduled_services";
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { AppParamsList } from "../../../routes/ParamList";
+import { AppParamsList } from "../../../routes/AppParamList";
 
 /***
  * ScheduledServiceViewProps

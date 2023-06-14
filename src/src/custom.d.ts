@@ -1,4 +1,4 @@
-import { AppParamsList } from "./routes/ParamList";
+import { AppParamsList } from "./routes/AppParamList";
 
 declare module '*.svg' {
   const content: React.FunctionComponent<React.SVGAttributes<SVGElement>>;

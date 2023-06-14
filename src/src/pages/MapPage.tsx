@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { AppParamsList } from "../routes/ParamList";
+import { AppParamsList } from "../routes/AppParamList";
 import { BackgroundColor, WhiteColor } from "../constants/colors";
 import { PrimaryButton, ReturnButton } from "../components/Buttons";
 import { LeafletView, WebviewLeafletMessage, MapMarker } from 'react-native-leaflet-view';
