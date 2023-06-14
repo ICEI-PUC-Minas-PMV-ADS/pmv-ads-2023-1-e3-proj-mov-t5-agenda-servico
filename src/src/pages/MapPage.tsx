@@ -13,6 +13,8 @@ import { Button } from "react-native-paper";
 
 export function MapPage(props: NativeStackScreenProps<AppParamsList, 'MapPage'>) {
   const [mapMarker, setMapMarker] = React.useState<MapMarker[]>([]);
+  const [mapCenter, setMapCenter] = React.useState<{ lat: number, lng: number }>({ lat: -13.3000, lng: -47.1258 });
+  const [mapZoom, setMapZoom] = React.useState<number>(5);
 
   const [lat, setLat] = React.useState<number | undefined>(props.route.params?.lat);
   const [lng, setLng] = React.useState<number | undefined>(props.route.params?.lng);
@@ -35,7 +37,14 @@ export function MapPage(props: NativeStackScreenProps<AppParamsList, 'MapPage'>)
             y: 24,
           }
         }]);
-      }, 1000);
+
+        setTimeout(() => {
+          setMapCenter({ lat: lat, lng: lng });
+          setTimeout(() => {
+            setMapZoom(15);
+          }, 300);
+        }, 300);
+      }, 200);
     }
   }, [lat, lng]);
 
@@ -73,10 +82,6 @@ export function MapPage(props: NativeStackScreenProps<AppParamsList, 'MapPage'>)
     }
   }, [lat, lng]);
 
-  const getMapMarker = React.useCallback(() => {
-    return mapMarker.length === 0 ? { lat: -13.3000, lng: -47.1258 } : mapMarker[0];
-  }, [mapMarker]);
-
   return (
     <View style={style.rootContainer}>
       <ReturnButton onPress={() => {
@@ -89,10 +94,10 @@ export function MapPage(props: NativeStackScreenProps<AppParamsList, 'MapPage'>)
         <LeafletView
           androidHardwareAccelerationDisabled={false}
           onMessageReceived={onMessageReceived}
-          mapCenterPosition={getMapMarker()}
+          mapCenterPosition={mapCenter}
           mapMarkers={mapMarker}
           doDebug={false}
-          zoom={5}
+          zoom={mapZoom}
         />
       </View>
 
