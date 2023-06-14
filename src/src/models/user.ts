@@ -21,7 +21,7 @@ export class User extends Model {
   onde_trabalha?: Onde;
   endereco_visivel?: boolean;
   notificacoes?: string[] = [];
-  favorite_suppliers: string[] = [];
+  favorite_suppliers?: string[] = [];
 }
 
 export class AvaliableSchedule {

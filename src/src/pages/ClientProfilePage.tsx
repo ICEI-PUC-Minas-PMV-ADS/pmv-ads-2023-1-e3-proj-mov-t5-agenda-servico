@@ -10,6 +10,7 @@ import { useAppContext } from "../contexts/app_context";
 import { useMessageContext } from "../contexts/message_context";
 import { NativeStackScreenProps } from "@react-navigation/native-stack/lib/typescript/src/types";
 import { AppParamsList } from "../routes/AppParamList";
+import { User } from "../models/user";
 
 export interface ClientProfilePageProps {
     userTeste: () => void;
@@ -34,7 +35,7 @@ export default function ClientProfilePage({ navigation }: NativeStackScreenProps
     }, [userContext.user]);
 
     const changeInfoAccount = React.useCallback(() => {
-        let newUser = { ...userContext.user };
+        let newUser: User = { ...userContext.user };
         if (newUser !== undefined) {
             newUser.nome = name;
             newUser.telefone = phone;
@@ -60,10 +61,6 @@ export default function ClientProfilePage({ navigation }: NativeStackScreenProps
 
                 <ProfileImage
                     image={userContext.user?.imagem_perfil}
-                />
-
-                <ReturnButton
-                    onPress={() => navigation.navigate('BookingRoutes', { id: "-NWh3lQu8uLUau-XbB8b" })}
                 />
 
                 <InputText
