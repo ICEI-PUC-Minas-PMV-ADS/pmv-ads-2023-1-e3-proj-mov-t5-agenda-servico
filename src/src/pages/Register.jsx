@@ -42,7 +42,6 @@ export function Register() {
             const services = JSON.parse(data[6][1])
             const wherework = JSON.parse(data[7][1])
 
-
             const userRepository = new UserRepository()
             const addressRepository = new AddressRepository()
             const serviceRepository = new ServiceRepository()
@@ -69,6 +68,8 @@ export function Register() {
             newUser.onde_trabalha = newOnde
             newUser.tipo_login = 'app'
             newUser.endereco_visivel = address.visible != undefined ? address.visible : false;
+            newUser.lat = address.lat;
+            newUser.lng = address.lng;
             // Mudar para nova Implementação<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
             newUser.lista_de_horarios.forEach(weekDay => {
               if (weekDay.aberto === true) {

@@ -29,12 +29,12 @@ export function ScheduleServiceReducer(state: ScheduleServiceReducerState, actio
       }
     case "set_first_page":
       return {
-        ...state, firstPage: { schedule: action.payload.scheduledService }, supplierId: action.payload.supplierId
+        ...state, firstPage: { schedule: { ...state.firstPage?.schedule, ...action.payload.scheduledService } }, supplierId: action.payload.supplierId
       }
     case "set_lat_lng":
       return {
         ...state, firstPage: { schedule: { ...state.firstPage?.schedule, lat: action.payload.lat, lng: action.payload.lng } },
-      }
+      };
   }
   return state;
 }

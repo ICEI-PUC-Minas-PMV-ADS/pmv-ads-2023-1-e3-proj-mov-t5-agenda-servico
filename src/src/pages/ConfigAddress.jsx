@@ -34,8 +34,6 @@ export function Address() {
   const [home, setHome] = useState('')
   const [description, setDescription] = useState('')
 
-
-
   React.useEffect(() => {
     const loadType = async () => {
       const value = await AsyncStorage.getItem('wherework');
@@ -91,7 +89,9 @@ export function Address() {
     city: endereco.cidade,
     state: endereco.estado,
     complement: complement,
-    visible: isSwitchOn
+    visible: isSwitchOn,
+    lat: route.params?.lat,
+    lng: route.params?.lng,
   }
 
   const saveAdress = () => {
@@ -114,9 +114,7 @@ export function Address() {
             navigation.navigate('Opening', {})
           )
         }
-
       }
-
     )
   }
 
@@ -210,12 +208,13 @@ export function Address() {
             Por favor, preencha corretamente as informações acima.
           </HelperText>
         </View>
+        <PrimaryButton title={'Selecione a posição no mapa'} onPress={() => {
+          navigation.navigate('MapPage', {})
+        }} />
         <PrimaryButton title={'Continuar'} onPress={() => {
           if (allChecked()) {
             saveAdress()
           }
-
-
         }} />
       </View>
     </View>

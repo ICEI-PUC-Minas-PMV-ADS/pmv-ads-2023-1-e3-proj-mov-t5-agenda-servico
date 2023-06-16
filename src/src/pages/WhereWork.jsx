@@ -34,10 +34,10 @@ export function WhereWork() {
     homeservice: home
   }
 
-  const saveWhereWork = () => {
+  const saveWhereWork = (destiny) => {
     const newData = JSON.stringify(newWhereWork)
     AsyncStorage.setItem('wherework', newData).then(
-      navigation.navigate('CEP', {})
+      navigation.navigate(destiny, {})
     )
   }
 
@@ -87,7 +87,11 @@ export function WhereWork() {
         </View>
         <PrimaryButton title={'Continuar'} onPress={() => {
           if (atLeastOneVerified)
-            saveWhereWork()
+            if (establishment) {
+              saveWhereWork('CEP')
+            } else {
+              saveWhereWork('DisplacementFee')
+            }
         }} />
       </View>
     </View>

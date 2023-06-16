@@ -12,6 +12,7 @@ import { Service } from "../../models/service";
 import ServiceDateSelector from "../../components/ServiceDateSelector";
 import { useScheduleServiceContext } from "./schedule_service_context";
 import { ScheduledServices } from "../../models/scheduled_services";
+import { UserRepository } from "../../repositories/user_repository";
 
 
 export default function BookingPage({ route, navigation
@@ -22,6 +23,8 @@ export default function BookingPage({ route, navigation
     const [price, setPrice] = useState("");
     const [observations, setObservations] = useState("");
     const [serviceLists, setServiceLists] = useState<Service[]>([]);
+    const [lat, setLat] = useState<number | undefined>();
+    const [lng, setLng] = useState<number | undefined>();
     const { dispatch } = useScheduleServiceContext();
 
     const userContext = useAppContext();
@@ -67,6 +70,17 @@ export default function BookingPage({ route, navigation
             }
         })
     }
+
+    useEffect(() => {
+        new UserRepository().get(id, (supplierUser) => {
+            if (supplierUser) {
+                if (supplierUser.lat && supplierUser.lng) {
+                    setLat(supplierUser.lat);
+                    setLng(supplierUser.lng);
+                }
+            }
+        });
+    }, [id])
 
     useEffect(() => {
         let service = serviceLists.find(service => service.id === selectedServiceId)
@@ -125,6 +139,9 @@ export default function BookingPage({ route, navigation
                 <PrimaryButton
                     title="Próximo"
                     onPress={() => {
+                        if (lat && lng) {
+                            dispatch?.({ type: "set_lat_lng", payload: { lat: lat, lng: lng } });
+                        }
                         navigation.navigate("ScheduleServiceCepPage", { id });
                         dispatch?.({ type: "set_first_page", payload: { scheduledService: createScheduleService(), supplierId: id } });
                     }}

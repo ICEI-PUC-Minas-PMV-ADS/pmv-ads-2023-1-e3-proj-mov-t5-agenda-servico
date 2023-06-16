@@ -15,11 +15,8 @@ import { Services } from '../pages/ConfigServices';
 import { ServiceDetails } from '../pages/ServiceDetails';
 import { Register } from '../pages/Register';
 import { HomePage } from '../pages/home_page/HomePage';
+import { MapPage } from '../pages/MapPage';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-
-
-
-
 
 export default function RegisterRoute() {
   const Stack = createNativeStackNavigator();
@@ -78,6 +75,14 @@ export default function RegisterRoute() {
         },
         headerTintColor: WhiteColor
       }} />
+      <Stack.Screen name="MapPage" component={MapPage}
+        options={{
+          title: 'Confirme sua posição no mapa',
+          headerStyle: {
+            backgroundColor: BackgroundColor
+          },
+          headerTintColor: WhiteColor
+        }} />
       <Stack.Screen name='Opening' component={Opening} options={{
         title: 'Seu horário de funcionamento',
         headerStyle: {

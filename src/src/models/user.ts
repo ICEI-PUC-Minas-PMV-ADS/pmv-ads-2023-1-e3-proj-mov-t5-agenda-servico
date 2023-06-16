@@ -22,6 +22,8 @@ export class User extends Model {
   endereco_visivel?: boolean;
   notificacoes?: string[] = [];
   favorite_suppliers?: string[] = [];
+  lat?: number;
+  lng?: number;
 }
 
 export class AvaliableSchedule {

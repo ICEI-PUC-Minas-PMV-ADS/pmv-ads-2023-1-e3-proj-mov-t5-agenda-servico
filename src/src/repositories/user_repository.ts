@@ -151,6 +151,8 @@ export class UserRepository extends Repository<User> {
     user.taxa_de_deslocamento = JSON.parse(json.taxa_de_deslocamento ?? "{}")
     user.onde_trabalha = JSON.parse(json.onde_trabalha ?? "{}")
     user.endereco_visivel = json.endereco_visivel
+    user.lat = json.lat
+    user.lng = json.lng
     return user;
   }
 }

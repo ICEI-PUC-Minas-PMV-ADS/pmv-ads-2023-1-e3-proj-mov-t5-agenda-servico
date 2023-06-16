@@ -43,14 +43,24 @@ export function ScheduleServiceConfirmPage({ navigation
         scheduleRep.create(schedule, service => {
           if (service !== undefined) {
             sendSuccessNotifications(schedule.cliente_fk!, state.supplierId!, () => {
-              navigation.replace("Home", {});
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'Home', params: {} }]
+              });
             });
           }
           else {
             Alert.alert(
               'Falha ao Agendar Serviço',
               '',
-              [{ text: 'Ok', onPress: () => navigation.replace("Home", {}) }],
+              [{
+                text: 'Ok', onPress: () => {
+                  navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'Home', params: {} }]
+                  });
+                }
+              }],
             );
           }
         })
@@ -63,14 +73,24 @@ export function ScheduleServiceConfirmPage({ navigation
             scheduleRep.create(schedule, service => {
               if (service !== undefined) {
                 sendSuccessNotifications(schedule.cliente_fk!, state.supplierId!, () => {
-                  navigation.replace("Home", {});
+                  navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'Home', params: {} }]
+                  });
                 });
               }
               else {
                 Alert.alert(
                   'Falha ao Agendar Serviço',
                   '',
-                  [{ text: 'Ok', onPress: () => navigation.replace("Home", {}) }],
+                  [{
+                    text: 'Ok', onPress: () => {
+                      navigation.reset({
+                        index: 0,
+                        routes: [{ name: 'Home', params: {} }]
+                      });
+                    }
+                  }],
                 );
               }
             })
@@ -79,7 +99,14 @@ export function ScheduleServiceConfirmPage({ navigation
           Alert.alert(
             'Falha ao Agendar Serviço',
             '',
-            [{ text: 'Ok', onPress: () => navigation.replace("Home", {}) }],
+            [{
+              text: 'Ok', onPress: () => {
+                navigation.reset({
+                  index: 0,
+                  routes: [{ name: 'Home', params: {} }]
+                });
+              }
+            }],
           );
         }
       })

@@ -18,14 +18,9 @@ import { WhereWork } from '../pages/UpdateWhere';
 import { Fees } from '../pages/Fees';
 import { Address } from '../pages/UpdateAddress';
 import { Cep } from '../pages/UpdateCEP';
-import { MapPage } from '../pages/MapPage';
 import { ChatPage } from '../pages/chat_page';
 
-import ClientProfilePage from '../pages/ClientProfilePage';
-import ProfessionalProfilePage from '../pages/ProfessionalProfilePage';
-import ForgotPasswordScreen from '../pages/PassRecover';
 import { ScheduleServiceCepPage } from '../pages/schedule_service_pages/schedule_service_start_cep';
-import BookingPage from './../pages/schedule_service_pages/BookingPage';
 import { ScheduleServiceReducer } from '../pages/schedule_service_pages/schedule_service_reducer';
 import { ScheduleServiceProvider } from '../pages/schedule_service_pages/schedule_service_context';
 import { RouteProp, useRoute } from '@react-navigation/native';
@@ -34,6 +29,12 @@ import { CategorySelectorPage } from '../pages/CategorySelectorPage';
 import { SupplierSelectorPage } from '../pages/SupplierSelectorPage';
 import { NotificationPage } from '../pages/NotificationPage';
 import { ScheduleServiceMapPage } from '../pages/schedule_service_pages/schedule_service_map_page';
+import { MapPage } from '../pages/MapPage';
+
+import BookingPage from './../pages/schedule_service_pages/BookingPage';
+import ClientProfilePage from '../pages/ClientProfilePage';
+import ProfessionalProfilePage from '../pages/ProfessionalProfilePage';
+import ForgotPasswordScreen from '../pages/PassRecover';
 
 const Stack = createNativeStackNavigator<AppParamsList>();
 
@@ -42,7 +43,6 @@ function AppRoute(): JSX.Element {
     <Stack.Navigator initialRouteName='Login'>
       <Stack.Screen name='Login' component={LoginPage} options={{ headerShown: false }} />
       <Stack.Screen name='Home' component={HomePage} options={{ headerShown: false }} />
-
       <Stack.Screen name="Test" component={TestPage} />
       <Stack.Screen name='Profile' component={Profile} options={{ headerShown: false }} />
       <Stack.Screen name="ProfessionalProfile" component={ProfessionalProfilePage} options={{ headerShown: false }} />
@@ -141,7 +141,14 @@ function AppRoute(): JSX.Element {
         },
         headerTintColor: WhiteColor
       }} />
-      <Stack.Screen name="MapPage" component={MapPage} options={{ headerShown: false }} />
+      <Stack.Screen name="MapPage" component={MapPage}
+        options={{
+          title: 'Posição no mapa',
+          headerStyle: {
+            backgroundColor: BackgroundColor
+          },
+          headerTintColor: WhiteColor
+        }} />
     </Stack.Navigator>
 
   );

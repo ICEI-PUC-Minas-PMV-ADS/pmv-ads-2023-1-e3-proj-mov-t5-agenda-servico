@@ -98,15 +98,13 @@ function HomePageImpl({
     }
   }, [user]);
 
-  return (
-    <HomeProvider value={{ scheduledServices, services, setScheduledServices, setServices }}>
-      {
-        loading
-          ? <View style={style.loadingContainer}><ActivityIndicator /></View>
-          : <HomePageContent />
-      }
-    </HomeProvider>
-  );
+  return loading
+    ? <View style={style.loadingContainer}><ActivityIndicator /></View>
+    : (
+      <HomeProvider value={{ scheduledServices, services, setScheduledServices, setServices }}>
+        <HomePageContent />
+      </HomeProvider>
+    );
 }
 
 

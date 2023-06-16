@@ -5,7 +5,6 @@ import { AppParamsList } from "../routes/AppParamList";
 import { BackgroundColor, WhiteColor } from "../constants/colors";
 import { PrimaryButton, ReturnButton } from "../components/Buttons";
 import { LeafletView, WebviewLeafletMessage, MapMarker } from 'react-native-leaflet-view';
-import { Button } from "react-native-paper";
 
 /***
  * MapPage
@@ -78,16 +77,21 @@ export function MapPage(props: NativeStackScreenProps<AppParamsList, 'MapPage'>)
 
   const onConfirmPosition = React.useCallback(() => {
     if (lat !== undefined && lng !== undefined) {
-      onReceivePosition?.(lat, lng);
+      props.navigation.navigate({
+        name: 'Address',
+        params: {
+          lat: lat,
+          lng: lng,
+        },
+        merge: true,
+      });
+    } else {
+      props.navigation.goBack();
     }
   }, [lat, lng]);
 
   return (
     <View style={style.rootContainer}>
-      <ReturnButton onPress={() => {
-        props.navigation.pop();
-      }} />
-
       <Text style={style.title}>Mapa</Text>
 
       <View style={{ flex: 1 }}>
