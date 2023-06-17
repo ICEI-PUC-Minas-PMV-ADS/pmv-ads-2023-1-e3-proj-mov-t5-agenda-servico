@@ -19,6 +19,7 @@ export function Address() {
 
   const [cep, setCep] = useState(endereco.cep)
   const [street, setStreet] = useState(endereco.logradouro)
+  const [city, setCity] = useState(endereco.localidade)
   const [neighborhood, setNeighborhood] = useState(endereco.bairro)
 
   const [number, setNumber] = useState('')
@@ -151,6 +152,7 @@ export function Address() {
                   <HelperText>
                   </HelperText>
                 </View>
+
                 <View>
                   <OtherInput
                     label="Número"

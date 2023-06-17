@@ -57,7 +57,6 @@ export function ScheduleServiceCepPage({ route, navigation
   }
 
   function fillAddressForm(add: Address) {
-
     if (add !== undefined) {
       setCep(add.cep);
       setBairro(add.bairro);

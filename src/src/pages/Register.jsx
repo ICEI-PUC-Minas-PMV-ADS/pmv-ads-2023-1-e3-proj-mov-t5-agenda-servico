@@ -135,6 +135,7 @@ export function Register() {
             newAddress.logradouro = address.street
             newAddress.numero = address.number
             newAddress.bairro = address.neighborhood
+            newAddress.cidade = address.city
             newAddress.uf = address.state
             newAddress.complemento = address.complement
 

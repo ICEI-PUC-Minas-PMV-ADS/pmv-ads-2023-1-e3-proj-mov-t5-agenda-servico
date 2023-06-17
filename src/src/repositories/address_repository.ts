@@ -14,12 +14,11 @@ export class AddressRepository extends Repository<Address> {
     let address: Address = new Address();
     address.id = model.id;
     address.cep = model.cep;
+    address.cidade = model.cidade;
     address.logradouro = model.logradouro;
-    address.numero = model.numero;
     address.bairro = model.bairro;
     address.uf = model.uf;
     address.complemento = model.complemento;
-    address.observacoes = model.observacoes;
     return address;
   }
 }
