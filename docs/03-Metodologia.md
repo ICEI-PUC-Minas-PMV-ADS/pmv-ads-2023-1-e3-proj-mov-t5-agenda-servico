@@ -9,10 +9,7 @@ ambientes com seu respectivo propósito é apresentada na tabela que se segue.
 |Ambiente                         |Plataforma e Link de Acesso                                                                                |
 |---------------------------------|-----------------------------------------------------------------------------------------------------------|
 |Repositório de código fonte      |[GitHub](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-1-e3-proj-mov-t5-agenda-servico)          |
-|Documentos do projeto            |[GitHub](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-1-e3-proj-mov-t5-agenda-servico)          |
-|Projeto de Interface             |[Figma](https://www.figma.com/file/7Jf4A9oglSVTqOe7MmiqwR/Wireframe?node-id=0%3A1&t=ZhzVtIZPrciItKkM-1)                      |
-|Wireframes                       |[Figma](https://www.figma.com/file/7Jf4A9oglSVTqOe7MmiqwR/Wireframe?node-id=0%3A1&t=ZhzVtIZPrciItKkM-1)                     |
-|Gerenciamento do Projeto         |[Trello](https://trello.com/b/h5OMkXii/projetoagenda)                                                            |
+|Documentos do projeto            |[GitHub](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-1-e3-proj-mov-t5-agenda-servico)          |                                                     |
 
 ## Controle de Versão
 
