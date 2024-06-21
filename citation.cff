@@ -1,0 +1,27 @@
+message: Please cite this software using these metadata.
+title:
+authors:
+  - family-names: Samapaio de Andrade
+    given-names: Aleykson Micael 
+  - family-names: Felipe Gomes
+    given-names: André
+  - family-names: Gomes Pinto
+    given-names: Henrique Alexandre
+  - family-names: Gomes Pinto
+    given-names: Vitor Alexandre 
+  - family-names: Pinheiro Torres
+    given-names: João Lucas
+  - name-suffix: Professor
+    affiliation: PUC Minas
+    family-names: Caldeira Rocha
+    given-names: Diego Silva
+   
+keywords:
+  - Agenda
+  - Horário
+  - Cliente
+  - Serviço
+
+repository-code: https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-1-e3-proj-mov-t5-agenda-servico
+version: 1.0.0
+date-released: 2023-09-09
